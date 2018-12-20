@@ -10,8 +10,10 @@ function loadData () {
       fs.readFile('data.json', 'utf8', function(err, data) {
         if (err) console.log(err)
         else {
-          obj = JSON.parse(data)
-          console.log('data loaded', JSON.stringify(obj))
+          if (data !== '') {
+            obj = JSON.parse(data)
+            console.log('data loaded', JSON.stringify(obj))
+          }
         }
       })
     }

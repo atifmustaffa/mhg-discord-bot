@@ -30,6 +30,12 @@ function startBot() {
                 break
             case 'remember':
                 if (args[1] === 'dotaid') {
+                    helper.saveData(args[0] !== 'my' ? args[0] : message.author.id , 'dotaid', args[2])
+                    message.reply(`Alright I'll remember that`, args[0])
+                }
+                break
+            case 'what':
+                if (args[1] === 'dotaid') {
                     helper.saveData(message.author.id, 'dotaid', args[2])
                     message.reply(`Alright I'll remember that`)
                 }
@@ -37,7 +43,7 @@ function startBot() {
         }
     });
   
-    helper.saveData('atif', 'name', 'Atif')
+    // helper.saveData('atif', 'name', 'Atif')
 
     client.login(process.env.BOT_TOKEN);
 }
