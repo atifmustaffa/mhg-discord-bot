@@ -31,11 +31,14 @@ function saveData (userid, attr, value) {
 }
 
 function getData (userid, attr) {
-  
+  obj.data.find((d)=> d.id === userid)
 }
 
 
-function clearAllData (userid, attr) {
+function clearAllData () {
+  obj = {
+   data: []
+  };
   fs.writeFile('data.json', '', 'utf-8', function(err, data){
     if (err) console.log(err);
     else {

@@ -12,19 +12,21 @@ function startBot() {
 
         var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
+        console.log('command', command)
 
         switch (command) {
             case 'hi':
-                message.channel.send(`Hey ${message.author}! Nok mintok tulong gapo deh?`);
+                message.channel.send(`Hey ${message.author}! Nok mintok tulong gapo tu?`);
                 break
                 
             case 'ping':
                 message.reply("pong!");
                 break
                 
-            case 'clearAllData':
+            case 'clearalldata':
                 helper.clearAllData()
-                message.reply("Ok. Removed everything :D")
+                message.reply("Ok bosskuu. Removed everything :D")
+                break
                 
             case 'dotabuff':
                 if (args[0] === 'match')
@@ -51,9 +53,9 @@ function startBot() {
                 }
                 break
                 
-            case 'what':
-                if (args[1] === 'dotaid') {
-                    helper.saveData(message.author.id, 'dotaid', args[2])
+            case 'my':
+                if (args[0] === 'dotaid') {
+                    helper.getData(message.author.id, 'dotaid', args[2])
                     message.reply(`Alright I'll remember that`)
                 }
                 break
