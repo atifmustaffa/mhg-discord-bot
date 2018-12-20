@@ -24,9 +24,10 @@ function startBot() {
                 break
                 
             case 'clearalldata':
-                if ()
-                helper.clearAllData()
-                message.reply("Ok bosskuu. Removed everything :D")
+                if (message.author.id === config.adminId) {
+                  helper.clearAllData()
+                  message.reply("Ok bosskuu. Removed everything :D")
+                }
                 break
                 
             case 'dotabuff':
@@ -83,6 +84,7 @@ function startBot() {
                   var value = helper.getData(userid, 'dotaid').value
                   message.reply(args[0] === 'my' ? `Your dotabuff is ${config.dotabuff}players/${value}` : `<@${userid}> dotabuff is ${config.dotabuff}players/${value}`)
               }
+              break
         }
     });
   
