@@ -26,6 +26,8 @@ function startBot() {
                     message.reply(`Invalid command bro. Please insert type and id eg: !dotabuff player 100846798`)
         }
     });
+  
+    helper.saveData('atif', 'name', 'Atif')
 
     client.login(process.env.BOT_TOKEN);
 }
