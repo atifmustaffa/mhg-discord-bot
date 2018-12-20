@@ -12,7 +12,7 @@ function startBot() {
 
         var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
-        console.log(message.author.tag, 'command', command)
+        console.log(new Date().toUTCString(), message.author.tag, 'command', command)
 
         switch (command) {
             case 'hi':
@@ -55,11 +55,11 @@ function startBot() {
                 
             case 'my':
                 if (args[0] === 'dotaid') {
-                    var value = helper.getData(message.author.id, 'dotaid')
+                    var value = helper.getData(message.author.id, 'dotaid').value
                     message.reply(`Your dotaid is ${value}`)
                 }
                 else if (args[0] === 'dotabuff') {
-                    var value = helper.getData(message.author.id, 'dotaid')
+                    var value = helper.getData(message.author.id, 'dotaid').value
                     message.reply(`Your dotabuff is ${config.dotabuff}players/${value}`)
                 }
                 break
@@ -75,11 +75,11 @@ function startBot() {
               }
               var userid = getUserId(args[0])
               if (args[1] === 'dotaid') {
-                  var value = helper.getData(userid, 'dotaid')
+                  var value = helper.getData(userid, 'dotaid').value
                   message.reply(args[0] === 'my' ? `Your dotaid is ${value}` : `<@${userid}> dotaid is ${value}`)
               }
               else if (args[1] === 'dotabuff') {
-                  var value = helper.getData(userid, 'dotaid')
+                  var value = helper.getData(userid, 'dotaid').value
                   message.reply(args[0] === 'my' ? `Your dotabuff is ${config.dotabuff}players/${value}` : `<@${userid}> dotabuff is ${config.dotabuff}players/${value}`)
               }
         }

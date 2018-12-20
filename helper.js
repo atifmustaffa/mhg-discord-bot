@@ -21,6 +21,12 @@ function loadData () {
 }
 
 function saveData (userid, attr, value) {
+  var dataExists = (dat) => {
+    (dat)
+  }
+  var tempData = this.getData(userid, attr)
+  if (tempData)
+    obj
   obj.data.push({ id: userid, attr: attr, value: value })
   fs.writeFile('data.json', JSON.stringify(obj), 'utf-8', function(err, data){
     if (err) console.log(err);
@@ -31,7 +37,7 @@ function saveData (userid, attr, value) {
 }
 
 function getData (userid, attr) {
-  return obj.data.find((d)=> d.id === userid && d.attr === attr).value
+  return obj.data.find((d)=> d.id === userid && d.attr === attr)
 }
 
 
