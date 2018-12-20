@@ -11,7 +11,7 @@ function startBot() {
 
         switch (command) {
             case 'hi':
-                message.channel.send(`Hey ${message.author}! Nok mintok tulong gapo deh hh?`);
+                message.channel.send(`Hey ${message.author}! Nok mintok tulong gapo deh?`);
                 break
             case 'ping':
                 message.reply("pong!");
