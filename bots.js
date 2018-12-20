@@ -12,7 +12,7 @@ function startBot() {
 
         var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
-        console.log('command', command)
+        console.log(message.author.tag, 'command', command)
 
         switch (command) {
             case 'hi':
@@ -74,13 +74,13 @@ function startBot() {
                   return arg
               }
               var userid = getUserId(args[0])
-              if (args[0] === 'dotaid') {
+              if (args[1] === 'dotaid') {
                   var value = helper.getData(userid, 'dotaid')
-                  message.reply(`Your dotaid is ${value}`)
+                  message.reply(args[0] === 'my' ? `Your dotaid is ${value}` : `<@${userid}> dotaid is ${value}`)
               }
-              else if (args[0] === 'dotabuff') {
-                  var value = helper.getData(, 'dotaid')
-                  message.reply(`Your dotabuff is ${config.dotabuff}players/${value}`)
+              else if (args[1] === 'dotabuff') {
+                  var value = helper.getData(userid, 'dotaid')
+                  message.reply(args[0] === 'my' ? `Your dotabuff is ${config.dotabuff}players/${value}` : `<@${userid}> dotabuff is ${config.dotabuff}players/${value}`)
               }
         }
     });
