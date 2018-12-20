@@ -55,10 +55,33 @@ function startBot() {
                 
             case 'my':
                 if (args[0] === 'dotaid') {
-                    helper.getData(message.author.id, 'dotaid', args[2])
-                    message.reply(`Alright I'll remember that`)
+                    var value = helper.getData(message.author.id, 'dotaid')
+                    message.reply(`Your dotaid is ${value}`)
+                }
+                else if (args[0] === 'dotabuff') {
+                    var value = helper.getData(message.author.id, 'dotaid')
+                    message.reply(`Your dotabuff is ${config.dotabuff}players/${value}`)
                 }
                 break
+                
+            case 'give':
+              var getUserId = (arg) => {
+                if (arg === 'my')
+                  return message.author.id
+                else if (arg.includes('@'))
+                  return args[0].replace(/[<@>]/g, '')
+                else
+                  return arg
+              }
+              var userid = getUserId(args[0])
+              if (args[0] === 'dotaid') {
+                  var value = helper.getData(userid, 'dotaid')
+                  message.reply(`Your dotaid is ${value}`)
+              }
+              else if (args[0] === 'dotabuff') {
+                  var value = helper.getData(, 'dotaid')
+                  message.reply(`Your dotabuff is ${config.dotabuff}players/${value}`)
+              }
         }
     });
   

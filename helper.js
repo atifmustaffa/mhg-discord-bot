@@ -31,7 +31,7 @@ function saveData (userid, attr, value) {
 }
 
 function getData (userid, attr) {
-  obj.data.find((d)=> d.id === userid)
+  return obj.data.find((d)=> d.id === userid && d.attr === attr).value
 }
 
 
