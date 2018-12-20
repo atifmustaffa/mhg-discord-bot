@@ -27,6 +27,13 @@ function startBot() {
                     message.reply(`Check out player history here ${config.dotabuff}players/${args[1]}`)
                 else
                     message.reply(`Invalid command bro. Please insert type and id eg: !dotabuff player 100846798`)
+                break
+            case 'remember':
+                if (args[1] === 'dotaid') {
+                    helper.saveData(message.author.id, 'dotaid', args[2])
+                    message.reply(`Alright I'll remember that`)
+                }
+                break
         }
     });
   
