@@ -29,8 +29,13 @@ function startBot() {
                     message.reply(`Invalid command bro. Please insert type and id eg: !dotabuff player 100846798`)
                 break
             case 'remember':
+                var getUserid = (arg) => {
+                  if (arg === 'my')
+                    return message.author.id
+                }
+                var userid = args[0] === 'my' ? message.author.id
                 if (args[1] === 'dotaid') {
-                    helper.saveData(args[0] !== 'my' ? args[0] : message.author.id , 'dotaid', args[2])
+                    helper.saveData(args[0] !== 'my' ? args[0].replace(/[<@>]/g, '') : message.author.id , 'dotaid', args[2])
                     message.reply(`Alright I'll remember that`, args[0])
                 }
                 break
