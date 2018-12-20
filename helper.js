@@ -24,14 +24,15 @@ function saveData (userid, attr, value) {
   var dataExists = (dat) => {
     (dat)
   }
-  var tempData = this.getData(userid, attr)
-  if (tempData)
-    obj
-  obj.data.push({ id: userid, attr: attr, value: value })
+  
+  if (this.getData(userid, attr))
+    this.getData(userid, attr).value = value
+  else
+    obj.data.push({ id: userid, attr: attr, value: value })
   fs.writeFile('data.json', JSON.stringify(obj), 'utf-8', function(err, data){
     if (err) console.log(err);
     else {
-      console.log("Successfully Written to File.", JSON.stringify(obj));
+      console.log("Successfully Written to File.", JSON.stringify({ id: userid, attr: attr, value: value }));
     }
   });
 }

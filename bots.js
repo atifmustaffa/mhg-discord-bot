@@ -12,7 +12,7 @@ function startBot() {
 
         var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
-        console.log(new Date().toUTCString(), message.author.tag, 'command', command)
+        console.log('time:', new Date().toUTCString(), 'user:', message.author.tag, 'command:', message.content.toLowerCase())
 
         switch (command) {
             case 'hi':
@@ -24,6 +24,7 @@ function startBot() {
                 break
                 
             case 'clearalldata':
+                if ()
                 helper.clearAllData()
                 message.reply("Ok bosskuu. Removed everything :D")
                 break
