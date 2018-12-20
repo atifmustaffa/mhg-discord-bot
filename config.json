@@ -1,0 +1,5 @@
+{
+    "prefix": "!",
+    "opendota": "https://api.opendota.com/api/players/",
+    "dotabuff": "https://www.dotabuff.com/"
+}
