@@ -1,4 +1,5 @@
 {
+    "adminId": "298136441353928704",
     "prefix": "!",
     "opendota": "https://api.opendota.com/api/players/",
     "dotabuff": "https://www.dotabuff.com/"

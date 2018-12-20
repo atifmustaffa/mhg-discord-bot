@@ -34,8 +34,19 @@ function getData (userid, attr) {
   
 }
 
+
+function clearAllData (userid, attr) {
+  fs.writeFile('data.json', '', 'utf-8', function(err, data){
+    if (err) console.log(err);
+    else {
+      console.log("Cleared all data");
+    }
+  });
+}
+
 module.exports = {
   loadData: loadData,
   saveData: saveData,
-  getData: getData
+  getData: getData,
+  clearAllData: clearAllData
 }
