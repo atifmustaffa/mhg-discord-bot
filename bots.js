@@ -1,5 +1,4 @@
-module.exports = {
-  startBot: function() {
+function startBot() {
     const config = require("./config.json");
     const Discord = require("discord.js");
     const client = new Discord.Client();
@@ -28,5 +27,7 @@ module.exports = {
     });
 
     client.login(process.env.BOT_TOKEN);
-  }
+}
+module.exports = {
+    startBot: startBot
 }
