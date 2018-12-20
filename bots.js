@@ -2,6 +2,7 @@ function startBot() {
     const config = require("./config.json");
     const Discord = require("discord.js");
     const client = new Discord.Client();
+    const helper = require('./helper.js')
 
     client.on("message", (message) => {
         if (!message.content.startsWith(config.prefix) || message.author.bot) return;
