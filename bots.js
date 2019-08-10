@@ -15,8 +15,12 @@ function startBot() {
         console.log('time:', new Date().toUTCString(), 'user:', message.author.tag, 'command:', message.content.toLowerCase())
 
         switch (command) {
+            case 'help':
+                message.channel.send("This supports Markdown ``` const x = 0```");
+                break;
+
             case 'hi':
-                message.channel.send(`Hey ${message.author}! Nok mintok tulong gapo tu?`);
+                message.channel.send(`Hey ${message.author}!`);
                 break
                 
             case 'ping':
