@@ -54,12 +54,8 @@ function clearAllData () {
   });
 }
 
-function log(params) {
-  str = ""
-  params.forEach(s => {
-    str+=s
-  });
-  console.log(new Date().toLocaleString(), "->", str);
+function log(...args) {
+  console.log(new Date().toLocaleString(), "->", ...args);
 }
 
 module.exports = {
