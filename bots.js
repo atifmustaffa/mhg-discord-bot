@@ -10,8 +10,8 @@ function startBot() {
 
     bot.on("ready", async () => {
         console.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
-        bot.user.setActivity(`with Glitch!`, {
-            type: "Playing"
+        bot.user.setActivity(`Human Problems`, {
+            type: "Listening"
         });
     });
 

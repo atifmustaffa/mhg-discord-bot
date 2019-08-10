@@ -7,13 +7,12 @@ var obj = {
 function loadData () {
   fs.exists(filename, function(exists) {
     if(exists) {
-      console.log('exists')
       fs.readFile(filename, 'utf8', function(err, data) {
         if (err) console.log(err)
         else {
           if (data !== '') {
             obj = JSON.parse(data)
-            console.log('data loaded', JSON.stringify(obj))
+            console.log('Data Loaded')
           }
         }
       })
@@ -53,6 +52,10 @@ function clearAllData () {
       console.log("Cleared all data");
     }
   });
+}
+
+function log(str) {
+  console.log(new Date())
 }
 
 module.exports = {
