@@ -29,7 +29,7 @@ function startBot() {
                     "description": "this supports [named links](https://discordapp.com) on top of the previously shown subset of markdown. ```\nyes, even code blocks```",
                     "url": "https://discordapp.com",
                     "color": 14422655,
-                    "timestamp": new Date(2019, 7, 10, 0, 51, 00),
+                    "timestamp": new Date(2019, 7, 10, 11, 51, 0).toString(),
                     "footer": {
                         "text": "Last updated"
                     },
