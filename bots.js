@@ -1,14 +1,21 @@
 function startBot() {
     const config = require("./config.json");
     const Discord = require("discord.js");
-    const client = new Discord.Client();
+    const bot = new Discord.Client();
     const helper = require('./helper.js');
     const commands = require('./commands.json');
 
     // Loads data from file
     helper.loadData()
 
-    client.on("message", (message) => {
+    bot.on("ready", async () => {
+        console.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
+        bot.user.setActivity(`with Glitch!`, {
+            type: "Playing"
+        });
+    });
+
+    bot.on("message", (message) => {
         if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
         var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
@@ -63,7 +70,7 @@ function startBot() {
                 //         "inline": true
                 //     }
                 // ]
-                message.channel.send({embed});
+                message.channel.send({ embed });
                 break;
 
             case 'hi':
@@ -141,7 +148,7 @@ function startBot() {
 
     // helper.saveData('atif', 'name', 'Atif')
 
-    client.login(process.env.BOT_TOKEN);
+    bot.login(process.env.BOT_TOKEN);
 }
 module.exports = {
     startBot: startBot
