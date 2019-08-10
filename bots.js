@@ -24,8 +24,7 @@ function startBot() {
                     "color": 14422655,
                     "timestamp": "2019-08-10T02:15:57.588Z",
                     "footer": {
-                        "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png",
-                        "text": "footer text"
+                        "text": "Last updated"
                     },
                     "thumbnail": {
                         "url": "https://cdn.discordapp.com/embed/avatars/0.png"

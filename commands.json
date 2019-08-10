@@ -2,19 +2,19 @@
     "commands": [
         {
             "name": "hi",
-            "description": "Response with a lovely hey"
+            "value": "Response with a lovely hey"
         },
         {
             "name": "help",
-            "description": "Return command list and help information"
+            "value": "Return command list and help information"
         },
         {
             "name": "my",
-            "description": "Return your specific data"
+            "value": "Return your specific data"
         },
         {
             "name": "give",
-            "description": "Return specific data of yours or other users"
+            "value": "Return specific data of yours or other users"
         }
     ]
 }
