@@ -1,4 +1,5 @@
 const fs = require('fs');
+const filename = require("./config.json").data_filename;
 var obj = {
    data: []
 };
