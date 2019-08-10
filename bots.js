@@ -3,7 +3,7 @@ function startBot() {
     const Discord = require("discord.js");
     const client = new Discord.Client();
     const helper = require('./helper.js')
-    
+
     // Loads data from file
     helper.loadData()
 
@@ -16,24 +16,70 @@ function startBot() {
 
         switch (command) {
             case 'help':
-                message.channel.send("This supports Markdown ``` const x = 0```");
+                const embed = {
+                    "title": "title ~~(did you know you can have markdown here too?)~~",
+                    "description": "this supports [named links](https://discordapp.com) on top of the previously shown subset of markdown. ```\nyes, even code blocks```",
+                    "url": "https://discordapp.com",
+                    "color": 14422655,
+                    "timestamp": "2019-08-10T02:15:57.588Z",
+                    "footer": {
+                        "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png",
+                        "text": "footer text"
+                    },
+                    "thumbnail": {
+                        "url": "https://cdn.discordapp.com/embed/avatars/0.png"
+                    },
+                    "image": {
+                        "url": "https://cdn.discordapp.com/embed/avatars/0.png"
+                    },
+                    "author": {
+                        "name": "author name",
+                        "url": "https://discordapp.com",
+                        "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+                    },
+                    "fields": [
+                        {
+                            "name": "🤔",
+                            "value": "some of these properties have certain limits..."
+                        },
+                        {
+                            "name": "😱",
+                            "value": "try exceeding some of them!"
+                        },
+                        {
+                            "name": "🙄",
+                            "value": "an informative error should show up, and this view will remain as-is until all issues are fixed"
+                        },
+                        {
+                            "name": "<:thonkang:219069250692841473>",
+                            "value": "these last two",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:thonkang:219069250692841473>",
+                            "value": "are inline fields",
+                            "inline": true
+                        }
+                    ]
+                };
+                message.channel.send({embed});
                 break;
 
             case 'hi':
                 message.channel.send(`Hey ${message.author}!`);
                 break
-                
+
             case 'ping':
                 message.reply("pong!");
                 break
-                
+
             case 'clearalldata':
                 if (message.author.id === config.adminId) {
-                  helper.clearAllData()
-                  message.reply("Ok bosskuu. Removed everything :D")
+                    helper.clearAllData()
+                    message.reply("Ok bosskuu. Removed everything :D")
                 }
                 break
-                
+
             case 'dotabuff':
                 if (args[0] === 'match')
                     message.reply(`Check out your match here ${config.dotabuff}matches/${args[1]}`)
@@ -42,15 +88,15 @@ function startBot() {
                 else
                     message.reply(`Invalid command bro. Please insert type and id eg: !dotabuff player 100846798`)
                 break
-                
+
             case 'remember':
                 var getUserId = (arg) => {
-                  if (arg === 'my')
-                    return message.author.id
-                  else if (arg.includes('@'))
-                    return args[0].replace(/[<@>]/g, '')
-                  else
-                    return arg
+                    if (arg === 'my')
+                        return message.author.id
+                    else if (arg.includes('@'))
+                        return args[0].replace(/[<@>]/g, '')
+                    else
+                        return arg
                 }
                 var userid = getUserId(args[0])
                 if (args[1] === 'dotaid') {
@@ -58,7 +104,7 @@ function startBot() {
                     message.reply(`Alright I'll remember that`, args[0])
                 }
                 break
-                
+
             case 'my':
                 if (args[0] === 'dotaid') {
                     var value = helper.getData(message.author.id, 'dotaid').value
@@ -69,29 +115,29 @@ function startBot() {
                     message.reply(`Your dotabuff is ${config.dotabuff}players/${value}`)
                 }
                 break
-                
+
             case 'give':
-              var getUserId = (arg) => {
-                if (arg === 'my')
-                  return message.author.id
-                else if (arg.includes('@'))
-                  return args[0].replace(/[<@>]/g, '')
-                else
-                  return arg
-              }
-              var userid = getUserId(args[0])
-              if (args[1] === 'dotaid') {
-                  var value = helper.getData(userid, 'dotaid').value
-                  message.reply(args[0] === 'my' ? `Your dotaid is ${value}` : `<@${userid}> dotaid is ${value}`)
-              }
-              else if (args[1] === 'dotabuff') {
-                  var value = helper.getData(userid, 'dotaid').value
-                  message.reply(args[0] === 'my' ? `Your dotabuff is ${config.dotabuff}players/${value}` : `<@${userid}> dotabuff is ${config.dotabuff}players/${value}`)
-              }
-              break
+                var getUserId = (arg) => {
+                    if (arg === 'my')
+                        return message.author.id
+                    else if (arg.includes('@'))
+                        return args[0].replace(/[<@>]/g, '')
+                    else
+                        return arg
+                }
+                var userid = getUserId(args[0])
+                if (args[1] === 'dotaid') {
+                    var value = helper.getData(userid, 'dotaid').value
+                    message.reply(args[0] === 'my' ? `Your dotaid is ${value}` : `<@${userid}> dotaid is ${value}`)
+                }
+                else if (args[1] === 'dotabuff') {
+                    var value = helper.getData(userid, 'dotaid').value
+                    message.reply(args[0] === 'my' ? `Your dotabuff is ${config.dotabuff}players/${value}` : `<@${userid}> dotabuff is ${config.dotabuff}players/${value}`)
+                }
+                break
         }
     });
-  
+
     // helper.saveData('atif', 'name', 'Atif')
 
     client.login(process.env.BOT_TOKEN);
