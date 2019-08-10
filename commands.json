@@ -1,0 +1,20 @@
+{
+    "commands": [
+        {
+            "name": "hi",
+            "description": "Response with a lovely hey"
+        },
+        {
+            "name": "help",
+            "description": "Return command list and help information"
+        },
+        {
+            "name": "my",
+            "description": "Return your specific data"
+        },
+        {
+            "name": "give",
+            "description": "Return specific data of yours or other users"
+        }
+    ]
+}
