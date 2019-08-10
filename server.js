@@ -28,9 +28,10 @@ const listener = app.listen(process.env.PORT, function() {
 
 
 // Code to keep the web alive, pinging itself
-setInterval(() => {
-  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 280000);
+// Not working - >>>> using UptimeRobot
+//setInterval(() => {
+//  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+// }, 280000);
 
 
 // startBot
