@@ -5,10 +5,10 @@ var obj = {
 };
 
 function loadData () {
-  fs.exists('data.json', function(exists) {
+  fs.exists(filename, function(exists) {
     if(exists) {
       console.log('exists')
-      fs.readFile('data.json', 'utf8', function(err, data) {
+      fs.readFile(filename, 'utf8', function(err, data) {
         if (err) console.log(err)
         else {
           if (data !== '') {
@@ -30,7 +30,7 @@ function saveData (userid, attr, value) {
     this.getData(userid, attr).value = value
   else
     obj.data.push({ id: userid, attr: attr, value: value })
-  fs.writeFile('data.json', JSON.stringify(obj), 'utf-8', function(err, data){
+  fs.writeFile(filename, JSON.stringify(obj), 'utf-8', function(err, data){
     if (err) console.log(err);
     else {
       console.log("Successfully Written to File.", JSON.stringify({ id: userid, attr: attr, value: value }));
@@ -47,7 +47,7 @@ function clearAllData () {
   obj = {
    data: []
   };
-  fs.writeFile('data.json', '', 'utf-8', function(err, data){
+  fs.writeFile(filename, '', 'utf-8', function(err, data){
     if (err) console.log(err);
     else {
       console.log("Cleared all data");

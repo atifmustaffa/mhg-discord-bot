@@ -1,7 +1,7 @@
 {
     "adminId": "298136441353928704",
     "prefix": "!",
-    "data_filename": "./data.json",
+    "data_filename": "data.json",
     "opendota": "https://api.opendota.com/api/players/",
     "dotabuff": "https://www.dotabuff.com/"
 }
