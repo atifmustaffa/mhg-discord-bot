@@ -8,11 +8,11 @@ function loadData () {
   fs.exists(filename, function(exists) {
     if(exists) {
       fs.readFile(filename, 'utf8', function(err, data) {
-        if (err) console.log(err)
+        if (err) log(err)
         else {
           if (data !== '') {
             obj = JSON.parse(data)
-            console.log('Data Loaded')
+            log('Data Loaded')
           }
         }
       })
@@ -30,9 +30,9 @@ function saveData (userid, attr, value) {
   else
     obj.data.push({ id: userid, attr: attr, value: value })
   fs.writeFile(filename, JSON.stringify(obj), 'utf-8', function(err, data){
-    if (err) console.log(err);
+    if (err) log(err);
     else {
-      console.log("Successfully Written to File.", JSON.stringify({ id: userid, attr: attr, value: value }));
+      log("Successfully Written to File.", JSON.stringify({ id: userid, attr: attr, value: value }));
     }
   });
 }
@@ -47,20 +47,25 @@ function clearAllData () {
    data: []
   };
   fs.writeFile(filename, '', 'utf-8', function(err, data){
-    if (err) console.log(err);
+    if (err) log(err);
     else {
-      console.log("Cleared all data");
+      log("Cleared all data");
     }
   });
 }
 
-function log(str) {
-  console.log(new Date())
+function log(params) {
+  str = ""
+  params.forEach(s => {
+    str+=s
+  });
+  console.log(new Date().toLocaleString(), "->", str);
 }
 
 module.exports = {
   loadData: loadData,
   saveData: saveData,
   getData: getData,
-  clearAllData: clearAllData
+  clearAllData: clearAllData,
+  log: log
 }

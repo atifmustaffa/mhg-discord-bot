@@ -9,7 +9,7 @@ function startBot() {
     helper.loadData()
 
     bot.on("ready", async () => {
-        console.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
+        helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
         bot.user.setActivity(`Human Problems`, {
             type: "Listening"
         });
@@ -20,7 +20,7 @@ function startBot() {
 
         var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
-        console.log('time:', new Date().toUTCString(), 'user:', message.author.tag, 'command:', message.content.toLowerCase())
+        helper.log('user:', message.author.tag, 'command:', message.content.toLowerCase())
 
         switch (command) {
             case 'help':
