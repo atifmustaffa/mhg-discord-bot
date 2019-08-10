@@ -10,8 +10,8 @@ function startBot() {
 
     bot.on("ready", async () => {
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
-        bot.user.setActivity(`Human Problems`, {
-            type: "Listening"
+        bot.user.setActivity(`Lacasa De Papel`, {
+            type: "Watching"
         });
     });
 
