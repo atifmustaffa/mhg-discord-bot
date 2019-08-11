@@ -25,7 +25,7 @@ function startBot() {
         switch (command) {
             case 'help':
                 const embed = {
-                    "description": "## Commands List",
+                    "description": "### Commands List \n",
                     "color": parseInt(config.color.orange),
                     "thumbnail": {
                         "url": "https://gamepedia.cursecdn.com/dota2_gamepedia/thumb/4/46/SeasonalRankTop4.png/140px-SeasonalRankTop4.png?version=c50e23ba43564fe0b153f569d84fab0d"
