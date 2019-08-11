@@ -10,12 +10,12 @@ function startBot() {
 
     bot.on("ready", async () => {
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
-        bot.user.setActivity(`Lacasa De Papel`, {
+        bot.user.setActivity(`TI9 with Atif`, {
             type: "Watching"
         });
     });
 
-    bot.on("message", (message) => {
+    bot.on("message", async (message) => {
         if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
         var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
@@ -29,20 +29,9 @@ function startBot() {
                     "description": "this supports [named links](https://discordapp.com) on top of the previously shown subset of markdown. ```\nyes, even code blocks```",
                     "url": "https://discordapp.com",
                     "color": 14422655,
-                    "timestamp": new Date(2019, 7, 10, 11, 51, 0).toString(),
+                    "timestamp": new Date(2019, 8 - 1, 10, 11 - 8, 51, 0), // (year, month - 1, day, hour - 8, minute, second)
                     "footer": {
                         "text": "Last updated"
-                    },
-                    "thumbnail": {
-                        "url": "https://cdn.discordapp.com/embed/avatars/0.png"
-                    },
-                    "image": {
-                        "url": "https://cdn.discordapp.com/embed/avatars/0.png"
-                    },
-                    "author": {
-                        "name": "author name",
-                        "url": "https://discordapp.com",
-                        "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
                     },
                     "fields": commands.commands
                 };

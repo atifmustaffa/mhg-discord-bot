@@ -3,5 +3,9 @@
     "prefix": "!",
     "data_filename": "data.json",
     "opendota": "https://api.opendota.com/api/players/",
-    "dotabuff": "https://www.dotabuff.com/"    
+    "dotabuff": "https://www.dotabuff.com/",
+    "color" : {
+        "orange": "",
+        "": ""
+    }
 }
