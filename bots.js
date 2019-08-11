@@ -63,6 +63,10 @@ function startBot() {
                 message.channel.send({ embed });
                 break;
 
+            case 'imah':
+                message.channel.send('Imah noob');
+                break;
+
             case 'hi':
                 message.channel.send(`Hey ${message.author}!`);
                 break
