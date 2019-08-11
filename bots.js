@@ -25,10 +25,11 @@ function startBot() {
         switch (command) {
             case 'help':
                 const embed = {
-                    "title": "title ~~(did you know you can have markdown here too?)~~",
-                    "description": "this supports [named links](https://discordapp.com) on top of the previously shown subset of markdown. ```\nyes, even code blocks```",
-                    "url": "https://discordapp.com",
-                    "color": 14422655,
+                    "description": "## Commands List",
+                    "color": parseInt(config.color.orange),
+                    "thumbnail": {
+                        "url": "https://gamepedia.cursecdn.com/dota2_gamepedia/thumb/4/46/SeasonalRankTop4.png/140px-SeasonalRankTop4.png?version=c50e23ba43564fe0b153f569d84fab0d"
+                    },
                     "timestamp": new Date(2019, 8 - 1, 10, 11 - 8, 51, 0), // (year, month - 1, day, hour - 8, minute, second)
                     "footer": {
                         "text": "Last updated"
