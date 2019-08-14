@@ -84,7 +84,6 @@ function startBot() {
                         var t = new Table
                         for (var dat of rows) {
                             // rows.forEach(function (dat) {
-                            if (dat["name"]==="Ori") break
                             t.cell('Name', dat["name"])
                             t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
                             t.cell('Matches', parseInt(dat["count"]), Table.number(0))
@@ -93,15 +92,21 @@ function startBot() {
                         }
                         var messages = new Array()
                         var edit = t.toString()
-                        while (edit.length > MAX_CHAR - 6) {
-                            const limit = edit.substring(0, Math.min(edit.length, MAX_CHAR - 6))
+                        while (edit.length > MAX_CHAR - code_block.length * 2) {
+                            const limit = edit.substring(0, Math.min(edit.length, MAX_CHAR - code_block.length * 2))
                             const toSend = limit.substring(0, limit.lastIndexOf("\n"));
                             messages.push(toSend)
                             edit = edit.replace(toSend, "")
                         }
                         messages.push(edit)
-                        for (var msg of messages)
-                            message.channel.send('```' + msg + '```')
+                        const embed = {
+                            "description": "",
+                            "color": parseInt(config.color.orange)
+                        }
+                        for (var msg of messages) {
+                            embed.description = code_block + msg + code_block
+                            message.channel.send({ embed })
+                        }
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
