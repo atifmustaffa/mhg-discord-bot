@@ -5,6 +5,10 @@
             "value": "Response with a lovely hey"
         },
         {
+            "name": "ping",
+            "value": "Response with 'pong' server test"
+        },
+        {
             "name": "help",
             "value": "Return command list and help information"
         },

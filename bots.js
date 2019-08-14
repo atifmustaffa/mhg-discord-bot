@@ -63,9 +63,15 @@ function startBot() {
                 message.channel.send({ embed });
                 break;
 
-            case 'imah':
-                message.channel.send('Imah noob');
-                break;
+            // Special TI9 Fantasy
+            case 'fantasy':
+                if (args[0] == null || args[0] === '' || args[0] === 'total')
+                    message.reply(`Check out your match here ${config.dotabuff}matches/${args[1]}`)
+                else if (args[0] === 'today')
+                    message.reply(`Check out player history here ${config.dotabuff}players/${args[1]}`)
+                else
+                    message.reply('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
+                break
 
             case 'hi':
                 message.channel.send(`Hey ${message.author}!`);
