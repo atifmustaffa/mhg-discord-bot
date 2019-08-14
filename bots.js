@@ -87,19 +87,21 @@ function startBot() {
                         var txt = ''
                         for(var dat of rows) {
                         // rows.forEach(function (dat) {
+                            if (dat["name"]==="Ori") break
                             t.cell('Name', dat["name"])
                             t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
                             t.cell('Matches', parseInt(dat["count"]), Table.number(0))
                             t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
                             t.newRow()
                             if (t.toString().length >= 2000) {
-                                txt = t.toString().replace(/\r?\n?[^\r\n]*$/, "")
+                                txt = t.toString()
+                                while (txt.length >= 2000) {
+                                    txt = txt.replace(/\r?\n?[^\r\n]*$/, "")
+                                }
                                 break
                             }
                         }
-                        txt = t.toString()
-                        message.channel.send('```' + txt.length + '```')
-                        message.channel.send('```' + txt + '```')
+                        message.channel.send('```' + txt === '' ? t.toString() | txt + '```')
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
