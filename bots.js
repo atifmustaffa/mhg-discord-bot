@@ -98,15 +98,15 @@ function startBot() {
                         }
                         var msg = new Array()
                         var edit = t.toString()
-                        while (edit >= 2000 - 6) {
+                        while (edit.length > 2000 - 6) {
                             const limit = edit.substring(i, Math.min(edit.length, i + 2000 - 6))
                             const toSend = limit.substring(0, limit.lastIndexOf("\n"));
                             msg.push(toSend)
-                            edit.replace("")
+                            edit = edit.replace(toSend, "")
                         }
-                        for (let i = 0; i < edit.length; i += 2000 - 6) {
-                            const limit = edit.substring(i, Math.min(edit.length, i + 2000 - 6))
-                            const toSend = limit.substring(0, limit.lastIndexOf("\n"));
+                        // for (let i = 0; i < edit.length; i += 2000 - 6) {
+                        //     const limit = edit.substring(i, Math.min(edit.length, i + 2000 - 6))
+                        //     const toSend = limit.substring(0, limit.lastIndexOf("\n"));
                             // sendMessage(toSend);
                             // if (toSend.length >= 2000 - 6) {
                             //     msg.push(toSend.replace(/\r?\n?[^\r\n]*$/, ""))
@@ -115,7 +115,7 @@ function startBot() {
                             //     // }
                             // }
                             message.channel.send('```' + toSend + '```')
-                        }
+                        // }
                         // message.channel.send('```' + (txt != '' ? txt : t.toString()) + '```')
                     });
                 }).on("error", (err) => {
