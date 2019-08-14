@@ -6,7 +6,7 @@
         },
         {
             "name": "ping",
-            "value": "Response with 'pong' server test"
+            "value": "Response with server 'pong' test"
         },
         {
             "name": "help",
@@ -19,6 +19,10 @@
         {
             "name": "give",
             "value": "Return specific data of yours or other users"
+        },
+        {
+            "name": "remember",
+            "value": "Ask bot to remember user data"
         }
     ]
 }

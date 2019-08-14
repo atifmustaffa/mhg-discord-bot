@@ -2,10 +2,13 @@
     "adminId": "298136441353928704",
     "prefix": "!",
     "data_filename": "data.json",
-    "opendota": "https://api.opendota.com/api/players/",
+    "opendota": "https://www.opendota.com/",
     "dotabuff": "https://www.dotabuff.com/",
-    "color" : {
+    "color": {
         "orange": "0xe0893d",
         "blue": "0x46a1e8"
+    },
+    "API": {
+        "opendota": "https://api.opendota.com/api/"
     }
 }
