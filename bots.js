@@ -25,7 +25,7 @@ function startBot() {
         switch (command) {
             case 'help':
                 const embed = {
-                    "description": "### Commands List \n",
+                    "description": "Commands List \n",
                     "color": parseInt(config.color.orange),
                     "thumbnail": {
                         "url": "https://gamepedia.cursecdn.com/dota2_gamepedia/thumb/4/46/SeasonalRankTop4.png/140px-SeasonalRankTop4.png?version=c50e23ba43564fe0b153f569d84fab0d"
@@ -79,13 +79,11 @@ function startBot() {
                     resp.on('end', () => {
                         rows = JSON.parse(data).rows
                         let table = `
-                        | name | avg | matches | sum |
-                        |--------|-----|---------|-----|
-                        | a |  |  |  |`
+                        | name | avg | matches | sum |\n|--------|-----|---------|-----|\n`
                         for (var x = 0; x < rows.length; x++) {
                             table += `| ${rows[x]["name"]} | ${rows[x]["AVG Fantasy Pts"]} | ${rows[x]["count"]} | ${rows[x]["sum"]} |\n`
                         }
-                        message.send('test ' + names)
+                        message.channel.send(table)
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
@@ -98,10 +96,10 @@ function startBot() {
                 //     message.reply('')
                 // }
                 // else if (args[0] === 'today') {
-                //     message.send('tdy')
+                //     message.channel.send('tdy')
                 // }
                 // else
-                //     message.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
+                //     message.channel.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
                 break
 
             case 'hi':
