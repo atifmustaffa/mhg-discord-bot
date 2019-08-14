@@ -69,6 +69,8 @@ function startBot() {
                 const Table = require('easy-table')
                 // var url = `https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20notable_players.name%20%2C%0Aavg(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201))%20%22AVG%20Fantasy%20Pts%22%2C%0Acount(distinct%20matches.match_id)%20count%2C%0Asum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1)%20winrate%2C%0A((sum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1))%20%0A%2B%201.96%20*%201.96%20%2F%20(2%20*%20count(1))%20%0A-%201.96%20*%20sqrt((((sum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1))%20*%20(1%20-%20(sum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1)))%20%2B%201.96%20*%201.96%20%2F%20(4%20*%20count(1)))%20%2F%20count(1))))%0A%2F%20(1%20%2B%201.96%20*%201.96%20%2F%20count(1))%20winrate_wilson%2C%0Asum(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201))%20sum%2C%0Amin(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201))%20min%2C%0Amax(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201))%20max%2C%0Astddev(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201)%3A%3Anumeric)%20stddev%0A%20%20%0AFROM%20matches%0AJOIN%20match_patch%20using(match_id)%0AJOIN%20leagues%20using(leagueid)%0AJOIN%20player_matches%20using(match_id)%0AJOIN%20heroes%20on%20heroes.id%20%3D%20player_matches.hero_id%0ALEFT%20JOIN%20notable_players%20ON%20notable_players.account_id%20%3D%20player_matches.account_id%0ALEFT%20JOIN%20teams%20using(team_id)%0AWHERE%20TRUE%0AAND%20round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201)%20IS%20NOT%20NULL%20%0AAND%20matches.start_time%20%3E%3D%20extract(epoch%20from%20timestamp%20%272019-07-11T16%3A00%3A00.000Z%27)%0AAND%20matches.start_time%20%3C%3D%20extract(epoch%20from%20timestamp%20%272019-08-15T16%3A00%3A00.000Z%27)%0AAND%20teams.team_id%20IN%20(15%2C%2036%2C%2039%2C%202163%2C%20111474%2C%20350190%2C%20543897%2C%20726228%2C%201838315%2C%201883502%2C%202108395%2C%202586976%2C%202626685%2C%202672298%2C%206209804%2C%206214538%2C%206214973%2C%207203342)%0AGROUP%20BY%20notable_players.name%0AHAVING%20count(distinct%20matches.match_id)%20%3E%3D%201%0AORDER%20BY%20%22AVG%20Fantasy%20Pts%22%20DESC%2Ccount%20DESC%20NULLS%20LAST%0ALIMIT%20200`
                 var url = `${config.API.opendota}explorer?sql=${encodeURIComponent(getTestSQL())}`
+                const MAX_CHAR = 2000
+                const code_block = '```'
 
                 https.get(url, (resp) => {
                     let data = '';
@@ -82,41 +84,24 @@ function startBot() {
                         var t = new Table
                         for (var dat of rows) {
                             // rows.forEach(function (dat) {
-                            // if (dat["name"]==="Ori") break
+                            if (dat["name"]==="Ori") break
                             t.cell('Name', dat["name"])
                             t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
                             t.cell('Matches', parseInt(dat["count"]), Table.number(0))
                             t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
                             t.newRow()
-                            // if (t.toString().length >= 2000-6) {
-                            //     msg.push(t.toString().replace(/\r?\n?[^\r\n]*$/, ""))
-                            //     // while (txt.length >= 2000) {
-                            //     //     txt = txt.replace(/\r?\n?[^\r\n]*$/, "")
-                            //     // }
-                            //     break
-                            // }
                         }
-                        var msg = new Array()
+                        var messages = new Array()
                         var edit = t.toString()
-                        while (edit.length > 2000 - 6) {
-                            const limit = edit.substring(i, Math.min(edit.length, i + 2000 - 6))
+                        while (edit.length > MAX_CHAR - 6) {
+                            const limit = edit.substring(0, Math.min(edit.length, MAX_CHAR - 6))
                             const toSend = limit.substring(0, limit.lastIndexOf("\n"));
-                            msg.push(toSend)
+                            messages.push(toSend)
                             edit = edit.replace(toSend, "")
                         }
-                        // for (let i = 0; i < edit.length; i += 2000 - 6) {
-                        //     const limit = edit.substring(i, Math.min(edit.length, i + 2000 - 6))
-                        //     const toSend = limit.substring(0, limit.lastIndexOf("\n"));
-                            // sendMessage(toSend);
-                            // if (toSend.length >= 2000 - 6) {
-                            //     msg.push(toSend.replace(/\r?\n?[^\r\n]*$/, ""))
-                            //     // while (txt.length >= 2000) {
-                            //     //     txt = txt.replace(/\r?\n?[^\r\n]*$/, "")
-                            //     // }
-                            // }
-                            message.channel.send('```' + toSend + '```')
-                        // }
-                        // message.channel.send('```' + (txt != '' ? txt : t.toString()) + '```')
+                        messages.push(edit)
+                        for (var msg of messages)
+                            message.channel.send('```' + msg + '```')
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
