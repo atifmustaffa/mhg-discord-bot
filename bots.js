@@ -85,23 +85,28 @@ function startBot() {
                         // }
                         var t = new Table
                         var txt = ''
-                        for(var dat of rows) {
-                        // rows.forEach(function (dat) {
+                        for (var dat of rows) {
+                            // rows.forEach(function (dat) {
                             // if (dat["name"]==="Ori") break
                             t.cell('Name', dat["name"])
                             t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
                             t.cell('Matches', parseInt(dat["count"]), Table.number(0))
                             t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
                             t.newRow()
-                            if (t.toString().length >= 2000) {
-                                txt = t.toString()
-                                while (txt.length >= 2000) {
-                                    txt = txt.replace(/\r?\n?[^\r\n]*$/, "")
-                                }
-                                break
-                            }
+                            // if (t.toString().length >= 2000) {
+                            //     txt = t.toString()
+                            //     while (txt.length >= 2000) {
+                            //         txt = txt.replace(/\r?\n?[^\r\n]*$/, "")
+                            //     }
+                            //     break
+                            // }
                         }
-                        message.channel.send('```' + (txt != '' ? txt : t.toString()) + '```')
+                        for (let i = 0; i < t.toString().length; i += 2000-6) {
+                            const toSend = t.toString().substring(i, Math.min(t.toString().length, i + 2000-6));
+                            // sendMessage(toSend);
+                            message.channel.send('```' + toSend + '```')
+                        }
+                        // message.channel.send('```' + (txt != '' ? txt : t.toString()) + '```')
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
