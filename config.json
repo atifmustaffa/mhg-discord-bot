@@ -10,59 +10,5 @@
     },
     "API": {
         "opendota": "https://api.opendota.com/api/"
-    },
-    "SQL": {
-        "total": "SELECT
-        notable_players.name ,
-avg(round((0.3 * kills + (3 - 0.3 * deaths) + 0.003 * (last_hits + denies) + 0.002 * gold_per_min + towers_killed + roshans_killed + 3 * teamfight_participation + 0.5 * observers_placed + 0.5 * camps_stacked + 0.25 * rune_pickups + 4 * firstblood_claimed + 0.05 * stuns): :numeric,
-        1)) 'AVG Fantasy Pts',
-count(distinct matches.match_id) count,
-sum(case when (player_matches.player_slot < 128) = radiant_win then 1 else 0 end): :float/count(1) winrate,
-((sum(case when (player_matches.player_slot < 128) = radiant_win then 1 else 0 end): :float/count(1)) 
-+ 1.96 * 1.96 / (2 * count(1)) 
-- 1.96 * sqrt((((sum(case when (player_matches.player_slot < 128) = radiant_win then 1 else 0 end): :float/count(1)) * (1 - (sum(case when (player_matches.player_slot < 128) = radiant_win then 1 else 0 end): :float/count(1))) + 1.96 * 1.96 / (4 * count(1))) / count(1))))
-/ (1 + 1.96 * 1.96 / count(1)) winrate_wilson,
-sum(round((0.3 * kills + (3 - 0.3 * deaths) + 0.003 * (last_hits + denies) + 0.002 * gold_per_min + towers_killed + roshans_killed + 3 * teamfight_participation + 0.5 * observers_placed + 0.5 * camps_stacked + 0.25 * rune_pickups + 4 * firstblood_claimed + 0.05 * stuns): :numeric,
-        1)) sum,
-min(round((0.3 * kills + (3 - 0.3 * deaths) + 0.003 * (last_hits + denies) + 0.002 * gold_per_min + towers_killed + roshans_killed + 3 * teamfight_participation + 0.5 * observers_placed + 0.5 * camps_stacked + 0.25 * rune_pickups + 4 * firstblood_claimed + 0.05 * stuns): :numeric,
-        1)) min,
-max(round((0.3 * kills + (3 - 0.3 * deaths) + 0.003 * (last_hits + denies) + 0.002 * gold_per_min + towers_killed + roshans_killed + 3 * teamfight_participation + 0.5 * observers_placed + 0.5 * camps_stacked + 0.25 * rune_pickups + 4 * firstblood_claimed + 0.05 * stuns): :numeric,
-        1)) max,
-stddev(round((0.3 * kills + (3 - 0.3 * deaths) + 0.003 * (last_hits + denies) + 0.002 * gold_per_min + towers_killed + roshans_killed + 3 * teamfight_participation + 0.5 * observers_placed + 0.5 * camps_stacked + 0.25 * rune_pickups + 4 * firstblood_claimed + 0.05 * stuns): :numeric,
-        1): :numeric) stddev
-  
-FROM matches
-JOIN match_patch using(match_id)
-JOIN leagues using(leagueid)
-JOIN player_matches using(match_id)
-JOIN heroes on heroes.id = player_matches.hero_id
-LEFT JOIN notable_players ON notable_players.account_id = player_matches.account_id
-LEFT JOIN teams using(team_id)
-WHERE TRUE
-AND round((0.3 * kills + (3 - 0.3 * deaths) + 0.003 * (last_hits + denies) + 0.002 * gold_per_min + towers_killed + roshans_killed + 3 * teamfight_participation + 0.5 * observers_placed + 0.5 * camps_stacked + 0.25 * rune_pickups + 4 * firstblood_claimed + 0.05 * stuns): :numeric,
-        1) IS NOT NULL 
-AND matches.start_time >= extract(epoch from timestamp '2019-08-14T16: 00: 00.000Z')
-AND teams.team_id IN (15,
-        36,
-        39,
-        2163,
-        111474,
-        350190,
-        543897,
-        726228,
-        1838315,
-        1883502,
-        2108395,
-        2586976,
-        2626685,
-        2672298,
-        6209804,
-        6214538,
-        6214973,
-        7203342)
-GROUP BY notable_players.name
-HAVING count(distinct matches.match_id) >= 1
-ORDER BY 'AVG Fantasy Pts' DESC,count DESC NULLS LAST
-LIMIT 200"
     }
 }
