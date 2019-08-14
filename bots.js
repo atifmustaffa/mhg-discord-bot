@@ -101,9 +101,15 @@ function startBot() {
                             // }
                         }
                         var msg = new Array()
-                        for (let i = 0; i < t.toString().length; i += 2000-6) {
-                            const toSend = t.toString().substring(i, Math.min(t.toString().length, i + 2000-6));
+                        for (let i = 0; i < t.toString().length; i += 2000 - 6) {
+                            const toSend = t.toString().substring(i, Math.min(t.toString().length, i + 2000 - 6));
                             // sendMessage(toSend);
+                            if (toSend.length >= 2000 - 6) {
+                                msg.push(toSend.replace(/\r?\n?[^\r\n]*$/, ""))
+                                // while (txt.length >= 2000) {
+                                //     txt = txt.replace(/\r?\n?[^\r\n]*$/, "")
+                                // }
+                            }
                             message.channel.send('```' + toSend + '```')
                         }
                         // message.channel.send('```' + (txt != '' ? txt : t.toString()) + '```')
