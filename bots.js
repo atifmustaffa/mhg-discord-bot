@@ -77,8 +77,14 @@ function startBot() {
                     });
                     // The whole response has been received. Print out the result.
                     resp.on('end', () => {
-                        names = JSON.parse(data).rows[2].name
-                        console.log(names);
+                        rows = JSON.parse(data).rows
+                        let table = `
+                        | name | avg | matches | sum |
+                        |--------|-----|---------|-----|
+                        | a |  |  |  |`
+                        for (var x = 0; x < rows.length; x++) {
+                            table += `| ${rows[x]["name"]} | ${rows[x]["AVG Fantasy Pts"]} | ${rows[x]["count"]} | ${rows[x]["sum"]} |\n`
+                        }
                         message.send('test ' + names)
                     });
                 }).on("error", (err) => {
