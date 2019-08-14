@@ -85,14 +85,16 @@ function startBot() {
                         // }
                         var t = new Table
 
-                        rows.forEach(function (product) {
-                            t.cell('Name', product["name"])
-                            t.cell('AVG', parseInt(product["AVG Fantasy Pts"]), Table.number(2))
-                            t.cell('Matches', product["count"])
-                            t.cell('Sum', product["sum"])
+                        for(var dat of rows) {
+                        // rows.forEach(function (dat) {
+                            t.cell('Name', dat["name"])
+                            t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
+                            t.cell('Matches', parseInt(dat["count"]), Table.number(0))
+                            t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
                             t.newRow()
-                        })
-                        message.channel.send('```' + t.toString() + '```')
+                        }
+                        message.channel.send('```' + t.toString().length + '```')
+                        // message.channel.send('```' + t.toString() + '```')
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
@@ -275,7 +277,7 @@ function getTestSQL() {
     LEFT JOIN teams using(team_id)
     WHERE TRUE
     AND round((0.3 * kills + (3 - 0.3 * deaths) + 0.003 * (last_hits + denies) + 0.002 * gold_per_min + towers_killed + roshans_killed + 3 * teamfight_participation + 0.5 * observers_placed + 0.5 * camps_stacked + 0.25 * rune_pickups + 4 * firstblood_claimed + 0.05 * stuns)::numeric, 1) IS NOT NULL 
-    AND matches.start_time >= extract(epoch from timestamp '2019-07-11T16:00:00.000Z')
+    AND matches.start_time >= extract(epoch from timestamp '2019-06-04T16:00:00.000Z')
     AND matches.start_time <= extract(epoch from timestamp '2019-08-15T16:00:00.000Z')
     AND teams.team_id IN (15, 36, 39, 2163, 111474, 350190, 543897, 726228, 1838315, 1883502, 2108395, 2586976, 2626685, 2672298, 6209804, 6214538, 6214973, 7203342)
     GROUP BY notable_players.name
