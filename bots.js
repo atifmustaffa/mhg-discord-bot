@@ -87,7 +87,7 @@ function startBot() {
                         var txt = ''
                         for(var dat of rows) {
                         // rows.forEach(function (dat) {
-                            if (dat["name"]==="Ori") break
+                            // if (dat["name"]==="Ori") break
                             t.cell('Name', dat["name"])
                             t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
                             t.cell('Matches', parseInt(dat["count"]), Table.number(0))
@@ -101,7 +101,7 @@ function startBot() {
                                 break
                             }
                         }
-                        message.channel.send('```' + txt === '' ? t.toString() | txt + '```')
+                        message.channel.send('```' + (txt != '' ? txt : t.toString()) + '```')
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
