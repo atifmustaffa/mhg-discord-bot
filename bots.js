@@ -79,10 +79,6 @@ function startBot() {
                     // The whole response has been received. Print out the result.
                     resp.on('end', () => {
                         rows = JSON.parse(data).rows
-                        // let table = `| name\t\t\t | avg | matches | sum |\n|--------|-----|---------|-----|\n`
-                        // for (var x = 0; x < rows.length; x++) {
-                        //     table += `| ${rows[x]["name"]}\t\t\t | ${rows[x]["AVG Fantasy Pts"]} | ${rows[x]["count"]} | ${rows[x]["sum"]} |\n`
-                        // }
                         var t = new Table
                         for (var dat of rows) {
                             // rows.forEach(function (dat) {
@@ -101,15 +97,23 @@ function startBot() {
                             // }
                         }
                         var msg = new Array()
-                        for (let i = 0; i < t.toString().length; i += 2000 - 6) {
-                            const toSend = t.toString().substring(i, Math.min(t.toString().length, i + 2000 - 6));
+                        var edit = t.toString()
+                        while (edit >= 2000 - 6) {
+                            const limit = edit.substring(i, Math.min(edit.length, i + 2000 - 6))
+                            const toSend = limit.substring(0, limit.lastIndexOf("\n"));
+                            msg.push(toSend)
+                            edit.replace("")
+                        }
+                        for (let i = 0; i < edit.length; i += 2000 - 6) {
+                            const limit = edit.substring(i, Math.min(edit.length, i + 2000 - 6))
+                            const toSend = limit.substring(0, limit.lastIndexOf("\n"));
                             // sendMessage(toSend);
-                            if (toSend.length >= 2000 - 6) {
-                                msg.push(toSend.replace(/\r?\n?[^\r\n]*$/, ""))
-                                // while (txt.length >= 2000) {
-                                //     txt = txt.replace(/\r?\n?[^\r\n]*$/, "")
-                                // }
-                            }
+                            // if (toSend.length >= 2000 - 6) {
+                            //     msg.push(toSend.replace(/\r?\n?[^\r\n]*$/, ""))
+                            //     // while (txt.length >= 2000) {
+                            //     //     txt = txt.replace(/\r?\n?[^\r\n]*$/, "")
+                            //     // }
+                            // }
                             message.channel.send('```' + toSend + '```')
                         }
                         // message.channel.send('```' + (txt != '' ? txt : t.toString()) + '```')
