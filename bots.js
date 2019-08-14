@@ -96,10 +96,10 @@ function startBot() {
                                 txt = t.toString().replace(/\r?\n?[^\r\n]*$/, "")
                                 break
                             }
-                            else 
                         }
-                        // message.channel.send('```' + t.toString().length + '```')
-                        message.channel.send('```' + t.toString() + '```')
+                        txt = t.toString()
+                        message.channel.send('```' + txt.length + '```')
+                        message.channel.send('```' + txt + '```')
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
