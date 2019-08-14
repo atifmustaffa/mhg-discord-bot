@@ -84,7 +84,7 @@ function startBot() {
                         //     table += `| ${rows[x]["name"]}\t\t\t | ${rows[x]["AVG Fantasy Pts"]} | ${rows[x]["count"]} | ${rows[x]["sum"]} |\n`
                         // }
                         var t = new Table
-
+                        var txt = ''
                         for(var dat of rows) {
                         // rows.forEach(function (dat) {
                             t.cell('Name', dat["name"])
@@ -92,9 +92,14 @@ function startBot() {
                             t.cell('Matches', parseInt(dat["count"]), Table.number(0))
                             t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
                             t.newRow()
+                            if (t.toString().length >= 2000) {
+                                txt = t.toString().replace(/\r?\n?[^\r\n]*$/, "")
+                                break
+                            }
+                            else 
                         }
-                        message.channel.send('```' + t.toString().length + '```')
-                        // message.channel.send('```' + t.toString() + '```')
+                        // message.channel.send('```' + t.toString().length + '```')
+                        message.channel.send('```' + t.toString() + '```')
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
