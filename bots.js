@@ -78,12 +78,11 @@ function startBot() {
                     // The whole response has been received. Print out the result.
                     resp.on('end', () => {
                         rows = JSON.parse(data).rows
-                        let table = `
-                        | name | avg | matches | sum |\n|--------|-----|---------|-----|\n`
+                        let table = `| name | avg | matches | sum |\n|--------|-----|---------|-----|\n`
                         for (var x = 0; x < rows.length; x++) {
                             table += `| ${rows[x]["name"]} | ${rows[x]["AVG Fantasy Pts"]} | ${rows[x]["count"]} | ${rows[x]["sum"]} |\n`
                         }
-                        message.channel.send(table)
+                        message.channel.send('```' + table + '```')
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
