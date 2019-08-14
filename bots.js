@@ -91,21 +91,21 @@ function startBot() {
                             t.newRow()
                         }
                         var messages = new Array()
-                        var edit = t.toString()
-                        while (edit.length > MAX_CHAR - code_block.length * 2) {
-                            const limit = edit.substring(0, Math.min(edit.length, MAX_CHAR - code_block.length * 2))
-                            const toSend = limit.substring(0, limit.lastIndexOf("\n"));
-                            messages.push(toSend)
-                            edit = edit.replace(toSend, "")
+                        var tables = t.toString()
+                        while (tables.length > MAX_CHAR - code_block.length * 2) {
+                            const limit = tables.substring(0, Math.min(tables.length, MAX_CHAR - code_block.length * 2))
+                            const msg = limit.substring(0, limit.lastIndexOf("\n"));
+                            messages.push(msg)
+                            tables = tables.replace(msg, "")
                         }
-                        messages.push(edit)
-                        const embed = {
-                            "description": "",
-                            "color": parseInt(config.color.orange)
-                        }
+                        messages.push(tables)
+
+                        // Send message(s)
                         for (var msg of messages) {
-                            embed.description = code_block + msg + code_block
-                            message.channel.send({ embed })
+                            message.channel.send(code_block + msg + code_block, {
+                                "description": "Data retrieved from [OpenDota](https://discordapp.com)",
+                                "color": parseInt(config.color.lightblue)
+                            })
                         }
                     });
                 }).on("error", (err) => {

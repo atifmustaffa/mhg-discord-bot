@@ -6,7 +6,8 @@
     "dotabuff": "https://www.dotabuff.com/",
     "color": {
         "orange": "0xe0893d",
-        "blue": "0x46a1e8"
+        "lightblue": "0x5dade2",
+        "yellow": "0xf9e79f"
     },
     "API": {
         "opendota": "https://api.opendota.com/api/"
