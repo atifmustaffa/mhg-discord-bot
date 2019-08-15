@@ -161,12 +161,12 @@ function startBot() {
                 }
 
                 if (args[0] === 'total') {
-                    apiCall('The International 2019 - Total Fantasy Point', encodeURIComponent(getTotalSQL()))
+                    apiCall('The International 2019 - Total Fantasy Points', encodeURIComponent(getTotalSQL()))
                 }
                 else if (args[0] === 'today') {
                     var today = new Date(new Date().toDateString())
                     var tomorrow = new Date(new Date(new Date().setDate(today.getDate() + 1)).toDateString())
-                    apiCall('The International 2019 - Today Fantasy Point', encodeURIComponent(getRangedSQL(today.toJSON(), tomorrow.toJSON())))
+                    apiCall('The International 2019 - Today Fantasy Points', encodeURIComponent(getRangedSQL(today.toJSON(), tomorrow.toJSON())))
                 }
                 else if (args[0] === 'set' && args[1] === 'highlight') {
                     if (args[2] != undefined) {
