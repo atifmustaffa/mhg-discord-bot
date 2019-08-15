@@ -156,15 +156,14 @@ function startBot() {
                 }
                 else if (args[0] === 'set' && args[1] === 'highlight') {
                     if (args[2] != undefined) {
-                        var players = []
-                        var delimiter = false
+                        var name_str = ''
                         for (var x = 2; ; x++) {
                             if (args[x] === undefined) break
-                            if (args[x].slice(0, 1).includes("\"") || args[x].slice(0, 1).includes("\'")) {
-                                // [ 'miracle', '"-', 'af', 'fu', '-"', 'somnus' ]
-                                delimiter = true
-                            }
-                            players.push(args[x])
+                            name_str += args[x]
+                        }
+                        var players = name_str.split(/ +(?=(?:(?:[^"]*"){2})*[^"]*$)/g);
+                        for (var s of players) {
+                            s
                         }
                         // helper.saveData(message.author.id, 'highlight', players)
                         console.log(players)
