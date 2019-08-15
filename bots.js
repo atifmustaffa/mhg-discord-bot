@@ -157,12 +157,17 @@ function startBot() {
                 else if (args[0] === 'set' && args[1] === 'highlight') {
                     if (args[2] != undefined) {
                         var players = []
-                        for (var x = 2;; x++) {
-                            if (args[x] === undefined) break;
-                            if (args[x].includes("\"") || args[x].includes("\""))
+                        var delimiter = false
+                        for (var x = 2; ; x++) {
+                            if (args[x] === undefined) break
+                            if (args[x].slice(0, 1).includes("\"") || args[x].slice(0, 1).includes("\'")) {
+                                // [ 'miracle', '"-', 'af', 'fu', '-"', 'somnus' ]
+                                delimiter = true
+                            }
                             players.push(args[x])
                         }
-                        helper.saveData(message.author.id, 'highlight', players)
+                        // helper.saveData(message.author.id, 'highlight', players)
+                        console.log(players)
                     }
                 }
                 else if (args[0] === 'get' && args[1] === 'highlight') {
