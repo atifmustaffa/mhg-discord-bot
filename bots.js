@@ -85,7 +85,7 @@ function startBot() {
                         // The whole response has been received. Print out the result.
                         resp.on('end', () => {
                             rows = JSON.parse(data).rows
-                            if (rows.length > 0) {
+                            if (rows && rows.length > 0) {
                                 var t = new Table
                                 t.separator = '   '
                                 for (var dat of rows) {
