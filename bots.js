@@ -170,15 +170,16 @@ function startBot() {
                     }
                 }
                 else if (args[0] === 'get' && args[1] === 'highlight') {
-                    var text = ''
+                    var text = '```Data not found / Data not set```'
                     if (helper.getData(message.author.id, 'highlight')) {
-                        text = helper.getData(message.author.id, 'highlight').value.forEach(element => {
-                            if (element.includes(" ")) {}
-                                element.prepend('"')
-                            element.append('"')
-                        });
+                        var names = helper.getData(message.author.id, 'highlight')
+                        for (var i = 0; i < names.length; i++) {
+                            if (names[i].includes(" "))
+                                names[i] = "\"" + names[i] + "\""
+                        }
+                        text = names.join(" ")
                     }
-                    helper.getData(message.author.id, 'highlight') ? helper.getData(message.author.id, 'highlight').value.join(" ") : '```Data not found / Data not set```'
+                    // helper.getData(message.author.id, 'highlight') ? helper.getData(message.author.id, 'highlight').value.join(" ") : '```Data not found / Data not set```'
                     message.channel.send(text)
                 }
                 else
