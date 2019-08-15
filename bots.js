@@ -68,6 +68,10 @@ function startBot() {
 
                 let apiCall = function (title, sql) {
 
+                    // Custom formatting
+                    const color_atif = 'json'
+                    const color_ini = 'ini'
+
                     const https = require('https')
                     const Table = require('easy-table')
 
