@@ -156,11 +156,13 @@ function startBot() {
                 }
                 else if (args[0] === 'set' && args[1] === 'highlight') {
                     if (args[2] != undefined) {
-                        var names = []
+                        var players = []
                         for (var x = 2;; x++) {
                             if (args[x] === undefined) break;
+                            if (args[x].includes(""))
+                            players.push(args[x])
                         }
-                        helper.saveData(message.author.id, 'highlight', args[2])
+                        helper.saveData(message.author.id, 'highlight', players)
                     }
                 }
                 else if (args[0] === 'get' && args[1] === 'highlight') {
