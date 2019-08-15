@@ -80,6 +80,8 @@ function startBot() {
                 const MAX_CHAR = 2000
                 const CODE_BLOCK = '```'
 
+                var isHighlight = args.includes('highlight=false') ? false : true
+
                 let apiCall = function (title, sql) {
 
                     var url = `${config.API.opendota}explorer?sql=${sql}`
@@ -96,7 +98,7 @@ function startBot() {
                                 var t = new Table
                                 t.separator = '   '
                                 for (var dat of rows) {
-                                    t.cell('Name', matchName(dat["name"]))
+                                    t.cell('Name', isHighlight ? matchName(dat["name"]) : dat["name"])
                                     t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
                                     t.cell('Matches', parseInt(dat["count"]), Table.number(0))
                                     t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
@@ -180,8 +182,6 @@ function startBot() {
                         text = names.join(" ")
                     }
                     message.channel.send(text)
-                }
-                else if (args.includes('highlight=false')) {
                 }
                 else
                     message.channel.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
