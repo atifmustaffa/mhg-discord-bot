@@ -69,8 +69,9 @@ function startBot() {
                 // Custom formatting
                 const TEXT_SYNTAX = 'md'
                 const ATIF_PLAYERS = ['Nisha', 'Miracle-', 'Somnus', 'Puppey', 'Tims']
+                const IMAH_PLAYERS = ['Ameame', 'Miracle-', 'MidOne', 'xNova', 'Gh']
                 let matchName = function (name) {
-                    if (ATIF_PLAYERS.includes(name)) return '# ' + name
+                    if (ATIF_PLAYERS.includes(name) || IMAH_PLAYERS.includes(name)) return '# ' + name
                     else return name
                 }
 
@@ -96,10 +97,10 @@ function startBot() {
                                 var t = new Table
                                 t.separator = '   '
                                 for (var dat of rows) {
-                                    t.cell('< Name', matchName(dat["name"]))
+                                    t.cell('Name', matchName(dat["name"]))
                                     t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
                                     t.cell('Matches', parseInt(dat["count"]), Table.number(0))
-                                    t.cell('Sum >', parseFloat(dat["sum"]), Table.number(1))
+                                    t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
                                     t.newRow()
                                 }
 
