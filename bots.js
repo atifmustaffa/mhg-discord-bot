@@ -71,7 +71,8 @@ function startBot() {
                 const ATIF_PLAYERS = ['Nisha', 'Miracle-', 'Somnus', 'Puppey', 'Tims']
                 const IMAH_PLAYERS = ['Ameame', 'Miracle-', 'MidOne', 'xNova', 'Gh']
                 let matchName = function (name) {
-                    if (ATIF_PLAYERS.includes(name) || IMAH_PLAYERS.includes(name)) return '# ' + name
+                    // if (ATIF_PLAYERS.includes(name) || IMAH_PLAYERS.includes(name)) return '# ' + name
+                    if (helper.getData(message.author.id, 'highlight').includes(name)) return '# ' + name
                     else return name
                 }
 
@@ -159,14 +160,14 @@ function startBot() {
                         var name_str = ''
                         for (var x = 2; ; x++) {
                             if (args[x] === undefined) break
-                            name_str += args[x]
+                            name_str += (x !== 2 ? " " : "") + args[x]
                         }
                         var players = name_str.split(/ +(?=(?:(?:[^"]*"){2})*[^"]*$)/g); // Use regex to split between spaces except those in quotes
                         for (var i = 0; i < players.length; i++) {
                             if ((players[i].charAt(0) === "'" || players[i].charAt(0) === "\"") && (players[i].charAt(players[i].length - 1) === "'" || players[i].charAt(players[i].length - 1) === "\""))
                                 players[i] = players[i].slice(1, -1)
                         }
-                        // helper.saveData(message.author.id, 'highlight', players)
+                        helper.saveData(message.author.id, 'highlight', players)
                         console.log(players)
                     }
                 }
