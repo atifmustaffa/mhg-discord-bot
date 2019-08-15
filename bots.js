@@ -65,65 +65,68 @@ function startBot() {
 
             // Special TI9 Fantasy
             case 'fantasy':
-                const https = require('https')
-                const Table = require('easy-table')
-                
-                const MAX_CHAR = 2000
-                const MESSAGE_TITLE = 'The International 2019 - Total Fantasy Point'
-                const CODE_BLOCK = '```'
-
-                var url = `${config.API.opendota}explorer?sql=${encodeURIComponent(getTestSQL())}`
-                https.get(url, (resp) => {
-                    let data = '';
-                    // A chunk of data has been recieved.
-                    resp.on('data', (chunk) => {
-                        data += chunk;
-                    });
-                    // The whole response has been received. Print out the result.
-                    resp.on('end', () => {
-                        rows = JSON.parse(data).rows
-                        if (rows.length > 0) {
-                            var t = new Table
-                            t.separator = '   '
-                            for (var dat of rows) {
-                                t.cell('Name', dat["name"])
-                                t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
-                                t.cell('Matches', parseInt(dat["count"]), Table.number(0))
-                                t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
-                                t.newRow()
-                            }
-                            var messages = new Array()
-                            var tables = t.toString()
-                            while (tables.length > MAX_CHAR - CODE_BLOCK.length * 2) {
-                                const limit = tables.substring(0, Math.min(tables.length, MAX_CHAR - CODE_BLOCK.length * 2))
-                                const msg = limit.substring(0, limit.lastIndexOf("\n"));
-                                messages.push(msg)
-                                tables = tables.replace(msg, "")
-                            }
-                            messages.push(tables) // Remaining data
-
-                            message.channel.send(MESSAGE_TITLE)
-                            // Send message(s)
-                            for (var msg of messages)
-                                message.channel.send(CODE_BLOCK + msg + CODE_BLOCK)
-
-                            message.channel.send({
-                                embed: {
-                                    "description": "Data retrieved from [OpenDota](" + config.opendota + ")",
-                                    "color": parseInt(config.color.lightblue)
-                                }
-                            })
-                        } else message.channel.send('```Data not found. Please try again later```')
-                    });
-                }).on("error", (err) => {
-                    console.log("Error: " + err.message);
-                });
 
                 // var today = new Date(new Date().toDateString())
                 // var tomorrow = new Date(new Date(new Date().setDate(today.getDate() + 1)).toDateString())
-                // if (args[0] == null || args[0] === '' || args[0] === 'total') {
-                //     message.reply('')
-                // }
+
+                let apiCall = function (title, sql) {
+
+                    const https = require('https')
+                    const Table = require('easy-table')
+
+                    const MAX_CHAR = 2000
+                    const MESSAGE_TITLE = 'The International 2019 - Total Fantasy Point'
+                    const CODE_BLOCK = '```'
+
+                    var url = `${config.API.opendota}explorer?sql=${sql)}`
+                    https.get(url, (resp) => {
+                        let data = '';
+                        // A chunk of data has been recieved.
+                        resp.on('data', (chunk) => {
+                            data += chunk;
+                        });
+                        // The whole response has been received. Print out the result.
+                        resp.on('end', () => {
+                            rows = JSON.parse(data).rows
+                            if (rows.length > 0) {
+                                var t = new Table
+                                t.separator = '   '
+                                for (var dat of rows) {
+                                    t.cell('Name', dat["name"])
+                                    t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
+                                    t.cell('Matches', parseInt(dat["count"]), Table.number(0))
+                                    t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
+                                    t.newRow()
+                                }
+                                var messages = new Array()
+                                var tables = t.toString()
+                                while (tables.length > MAX_CHAR - CODE_BLOCK.length * 2) {
+                                    const limit = tables.substring(0, Math.min(tables.length, MAX_CHAR - CODE_BLOCK.length * 2))
+                                    const msg = limit.substring(0, limit.lastIndexOf("\n"));
+                                    messages.push(msg)
+                                    tables = tables.replace(msg, "")
+                                }
+                                messages.push(tables) // Remaining data
+
+                                message.channel.send(MESSAGE_TITLE)
+                                // Send message(s)
+                                for (var msg of messages)
+                                    message.channel.send(CODE_BLOCK + msg + CODE_BLOCK)
+
+                                message.channel.send({
+                                    embed: {
+                                        "description": "Data retrieved from [OpenDota](" + config.opendota + ")",
+                                        "color": parseInt(config.color.lightblue)
+                                    }
+                                })
+                            } else message.channel.send('```Data not found. Please try again later```')
+                        });
+                    }).on("error", (err) => {
+                        console.log("Error: " + err.message);
+                    });
+                }
+                if (args[0] == null || args[0] === '' || args[0] === 'total') {
+                }
                 // else if (args[0] === 'today') {
                 //     message.channel.send('tdy')
                 // }
