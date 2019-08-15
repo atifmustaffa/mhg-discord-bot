@@ -68,11 +68,12 @@ function startBot() {
 
                 // Custom formatting
                 const TEXT_SYNTAX = 'md'
+                const PLAYER_MATCH = helper.getData(message.author.id, 'highlight') ? helper.getData(message.author.id, 'highlight').value : ''
                 const ATIF_PLAYERS = ['Nisha', 'Miracle-', 'Somnus', 'Puppey', 'Tims']
                 const IMAH_PLAYERS = ['Ameame', 'Miracle-', 'MidOne', 'xNova', 'Gh']
                 let matchName = function (name) {
                     // if (ATIF_PLAYERS.includes(name) || IMAH_PLAYERS.includes(name)) return '# ' + name
-                    if (helper.getData(message.author.id, 'highlight').includes(name)) return '# ' + name
+                    if (PLAYER_MATCH.includes(name.toLowerCase())) return '# ' + name
                     else return name
                 }
 
