@@ -172,15 +172,17 @@ function startBot() {
                 else if (args[0] === 'get' && args[1] === 'highlight') {
                     var text = '```Data not found / Data not set```'
                     if (helper.getData(message.author.id, 'highlight')) {
-                        var names = helper.getData(message.author.id, 'highlight')
+                        var names = helper.getData(message.author.id, 'highlight').value
                         for (var i = 0; i < names.length; i++) {
                             if (names[i].includes(" "))
                                 names[i] = "\"" + names[i] + "\""
                         }
                         text = names.join(" ")
                     }
-                    // helper.getData(message.author.id, 'highlight') ? helper.getData(message.author.id, 'highlight').value.join(" ") : '```Data not found / Data not set```'
                     message.channel.send(text)
+                }
+                else if (args[0] === 'clear' && args[1] === 'highlight') {
+
                 }
                 else
                     message.channel.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
