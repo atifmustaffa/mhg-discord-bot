@@ -18,7 +18,7 @@ function startBot() {
     bot.on("message", async (message) => {
         if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-        var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+        var args = message.content.toLowerCase().slice(config.prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
         helper.log('user:', message.author.tag, 'command:', message.content.toLowerCase())
 
@@ -97,7 +97,9 @@ function startBot() {
                                 }
 
                                 // Check if sort is selected
-                                args[1]
+                                if(args[1] === 'sort' && args[2] != undefined) {
+                                    
+                                }
 
 
                                 var messages = new Array()
@@ -129,7 +131,7 @@ function startBot() {
                 }
 
 
-                if (args[0] == null || args[0] === '' || args[0] === 'total') {
+                if (args[0] == undefined || args[0] === '' || args[0] === 'total') {
                     apiCall('The International 2019 - Total Fantasy Point', encodeURIComponent(getTotalSQL()))
                 }
                 else if (args[0] === 'today') {
