@@ -160,11 +160,11 @@ function startBot() {
                             if (args[x] === undefined) break
                             name_str += (x !== 2 ? " " : "") + args[x]
                         }
-                        var players = name_str.replace(/,/g, "").split(/ +(?=(?:(?:[^"]*"){2})*[^"]*$)/g); // Use regex to split between spaces except those in quotes
-                        for (var i = 0; i < players.length; i++) {
-                            if ((players[i].charAt(0) === "\'" || players[i].charAt(0) === "\"") && (players[i].charAt(players[i].length - 1) === "\'" || players[i].charAt(players[i].length - 1) === "\""))
-                                players[i] = players[i].slice(1, -1)
-                        }
+                        var players = name_str.replace(/,/g, "").split(/ +(?=(?:(?:[^"]*"){2})|(?:(?:[^']*'){2})*[^("|')]*$)/g); // Use regex to split between spaces except those in quotes (' or ")
+                        // for (var i = 0; i < players.length; i++) {
+                        //     if ((players[i].charAt(0) === "\'" || players[i].charAt(0) === "\"") && (players[i].charAt(players[i].length - 1) === "\'" || players[i].charAt(players[i].length - 1) === "\""))
+                        //         players[i] = players[i].slice(1, -1)
+                        // }
                         helper.saveData(message.author.id, 'highlight', players)
                         console.log(players)
                     }
