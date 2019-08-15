@@ -159,7 +159,7 @@ function startBot() {
                         var players = []
                         for (var x = 2;; x++) {
                             if (args[x] === undefined) break;
-                            if (args[x].includes(""))
+                            if (args[x].includes("\"") || args[x].includes("\""))
                             players.push(args[x])
                         }
                         helper.saveData(message.author.id, 'highlight', players)
