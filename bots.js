@@ -98,8 +98,15 @@ function startBot() {
 
                                 // Check if sort is selected
                                 if (args[1] === 'sort' && args[2] != undefined) {
-                                    if (args[2] === )
-                                    t.sort(['Sum|des'])
+                                    switch (args[2]) {
+                                        case 'avg': t.sort(['AVG|des'])
+                                            break
+                                        case 'matches': t.sort(['Matches|des'])
+                                            break
+                                        case 'sum': t.sort(['Sum|des'])
+                                            break
+                                        default: 
+                                    }
                                 }
 
 
