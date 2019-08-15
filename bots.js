@@ -154,6 +154,14 @@ function startBot() {
                     var tomorrow = new Date(new Date(new Date().setDate(today.getDate() + 1)).toDateString())
                     apiCall('The International 2019 - Today Fantasy Point', encodeURIComponent(getRangedSQL(today.toJSON(), tomorrow.toJSON())))
                 }
+                else if (args[0] === 'set' && args[1] === 'highlight') {
+                    if (args[2] != undefined) {
+                        helper.saveData(message.author.id, 'dotaid', args[2])
+                    }
+                }
+                else if (args[0] === 'get' && args[1] === 'highlight') {
+
+                }
                 else
                     message.channel.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
                 break
