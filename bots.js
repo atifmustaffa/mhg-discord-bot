@@ -98,7 +98,8 @@ function startBot() {
 
                                 // Check if sort is selected
                                 if (args[1] === 'sort' && args[2] != undefined) {
-
+                                    if (args[2] === )
+                                    t.sort(['Sum|des'])
                                 }
 
 
@@ -130,10 +131,7 @@ function startBot() {
                     });
                 }
 
-                if (args[0] === undefined) {
-
-                }
-                else if (args[0] === 'total') {
+                if (args[0] === 'total') {
                     apiCall('The International 2019 - Total Fantasy Point', encodeURIComponent(getTotalSQL()))
                 }
                 else if (args[0] === 'today') {
