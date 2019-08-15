@@ -108,16 +108,13 @@ function startBot() {
                             if (rows && rows.length > 0) {
                                 var t = new Table
                                 t.separator = '   '
-                                rows.some((row, index) => {
+                                for (var row of rows) {
                                     t.cell('Name', isHighlight ? matchName(row["name"]) : row["name"])
                                     t.cell('AVG', parseFloat(row["AVG Fantasy Pts"]), Table.number(2))
                                     t.cell('Matches', parseInt(row["count"]), Table.number(0))
                                     t.cell('Sum', parseFloat(row["sum"]), Table.number(1))
                                     t.newRow()
-
-                                    // Data limit
-                                    return (limit != 0 && index == limit);
-                                })
+                                }
 
                                 // Check if sort is selected
                                 if (args[1] === 'sort' && args[2] != undefined) {
@@ -131,13 +128,13 @@ function startBot() {
                                         default:
                                     }
                                 }
-
+                                console.log(t)
 
                                 var messages = new Array()
                                 var tables = t.toString()
                                 while (tables.length > MAX_CHAR - CODE_BLOCK.length * 2) {
-                                    const limit = tables.substring(0, Math.min(tables.length, MAX_CHAR - CODE_BLOCK.length * 2))
-                                    const msg = limit.substring(0, limit.lastIndexOf("\n"));
+                                    const lim = tables.substring(0, Math.min(tables.length, MAX_CHAR - CODE_BLOCK.length * 2))
+                                    const msg = lim.substring(0, lim.lastIndexOf("\n"));
                                     messages.push(msg)
                                     tables = tables.replace(msg, "")
                                 }
