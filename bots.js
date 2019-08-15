@@ -128,7 +128,9 @@ function startBot() {
                                         default:
                                     }
                                 }
-                                console.log(t)
+
+                                // Cut tables to limit
+                                if (limit != 0) t.rows = t.rows.slice(0, limit)
 
                                 var messages = new Array()
                                 var tables = t.toString()
