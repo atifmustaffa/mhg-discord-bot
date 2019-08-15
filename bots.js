@@ -161,16 +161,25 @@ function startBot() {
                             name_str += (x !== 2 ? " " : "") + args[x]
                         }
                         var players = name_str.replace(/,/g, "").split(/ +(?=(?:(?:[^"]*"){2})|(?:(?:[^']*'){2})*[^("|')]*$)/g); // Use regex to split between spaces except those in quotes (' or ")
-                        // for (var i = 0; i < players.length; i++) {
-                        //     if ((players[i].charAt(0) === "\'" || players[i].charAt(0) === "\"") && (players[i].charAt(players[i].length - 1) === "\'" || players[i].charAt(players[i].length - 1) === "\""))
-                        //         players[i] = players[i].slice(1, -1)
-                        // }
+                        for (var i = 0; i < players.length; i++) {
+                            if ((players[i].charAt(0) === "\'" || players[i].charAt(0) === "\"") && (players[i].charAt(players[i].length - 1) === "\'" || players[i].charAt(players[i].length - 1) === "\""))
+                                players[i] = players[i].slice(1, -1)
+                        }
                         helper.saveData(message.author.id, 'highlight', players)
                         console.log(players)
                     }
                 }
                 else if (args[0] === 'get' && args[1] === 'highlight') {
-                    message.channel.send(helper.getData(message.author.id, 'highlight') ? helper.getData(message.author.id, 'highlight').value.join(", ") : 'Data nor found / Not set')
+                    var text = ''
+                    if (helper.getData(message.author.id, 'highlight')) {
+                        text = helper.getData(message.author.id, 'highlight').value.forEach(element => {
+                            if (element.includes(" ")) {}
+                                element.prepend('"')
+                            element.append('"')
+                        });
+                    }
+                    helper.getData(message.author.id, 'highlight') ? helper.getData(message.author.id, 'highlight').value.join(" ") : '```Data not found / Data not set```'
+                    message.channel.send(text)
                 }
                 else
                     message.channel.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
