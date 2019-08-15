@@ -80,8 +80,18 @@ function startBot() {
                 const MAX_CHAR = 2000
                 const CODE_BLOCK = '```'
 
-                var isHighlight = args.includes('highlight=false') ? false : true
-                var limit = 
+                // Default options
+                var isHighlight = true
+                var limit = 0 // No limit
+
+                // Multiple args checking
+                args.forEach(arg => {
+                    if (arg.includes('limit=')) {
+                        limit = parseInt(arg.replace('limit=', ""))
+                    }
+                    if (arg.includes('highlight=false'))
+                        isHighlight = false
+                });
 
                 let apiCall = function (title, sql) {
 
@@ -98,12 +108,17 @@ function startBot() {
                             if (rows && rows.length > 0) {
                                 var t = new Table
                                 t.separator = '   '
-                                for (var dat of rows) {
-                                    t.cell('Name', isHighlight ? matchName(dat["name"]) : dat["name"])
-                                    t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
-                                    t.cell('Matches', parseInt(dat["count"]), Table.number(0))
-                                    t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
+                                var count = 0;
+                                for (var row of rows) {
+                                    t.cell('Name', isHighlight ? matchName(row["name"]) : row["name"])
+                                    t.cell('AVG', parseFloat(row["AVG Fantasy Pts"]), Table.number(2))
+                                    t.cell('Matches', parseInt(row["count"]), Table.number(0))
+                                    t.cell('Sum', parseFloat(row["sum"]), Table.number(1))
                                     t.newRow()
+
+                                    // Data limit
+                                    count++
+                                    if (limit != 0 && count >= limit) break;
                                 }
 
                                 // Check if sort is selected
