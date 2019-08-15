@@ -66,19 +66,16 @@ function startBot() {
             // Special TI9 Fantasy
             case 'fantasy':
 
-                // var today = new Date(new Date().toDateString())
-                // var tomorrow = new Date(new Date(new Date().setDate(today.getDate() + 1)).toDateString())
-
                 let apiCall = function (title, sql) {
 
                     const https = require('https')
                     const Table = require('easy-table')
 
                     const MAX_CHAR = 2000
-                    const MESSAGE_TITLE = 'The International 2019 - Total Fantasy Point'
+                    const MESSAGE_TITLE = title
                     const CODE_BLOCK = '```'
 
-                    var url = `${config.API.opendota}explorer?sql=${sql)}`
+                    var url = `${config.API.opendota}explorer?sql=${sql}`
                     https.get(url, (resp) => {
                         let data = '';
                         // A chunk of data has been recieved.
@@ -98,6 +95,11 @@ function startBot() {
                                     t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
                                     t.newRow()
                                 }
+
+                                // Check if sort is selected
+                                args[1]
+
+
                                 var messages = new Array()
                                 var tables = t.toString()
                                 while (tables.length > MAX_CHAR - CODE_BLOCK.length * 2) {
@@ -125,13 +127,18 @@ function startBot() {
                         console.log("Error: " + err.message);
                     });
                 }
+
+
                 if (args[0] == null || args[0] === '' || args[0] === 'total') {
+                    apiCall('The International 2019 - Total Fantasy Point', encodeURIComponent(getTotalSQL()))
                 }
-                // else if (args[0] === 'today') {
-                //     message.channel.send('tdy')
-                // }
-                // else
-                //     message.channel.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
+                else if (args[0] === 'today') {
+                    var today = new Date(new Date().toDateString())
+                    var tomorrow = new Date(new Date(new Date().setDate(today.getDate() + 1)).toDateString())
+                    apiCall('The International 2019 - Today Fantasy Point', encodeURIComponent(getRangedSQL(today.toJSON(), tomorrow.toJSON())))
+                }
+                else
+                    message.channel.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
                 break
 
             case 'hi':
