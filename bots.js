@@ -66,18 +66,21 @@ function startBot() {
             // Special TI9 Fantasy
             case 'fantasy':
 
+                // Custom formatting
+                const TEXT_SYNTAX = 'md'
+                const ATIF_PLAYERS = ['Nisha', 'Miracle-', 'Somnus', 'Puppey', 'Tims']
+                let matchName = function (name) {
+                    if (ATIF_PLAYERS.includes(name)) return '# ' + name
+                    else return name
+                }
+
+                const https = require('https')
+                const Table = require('easy-table')
+
+                const MAX_CHAR = 2000
+                const CODE_BLOCK = '```'
+
                 let apiCall = function (title, sql) {
-
-                    // Custom formatting
-                    const color_atif = 'yaml'
-                    const color_imah = 'md'
-
-                    const https = require('https')
-                    const Table = require('easy-table')
-
-                    const MAX_CHAR = 2000
-                    const MESSAGE_TITLE = title
-                    const CODE_BLOCK = '```'
 
                     var url = `${config.API.opendota}explorer?sql=${sql}`
                     https.get(url, (resp) => {
@@ -93,10 +96,10 @@ function startBot() {
                                 var t = new Table
                                 t.separator = '   '
                                 for (var dat of rows) {
-                                    t.cell('Name', dat["name"])
+                                    t.cell('< Name', matchName(dat["name"]))
                                     t.cell('AVG', parseFloat(dat["AVG Fantasy Pts"]), Table.number(2))
                                     t.cell('Matches', parseInt(dat["count"]), Table.number(0))
-                                    t.cell('Sum', parseFloat(dat["sum"]), Table.number(1))
+                                    t.cell('Sum >', parseFloat(dat["sum"]), Table.number(1))
                                     t.newRow()
                                 }
 
@@ -109,7 +112,7 @@ function startBot() {
                                             break
                                         case 'sum': t.sort(['Sum|des'])
                                             break
-                                        default: 
+                                        default:
                                     }
                                 }
 
@@ -124,10 +127,10 @@ function startBot() {
                                 }
                                 messages.push(tables) // Remaining data
 
-                                message.channel.send(MESSAGE_TITLE)
+                                message.channel.send(title)
                                 // Send message(s)
                                 for (var msg of messages)
-                                    message.channel.send(CODE_BLOCK + color_imah + '\n' + msg + CODE_BLOCK)
+                                    message.channel.send(CODE_BLOCK + TEXT_SYNTAX + '\n' + msg + CODE_BLOCK)
 
                                 message.channel.send({
                                     embed: {
