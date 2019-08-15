@@ -108,8 +108,7 @@ function startBot() {
                             if (rows && rows.length > 0) {
                                 var t = new Table
                                 t.separator = '   '
-                                var count = 0;
-                                for (var row of rows) {
+                                rows.some((row, index) => {
                                     t.cell('Name', isHighlight ? matchName(row["name"]) : row["name"])
                                     t.cell('AVG', parseFloat(row["AVG Fantasy Pts"]), Table.number(2))
                                     t.cell('Matches', parseInt(row["count"]), Table.number(0))
@@ -117,9 +116,8 @@ function startBot() {
                                     t.newRow()
 
                                     // Data limit
-                                    count++
-                                    if (limit != 0 && count >= limit) break;
-                                }
+                                    return (limit != 0 && index == limit);
+                                })
 
                                 // Check if sort is selected
                                 if (args[1] === 'sort' && args[2] != undefined) {
