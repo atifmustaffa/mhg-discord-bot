@@ -81,6 +81,7 @@ function startBot() {
                 const CODE_BLOCK = '```'
 
                 var isHighlight = args.includes('highlight=false') ? false : true
+                var limit = 
 
                 let apiCall = function (title, sql) {
 
