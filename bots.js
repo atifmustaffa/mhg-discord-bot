@@ -70,7 +70,8 @@ function startBot() {
                 // var url = `https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20notable_players.name%20%2C%0Aavg(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201))%20%22AVG%20Fantasy%20Pts%22%2C%0Acount(distinct%20matches.match_id)%20count%2C%0Asum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1)%20winrate%2C%0A((sum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1))%20%0A%2B%201.96%20*%201.96%20%2F%20(2%20*%20count(1))%20%0A-%201.96%20*%20sqrt((((sum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1))%20*%20(1%20-%20(sum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1)))%20%2B%201.96%20*%201.96%20%2F%20(4%20*%20count(1)))%20%2F%20count(1))))%0A%2F%20(1%20%2B%201.96%20*%201.96%20%2F%20count(1))%20winrate_wilson%2C%0Asum(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201))%20sum%2C%0Amin(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201))%20min%2C%0Amax(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201))%20max%2C%0Astddev(round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201)%3A%3Anumeric)%20stddev%0A%20%20%0AFROM%20matches%0AJOIN%20match_patch%20using(match_id)%0AJOIN%20leagues%20using(leagueid)%0AJOIN%20player_matches%20using(match_id)%0AJOIN%20heroes%20on%20heroes.id%20%3D%20player_matches.hero_id%0ALEFT%20JOIN%20notable_players%20ON%20notable_players.account_id%20%3D%20player_matches.account_id%0ALEFT%20JOIN%20teams%20using(team_id)%0AWHERE%20TRUE%0AAND%20round((0.3%20*%20kills%20%2B%20(3%20-%200.3%20*%20deaths)%20%2B%200.003%20*%20(last_hits%20%2B%20denies)%20%2B%200.002%20*%20gold_per_min%20%2B%20towers_killed%20%2B%20roshans_killed%20%2B%203%20*%20teamfight_participation%20%2B%200.5%20*%20observers_placed%20%2B%200.5%20*%20camps_stacked%20%2B%200.25%20*%20rune_pickups%20%2B%204%20*%20firstblood_claimed%20%2B%200.05%20*%20stuns)%3A%3Anumeric%2C%201)%20IS%20NOT%20NULL%20%0AAND%20matches.start_time%20%3E%3D%20extract(epoch%20from%20timestamp%20%272019-07-11T16%3A00%3A00.000Z%27)%0AAND%20matches.start_time%20%3C%3D%20extract(epoch%20from%20timestamp%20%272019-08-15T16%3A00%3A00.000Z%27)%0AAND%20teams.team_id%20IN%20(15%2C%2036%2C%2039%2C%202163%2C%20111474%2C%20350190%2C%20543897%2C%20726228%2C%201838315%2C%201883502%2C%202108395%2C%202586976%2C%202626685%2C%202672298%2C%206209804%2C%206214538%2C%206214973%2C%207203342)%0AGROUP%20BY%20notable_players.name%0AHAVING%20count(distinct%20matches.match_id)%20%3E%3D%201%0AORDER%20BY%20%22AVG%20Fantasy%20Pts%22%20DESC%2Ccount%20DESC%20NULLS%20LAST%0ALIMIT%20200`
                 var url = `${config.API.opendota}explorer?sql=${encodeURIComponent(getTotalSQL())}`
                 const MAX_CHAR = 2000
-                const code_block = '```'
+                const MESSAGE_TITLE = 'The International 2019 - Total Fantasy Point'
+                const CODE_BLOCK = '```'
 
                 https.get(url, (resp) => {
                     let data = '';
@@ -94,8 +95,8 @@ function startBot() {
                             }
                             var messages = new Array()
                             var tables = t.toString()
-                            while (tables.length > MAX_CHAR - code_block.length * 2) {
-                                const limit = tables.substring(0, Math.min(tables.length, MAX_CHAR - code_block.length * 2))
+                            while (tables.length > MAX_CHAR - CODE_BLOCK.length * 2) {
+                                const limit = tables.substring(0, Math.min(tables.length, MAX_CHAR - CODE_BLOCK.length * 2))
                                 const msg = limit.substring(0, limit.lastIndexOf("\n"));
                                 messages.push(msg)
                                 tables = tables.replace(msg, "")
@@ -104,7 +105,7 @@ function startBot() {
 
                             // Send message(s)
                             for (var msg of messages)
-                                message.channel.send(code_block + msg + code_block)
+                                message.channel.send(CODE_BLOCK + msg + CODE_BLOCK)
 
                             message.channel.send({
                                 embed: {
@@ -112,7 +113,7 @@ function startBot() {
                                     "color": parseInt(config.color.lightblue)
                                 }
                             })
-                        }
+                        } else message.channel.send('```Data not found. Please try again later```')
                     });
                 }).on("error", (err) => {
                     console.log("Error: " + err.message);
