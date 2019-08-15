@@ -70,7 +70,7 @@ function startBot() {
 
                     // Custom formatting
                     const color_atif = 'yaml'
-                    const color_ini = 'md'
+                    const color_imah = 'md'
 
                     const https = require('https')
                     const Table = require('easy-table')
@@ -127,7 +127,7 @@ function startBot() {
                                 message.channel.send(MESSAGE_TITLE)
                                 // Send message(s)
                                 for (var msg of messages)
-                                    message.channel.send(CODE_BLOCK + msg + CODE_BLOCK)
+                                    message.channel.send(CODE_BLOCK + color_imah + '\n' + msg + CODE_BLOCK)
 
                                 message.channel.send({
                                     embed: {
