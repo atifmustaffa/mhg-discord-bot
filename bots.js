@@ -69,10 +69,7 @@ function startBot() {
                 // Custom formatting
                 const TEXT_SYNTAX = 'md'
                 const PLAYER_MATCH = helper.getData(message.author.id, 'highlight') ? helper.getData(message.author.id, 'highlight').value : ''
-                const ATIF_PLAYERS = ['Nisha', 'Miracle-', 'Somnus', 'Puppey', 'Tims']
-                const IMAH_PLAYERS = ['Ameame', 'Miracle-', 'MidOne', 'xNova', 'Gh']
                 let matchName = function (name) {
-                    // if (ATIF_PLAYERS.includes(name) || IMAH_PLAYERS.includes(name)) return '# ' + name
                     if (PLAYER_MATCH.includes(name.toLowerCase())) return '# ' + name
                     else return name
                 }
@@ -163,7 +160,7 @@ function startBot() {
                             if (args[x] === undefined) break
                             name_str += (x !== 2 ? " " : "") + args[x]
                         }
-                        var players = name_str.split(/ +(?=(?:(?:[^"]*"){2})*[^"]*$)/g); // Use regex to split between spaces except those in quotes
+                        var players = name_str.repla.split(/ +(?=(?:(?:[^"]*"){2})*[^"]*$)/g); // Use regex to split between spaces except those in quotes
                         for (var i = 0; i < players.length; i++) {
                             if ((players[i].charAt(0) === "'" || players[i].charAt(0) === "\"") && (players[i].charAt(players[i].length - 1) === "'" || players[i].charAt(players[i].length - 1) === "\""))
                                 players[i] = players[i].slice(1, -1)
@@ -173,7 +170,8 @@ function startBot() {
                     }
                 }
                 else if (args[0] === 'get' && args[1] === 'highlight') {
-
+                    console.log(helper.getData(message.author.id, 'highlight').value.join(", "))
+                    // message.channel.send(helper.getData(message.author.id, 'highlight') ? helper.getData(message.author.id, 'highlight').value : 'Data nor found / Not set')
                 }
                 else
                     message.channel.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
