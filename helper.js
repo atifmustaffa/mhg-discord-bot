@@ -29,12 +29,8 @@ function saveData(userid, attr, value) {
     this.getData(userid, attr).value = value
   else
     obj.data.push({ id: userid, attr: attr, value: value })
-  fs.writeFile(filename, JSON.stringify(obj), 'utf-8', function (err, data) {
-    if (err) log(err);
-    else {
-      log("Successfully Written to File.", JSON.stringify({ id: userid, attr: attr, value: value }));
-    }
-  });
+  writeToFile(obj)
+  log('Saved: ', JSON.stringify({ id: userid, attr: attr, value: value }))
 }
 
 function getData(userid, attr) {
@@ -42,7 +38,9 @@ function getData(userid, attr) {
 }
 
 function removeItem(userid, attr) {
-  obj.data.findIndex((d) => d.id === userid && d.attr === attr)
+  let removed = obj.data.splice(obj.data.findIndex((d) => d.id === userid && d.attr === attr), 1)
+  writeToFile(obj)
+  return removed
 }
 
 function clearAllData() {
@@ -57,6 +55,15 @@ function clearAllData() {
   });
 }
 
+function writeToFile(obj) {
+  fs.writeFile(filename, JSON.stringify(obj), 'utf-8', function (err, data) {
+    if (err) log(err);
+    else {
+      log("Successfully Written to File.");
+    }
+  });
+}
+
 function log(...args) {
   console.log(new Date().toLocaleString(), "->", ...args);
 }
@@ -65,6 +72,7 @@ module.exports = {
   loadData: loadData,
   saveData: saveData,
   getData: getData,
+  removeItem: removeItem,
   clearAllData: clearAllData,
   log: log
 }

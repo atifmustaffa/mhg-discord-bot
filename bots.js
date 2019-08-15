@@ -166,7 +166,7 @@ function startBot() {
                                 players[i] = players[i].slice(1, -1)
                         }
                         helper.saveData(message.author.id, 'highlight', players)
-                        console.log(players)
+                        message.channel.send('Rest ease. Player names stored')
                     }
                 }
                 else if (args[0] === 'get' && args[1] === 'highlight') {
@@ -181,8 +181,7 @@ function startBot() {
                     }
                     message.channel.send(text)
                 }
-                else if (args[0] === 'clear' && args[1] === 'highlight') {
-
+                else if (args.includes('highlight=false')) {
                 }
                 else
                     message.channel.send('Invalid command. Available command: `!fantasy total` and `!fantasy today`')
@@ -194,6 +193,12 @@ function startBot() {
 
             case 'ping':
                 message.reply("pong!");
+                break
+
+            case 'clear':
+                if (args[0] != undefined) {
+                    helper.removeItem(userid, args[0])
+                }
                 break
 
             case 'clearalldata':
