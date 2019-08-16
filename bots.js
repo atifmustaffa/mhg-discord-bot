@@ -104,7 +104,13 @@ function startBot() {
                         });
                         // The whole response has been received. Print out the result.
                         resp.on('end', () => {
-                            rows = JSON.parse(data).rows
+                            var rows = new Array()
+                            try {
+                                rows = JSON.parse(data).rows
+                            } catch (e) {
+                                console.log('Error: ', e)
+                                message.channel.send('```Server error. Try again later```')
+                            }
                             if (rows && rows.length > 0) {
                                 var t = new Table
                                 t.separator = '   '
