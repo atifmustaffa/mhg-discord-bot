@@ -1,5 +1,5 @@
 const fs = require('fs');
-const filename = '/views/watchasian/data.json';
+const filename = '../views/watchasian/data.json';
 var obj = {
     data: []
 }

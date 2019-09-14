@@ -23,18 +23,11 @@ app.get('/', function (request, response) {
   response.sendStatus(200);
 });
 
-app.get('/watchasian/', function (request, response) {
-  //wa.load()
-  
+app.get('/watchasian', function (request, response) {
+  wa.load()
+  // console.log(request.query)  
   // response.sendFile(__dirname + '/views/watchasian/watchasian.js');
-  //response.sendFile(__dirname + '/views/watchasian/data.json');
-});
-
-app.get('/watchasian/', function (request, response) {
-  //wa.load()
-  
-  console.log(request.query)
-  //response.sendFile(__dirname + '/views/watchasian/data.json');
+  response.sendFile(__dirname + '/views/watchasian/data.json');
 });
 
 // listen for requests :)
