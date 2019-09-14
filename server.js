@@ -7,6 +7,7 @@ const app = express();
 
 const http = require('http');
 const bot = require('./bots.js');
+const wa = require('./views/watchasian/watchasian.js');
 
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
@@ -23,7 +24,16 @@ app.get('/', function (request, response) {
 });
 
 app.get('/watchasian/', function (request, response) {
-  require('./views/watchasian/watchasian.js');
+  //wa.load()
+  
+  // response.sendFile(__dirname + '/views/watchasian/watchasian.js');
+  //response.sendFile(__dirname + '/views/watchasian/data.json');
+});
+
+app.get('/watchasian/', function (request, response) {
+  //wa.load()
+  
+  console.log(request.query)
   //response.sendFile(__dirname + '/views/watchasian/data.json');
 });
 
