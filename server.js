@@ -7,7 +7,6 @@ const app = express();
 
 const http = require('http');
 const bot = require('./bots.js');
-const wa = require('./views/watchasian/watchasian.js');
 
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
@@ -24,10 +23,12 @@ app.get('/', function (request, response) {
 });
 
 app.get('/watchasian', function (request, response) {
-  wa.load()
-  // console.log(request.query)  
-  // response.sendFile(__dirname + '/views/watchasian/watchasian.js');
-  response.sendFile(__dirname + '/views/watchasian/data.json');
+  if (request.query.data) {
+    require('./views/watchasian/watchasian.js').load()
+    response.sendStatus(200)
+  }
+  else
+    response.sendFile(__dirname + '/views/watchasian/data.json');
 });
 
 // listen for requests :)
@@ -42,5 +43,5 @@ const listener = app.listen(process.env.PORT, function () {
 //  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 // }, 280000);
 
-  // startBot
-  bot.startBot();
+// startBot
+bot.startBot();
