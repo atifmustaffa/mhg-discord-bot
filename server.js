@@ -15,14 +15,21 @@ const bot = require('./bots.js');
 app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get('/', function(request, response) {
+app.get('/', function (request, response) {
   // response.sendFile(__dirname + '/views/index.html');
+
+  // startBot
+  bot.startBot();
   console.log(new Date().toUTCString() + " Ping Received");
   response.sendStatus(200);
 });
 
+app.get('/watchasian/', function (request, response) {
+  response.sendFile(__dirname + '/views/watchasian/data.json');
+});
+
 // listen for requests :)
-const listener = app.listen(process.env.PORT, function() {
+const listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
@@ -33,6 +40,3 @@ const listener = app.listen(process.env.PORT, function() {
 //  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 // }, 280000);
 
-
-// startBot
-bot.startBot();
