@@ -18,14 +18,13 @@ app.use(express.static('public'));
 app.get('/', function (request, response) {
   // response.sendFile(__dirname + '/views/index.html');
 
-  // startBot
-  bot.startBot();
   console.log(new Date().toUTCString() + " Ping Received");
   response.sendStatus(200);
 });
 
 app.get('/watchasian/', function (request, response) {
-  response.sendFile(__dirname + '/views/watchasian/data.json');
+  require('./views/watchasian/watchasian.js');
+  //response.sendFile(__dirname + '/views/watchasian/data.json');
 });
 
 // listen for requests :)
@@ -40,3 +39,5 @@ const listener = app.listen(process.env.PORT, function () {
 //  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 // }, 280000);
 
+  // startBot
+  bot.startBot();
