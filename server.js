@@ -23,12 +23,14 @@ app.get('/', function (request, response) {
 });
 
 app.get('/watchasian', function (request, response) {
-  if (request.query.data) {
-    require('./views/watchasian/watchasian.js').load()
+  if (request.query.param) {
+    require('./views/watchasian/watchasian.js').load(request.query.param)
     response.sendStatus(200)
   }
-  else
+  else {
+    response.setHeader('Access-Control-Allow-Origin', 'https://watchasian.to');
     response.sendFile(__dirname + '/views/watchasian/data.json');
+  }
 });
 
 // listen for requests :)
