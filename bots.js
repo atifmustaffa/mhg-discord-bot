@@ -10,7 +10,7 @@ function startBot() {
 
     bot.on("ready", async () => {
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
-        bot.user.setActivity(`TI9 with Atif`, {
+        bot.user.setActivity(`Dota 2 Twitch Stream`, {
             type: "Watching"
         });
     });
