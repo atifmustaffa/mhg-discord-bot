@@ -18,9 +18,18 @@ app.use(express.static("public"));
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function(request, response) {
   // response.sendFile(__dirname + '/views/index.html');
-  bot.checkLiveTournament();
   console.log(new Date().toUTCString() + " Ping Received");
   response.sendStatus(200);
+  
+  // Check for live valve match then update bot activity status
+  scraper
+    .liveTournament()
+    .then(function(data) {
+      bot.setActivity("Watching", (data.live != "" ? data.live : "Dota 2 Twitch Stream"))
+    })
+    .catch(function(err) {
+      console.error(err)
+    });;
 });
 
 app.get("/watchasian", function(request, response) {

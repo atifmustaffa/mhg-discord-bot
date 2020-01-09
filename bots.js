@@ -1,13 +1,15 @@
 
 const config = require("./config.json");
 const Discord = require("discord.js");
-const bot = new Discord.Client();
+let bot = null;
 const helper = require('./helper.js');
 const commands = require('./commands.json');
 
 let activityName = ""
 
 function startBot() {
+  
+    bot = new Discord.Client();
 
     // Loads data from file
     helper.loadData()
@@ -393,14 +395,17 @@ function getTestSQL() {
     LIMIT 200`
 }
 
-function checkLiveTournament(type, title) {
-  
-  bot.user.setActivity("Dota 2 Twitch Stream", {
-      type: "Watching"
+function setActivity(type, title) {
+  if (bot.)
+  bot.user.setActivity(title, {
+      type: type
   });
+  // bot.user.setActivity("Dota 2 Twitch Stream", {
+  //     type: "Watching"
+  // });
   
 }
 module.exports = {
     startBot: startBot,
-    checkLiveTournament: checkLiveTournament
+    setActivity: setActivity
 }
