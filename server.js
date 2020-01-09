@@ -45,7 +45,8 @@ app.get("/dota-procircuit-league", function(request, response) {
   //    </body>
   //    </html>
   // `);
-    response.status(200).send({ output: html });
+    response.status(200).send({ "html": html });
+    // response.status(200).send(html);
   });
 });
 
