@@ -62,4 +62,4 @@ const listener = app.listen(process.env.PORT, function() {
 // }, 280000);
 
 // startBot
-bot.startBot();
+// bot.startBot();

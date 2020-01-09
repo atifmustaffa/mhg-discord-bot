@@ -1,3 +1,5 @@
+let activityName = ""
+
 function startBot() {
     const config = require("./config.json");
     const Discord = require("discord.js");
@@ -7,8 +9,6 @@ function startBot() {
 
     // Loads data from file
     helper.loadData()
-  
-    let activityName = ""
 
     bot.on("ready", async () => {
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
@@ -404,6 +404,11 @@ function getTestSQL() {
     ORDER BY "AVG Fantasy Pts" DESC,count DESC NULLS LAST
     LIMIT 200`
 }
+
+function updateActivity() {
+  
+}
 module.exports = {
-    startBot: startBot
+    startBot: startBot,
+    updateActivity: updateActivity
 }
