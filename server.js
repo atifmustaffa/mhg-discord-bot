@@ -40,7 +40,7 @@ app.get("/dota-procircuit-league", function(request, response) {
      <html>
      <body>
         <script>
-          console.log("${html} ");
+          console.log(${ html });
         </script>
      </body>
      </html>
