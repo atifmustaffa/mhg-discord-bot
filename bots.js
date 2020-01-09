@@ -396,16 +396,23 @@ function getTestSQL() {
 }
 
 function setActivity(type, title) {
-  if (bot.)
-  bot.user.setActivity(title, {
-      type: type
-  });
-  // bot.user.setActivity("Dota 2 Twitch Stream", {
-  //     type: "Watching"
-  // });
-  
+  if (bot) {
+    bot.user.setActivity(title, {
+        type: type
+    });
+    // bot.user.setActivity("Dota 2 Twitch Stream", {
+    //     type: "Watching"
+    // });
+  }  
 }
+
+function isReady() {
+  if (bot) return true
+  else return false
+}
+
 module.exports = {
     startBot: startBot,
-    setActivity: setActivity
+    setActivity: setActivity,
+    isReady: isReady
 }

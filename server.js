@@ -22,14 +22,18 @@ app.get("/", function(request, response) {
   response.sendStatus(200);
   
   // Check for live valve match then update bot activity status
-  scraper
-    .liveTournament()
-    .then(function(data) {
-      bot.setActivity("Watching", (data.live != "" ? data.live : "Dota 2 Twitch Stream"))
-    })
-    .catch(function(err) {
-      console.error(err)
-    });;
+  if(bot.isReady()) {
+    console.log('')
+    scraper
+      .liveTournament()
+      .then(function(data) {
+        bot.setActivity("Watching", (data.live != "" ? data.live : "Dota 2 Twitch Stream"))
+        console.log("Watching " + (data.live != "" ? data.live : "Dota 2 Twitch Stream"))
+      })
+      .catch(function(err) {
+        console.error(err)
+      });
+  }
 });
 
 app.get("/watchasian", function(request, response) {
