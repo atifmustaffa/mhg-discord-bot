@@ -11,11 +11,17 @@ async function getHTMLOutput() {
       const leagues = [];
       var rows = $("#mw-content-text > div > table.wikitable tr", html);
       // console.log(rows)
-      for (let i = 1; i < rows.length-14; i++) {
+      const header = []
+      for (let i = 0; i < rows.length-14; i++) {
         console.log("child len ", rows[i].children.length)
         for (let j = 0; j < rows[i].children.length; j++) {
-          if (rows[i].children[j].name == "td")
-            console.log(j, rows[i].children[j].children[0].data)
+          if (rows[i].children[j].name == "th") {
+            console.log(j, rows[i].children[j].children[0].data.trim())
+            header.push(rows[i].children[j].children[0].data.trim())
+          }
+          else if (rows[i].children[j].name == "td") {
+            console.log(j, rows[i].children[j].children[0].data.trim())
+          }
         }
       }
 //       for (var i = 1; i < rows.length; i++) {
