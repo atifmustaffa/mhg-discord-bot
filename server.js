@@ -35,16 +35,17 @@ app.get("/watchasian", function(request, response) {
 
 app.get("/dota-procircuit-league", function(request, response) {
   scraper.getHTMLOutput().then(function(html) {
-    response.send(`
-     <!DOCTYPE html>
-     <html>
-     <body>
-        <script>
-          console.log(${ html });
-        </script>
-     </body>
-     </html>
-  `);
+  //   response.send(`
+  //    <!DOCTYPE html>
+  //    <html>
+  //    <body>
+  //       <script>
+  //         // console.log(\`${html}\`);
+  //       </script>
+  //    </body>
+  //    </html>
+  // `);
+    response.status(200).send({ output: html });
   });
 });
 
