@@ -47,7 +47,7 @@ app.get("/watchasian", function(request, response) {
 
 app.get("/dota-procircuit/:type", function(request, response) {
   switch (request.params.type) {
-    case "league":
+    case "leagues":
       scraper.getLeagues().then(function(data) {
         response.status(200).send(data);
       });
@@ -74,4 +74,4 @@ const listener = app.listen(process.env.PORT, function() {
 // }, 280000);
 
 // startBot
-// bot.startBot();
+bot.startBot();

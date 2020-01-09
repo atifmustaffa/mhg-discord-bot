@@ -82,7 +82,6 @@ async function liveTournament() {
       if (new Date(matchDate) < new Date()) {
         liveTourName = tourName.first().text().trim();
       }
-        console.log((new Date(matchDate)-new Date())/1000)
     })
     .catch(function(err) {
       //handle error

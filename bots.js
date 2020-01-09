@@ -1,11 +1,10 @@
 
 const config = require("./config.json");
 const Discord = require("discord.js");
-let bot = null;
 const helper = require('./helper.js');
 const commands = require('./commands.json');
-
-let activityName = ""
+let bot = null;
+let botReady = false;
 
 function startBot() {
   
@@ -14,13 +13,15 @@ function startBot() {
     // Loads data from file
     helper.loadData()
 
-    bot.on("ready", async () => {
+    bot.on("ready", async () => {        
+        botReady = true;
+      
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
       
         bot.user.setActivity(`Dota 2 Twitch Stream`, {
             type: "Watching"
         });
-        activityName = "Watching Dota 2 Twitch Stream"
+        let activityName = "Watching Dota 2 Twitch Stream"
       
         helper.log(`${bot.user.username} is ${activityName}`);
     });
@@ -407,8 +408,7 @@ function setActivity(type, title) {
 }
 
 function isReady() {
-  if (bot) return true
-  else return false
+  return botReady;
 }
 
 module.exports = {
