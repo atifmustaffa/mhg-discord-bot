@@ -79,9 +79,10 @@ async function liveTournament() {
       let tourDate = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .match-countdown", html);
       let tourName = tourDate.next();
       let matchDate = tourDate.first().text().replace(" - ",  " ");
-      if (new Date(matchDate).toUTCString() < new Date().toUTCString()) {
+      if (new Date(matchDate) < new Date()) {
         liveTourName = tourName.first().text().trim();
       }
+        console.log((new Date(matchDate)-new Date())/1000)
     })
     .catch(function(err) {
       //handle error

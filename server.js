@@ -23,7 +23,6 @@ app.get("/", function(request, response) {
   
   // Check for live valve match then update bot activity status
   if(bot.isReady()) {
-    console.log('')
     scraper
       .liveTournament()
       .then(function(data) {
