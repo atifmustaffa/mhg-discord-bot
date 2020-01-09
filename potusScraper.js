@@ -10,23 +10,32 @@ async function getHTMLOutput() {
       // console.log(html);
       const leagues = [];
       var rows = $("#mw-content-text > div > table.wikitable tr", html);
-      for (var i = 1; i < rows.length; i++) {
-        var childNodes = rows[i].childNodes;
-        var columns = [];
-
-        for (var j = 0; j < childNodes.length; j++) {
-          if (childNodes[j].tagName == "TD") {
-            columns.push(childNodes[j]);
-          }
+      leagues.push(rows.map((i, row) => {
+        var columns = $(row).querySelectorAll('td');
+        return {
+          "title": columns[1].innerHTML,
+          "date": columns[0].innerHTML,
+          "dpc_points": columns[2].innerHTML
         }
+      }).get())
+//       for (var i = 1; i < rows.length; i++) {
+//         console.log(rows[i].childNodes.length)
+//         var childNodes = rows[i].childNodes;
+//         var columns = [];
 
-        console.log(columns.length);
-        leagues.push({
-          title: columns[1].innerHTML,
-          date: columns[0].innerHTML,
-          dpc_points: columns[2].innerHTML
-        });
-      }
+//         for (var j = 0; j < childNodes.length; j++) {
+//           if (childNodes[j].tagName == "TD") {
+//             columns.push(childNodes[j]);
+//           }
+//         }
+
+//         console.log(columns.length);
+//         leagues.push({
+//           "title": columns[1].innerHTML,
+//           "date": columns[0].innerHTML,
+//           "dpc_points": columns[2].innerHTML
+//         });
+//       }
       htmlOutput = JSON.stringify(leagues);
       // console.log(htmlOutput)
     })
