@@ -1,13 +1,14 @@
 const rp = require("request-promise");
 const $ = require("cheerio");
-const dota_liquipedia_url = "https://liquipedia.net/dota2/Main_Page";
+const dota_liquipedia_url = "https://liquipedia.net";
 
 async function findURL() {
-  const url = dota_liquipedia_url;
+  const url = dota_liquipedia_url + "/dota2/Main_Page";
   let foundURL = ""
   await rp(url)
     .then(function(html) {
       foundURL = $("#mw-content-text > div > div:nth-child(3) > div.col-xl-6.col-md-7 > div:nth-child(1) > div.panel-body > div:nth-child(3) > a:nth-child(3)", html)[0].attribs.href;
+      console.log($("#mw-content-text > div > div:nth-child(3) > div.col-xl-6.col-md-7 > div:nth-child(1) > div.panel-body > div:nth-child(3) > a:nth-child(3)", html).text())
     })
     .catch(function(err) {
       //handle error
@@ -18,9 +19,9 @@ async function findURL() {
 
 async function getLeagues() {
   let htmlOutput;
-  console.log(await findURL())
+  // console.log(await findURL())
   const currentYear = new Date().getFullYear();
-  const url = "https://liquipedia.net/dota2/Dota_Pro_Circuit/2019-20/Schedule";
+  const url = dota_liquipedia_url + await findURL();
   await rp(url)
     .then(function(html) {
       //success!
