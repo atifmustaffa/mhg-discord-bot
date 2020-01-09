@@ -66,15 +66,12 @@ async function getLeagues() {
   return htmlOutput;
 }
 
-async function upcomingMatches() {  
+async function liveTournament() {  
   const url = dota_liquipedia_url + "/dota2/Main_Page";
   await rp(url)
     .then(function(html) {
-      let matchesEl = $("table.table-full-width.table-striped.infobox_matches_content", html);
-      let valveLeaguesEL = $(".match-filler.valvepremier-highlighted", matchesEl)
-      let titleEL = $("a[title] .timer-object-countdown-live", valveLeaguesEL)
-      console.log(matchesEl.length)
-      console.log(titleEL.length + ", ")
+      let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).parent().parent().parent().parent().parent().find("a[title]");
+      
     })
     .catch(function(err) {
       //handle error
