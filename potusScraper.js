@@ -66,9 +66,25 @@ async function getLeagues() {
   return htmlOutput;
 }
 
-function() 
+async function upcomingMatches() {  
+  const url = dota_liquipedia_url + "/dota2/Main_Page";
+  await rp(url)
+    .then(function(html) {
+      let matchesEl = $("table.table-full-width.table-striped.infobox_matches_content", html);
+      const matches = []
+      let leagueName = $("table.table-full-width.table-striped.infobox_matches_content match-filler.valvepremier-highlighted", html).text();
+      console.log(matchesEl.length)
+      console.log(leagueName)
+    })
+    .catch(function(err) {
+      //handle error
+      console.error(err)
+    });
+  return { data: "" };
+}
 
 module.exports = {
   getLeagues: getLeagues,
-  findURL: findURL
+  findURL: findURL,
+  upcomingMatches: upcomingMatches
 };

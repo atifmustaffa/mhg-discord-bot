@@ -40,6 +40,11 @@ app.get("/dota-procircuit/:type", function(request, response) {
         response.status(200).send(data);
       });
       break;
+    case "upcoming-matches":
+      scraper.upcomingMatches().then(function(data) {
+        response.status(200).send(data);
+      });
+      break;
     default:
       response.status(404).send("Not found");
   }
