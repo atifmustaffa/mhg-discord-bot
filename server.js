@@ -34,7 +34,7 @@ app.get("/watchasian", function(request, response) {
 });
 
 app.get("/dota-procircuit-league", function(request, response) {
-  scraper.getHTMLOutput().then(function(data) {
+  scraper.getLeagues().then(function(data) {
   //   response.send(`
   //    <!DOCTYPE html>
   //    <html>

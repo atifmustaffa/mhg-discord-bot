@@ -1,14 +1,16 @@
 const rp = require("request-promise");
 const $ = require("cheerio");
-const url = "https://liquipedia.net/dota2/Dota_Pro_Circuit/2019-20/Schedule";
-const name = ""
 
-async function getHTMLOutput() {
+async function getLeagues() {
   var htmlOutput;
+  const currentYear = new Date().getFullYear();
+  console.log(currentYear)
+  const url = "https://liquipedia.net/dota2/Dota_Pro_Circuit/2019-20/Schedule";
   await rp(url)
     .then(function(html) {
       //success!
       // console.log(html);
+      const name = $("#firstHeading > span", html)[0];
       const leagues = [];
       var rows = $("#mw-content-text > div > table.wikitable tr", html);
       // console.log(rows)
@@ -20,7 +22,7 @@ async function getHTMLOutput() {
         return lastChild(el.children[0])
       }
             
-      for (let i = 0; i < rows.length-11; i++) {
+      for (let i = 0; i < rows.length; i++) {
         let count = 0;
         let column = {}
         for (let j = 0; j < rows[i].children.length; j++) {
@@ -35,7 +37,11 @@ async function getHTMLOutput() {
         if (i > 0) leagues.push(column) // Exclude header
       }
       // htmlOutput = {"noo": "test"};
-      htmlOutput = { "leagues": leagues };
+      htmlOutput = {
+        "name": name.children[0].data.trim().replace(": Schedule", ""),
+        "url": url,
+        "leagues": leagues 
+      };
       // console.log(htmlOutput)
     })
     .catch(function(err) {
@@ -45,5 +51,5 @@ async function getHTMLOutput() {
   return htmlOutput;
 }
 module.exports = {
-  getHTMLOutput: getHTMLOutput
+  getLeagues: getLeagues
 };
