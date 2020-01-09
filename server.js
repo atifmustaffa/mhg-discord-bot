@@ -34,7 +34,7 @@ app.get("/watchasian", function(request, response) {
 });
 
 app.get("/dota-procircuit-league", function(request, response) {
-  scraper.getHTMLOutput().then(function(html) {
+  scraper.getHTMLOutput().then(function(json) {
   //   response.send(`
   //    <!DOCTYPE html>
   //    <html>
@@ -45,8 +45,8 @@ app.get("/dota-procircuit-league", function(request, response) {
   //    </body>
   //    </html>
   // `);
-    response.status(200).send({ "html": html });
-    // response.status(200).send(html);
+    // response.status(200).send({ "html": html });
+    response.status(200).send(json);
   });
 });
 

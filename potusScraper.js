@@ -1,7 +1,7 @@
 const rp = require("request-promise");
 const $ = require("cheerio");
 const url = "https://liquipedia.net/dota2/Dota_Pro_Circuit/2019-20/Schedule";
-const selector = "#mw-content-text > div > table.wikitable tr";
+
 async function getHTMLOutput() {
   var htmlOutput = "";
   await rp(url)
@@ -9,7 +9,18 @@ async function getHTMLOutput() {
       //success!
       // console.log(html);
       const leagues = [];
-      var row = $(selector, html);
+      var rows = $("#mw-content-text > div > table.wikitable tr", html);
+      for (var i = 0; i < rows.length; i++) {
+        var columns = $("td", rows[i]);
+        console.log(columns.length)
+        leagues.push({
+          title: columns[1].innerHTML,
+          date: columns[0].innerHTML,
+          dpc_points: columns[2].innerHTML
+        });
+      }
+      htmlOutput = JSON.stringify(leagues);
+      console.log(htmlOutput)
     })
     .catch(function(err) {
       //handle error
