@@ -76,8 +76,8 @@ async function liveTournament() {
       // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).parent().parent().parent().parent().parent().find("a[title]");
       // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).text();
       let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .match-countdown", html);
-      // let aa = .text();
-      console.log(tourName.first().text());
+      let matchDate = tourName.first().text().replace(" - ",  " ");
+      console.log(new Date(matchDate).toUTCString(), new Date().toUTCString())
     })
     .catch(function(err) {
       //handle error
