@@ -70,8 +70,10 @@ async function liveTournament() {
   const url = dota_liquipedia_url + "/dota2/Main_Page";
   await rp(url)
     .then(function(html) {
-      let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).parent().parent().parent().parent().parent().find("a[title]");
-      
+      // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).parent().parent().parent().parent().parent().find("a[title]");
+      // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).text();
+      let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .match-countdown", html).text();
+      console.log(tourName);
     })
     .catch(function(err) {
       //handle error
@@ -83,5 +85,5 @@ async function liveTournament() {
 module.exports = {
   getLeagues: getLeagues,
   findURL: findURL,
-  upcomingMatches: upcomingMatches
+  liveTournament: liveTournament
 };

@@ -40,8 +40,8 @@ app.get("/dota-procircuit/:type", function(request, response) {
         response.status(200).send(data);
       });
       break;
-    case "upcoming-matches":
-      scraper.upcomingMatches().then(function(data) {
+    case "live-tournament":
+      scraper.liveTournament().then(function(data) {
         response.status(200).send(data);
       });
       break;
