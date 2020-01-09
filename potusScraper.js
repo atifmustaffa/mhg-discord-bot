@@ -1,5 +1,5 @@
 const rp = require("request-promise");
-const $ = require("cheerio");
+const cheerio = require("cheerio");
 const dota_liquipedia_url = "https://liquipedia.net";
 
 async function findURL() {
@@ -7,6 +7,7 @@ async function findURL() {
   let foundURL = ""
   await rp(url)
     .then(function(html) {
+      const $ = cheerio.load(html)
       foundURL = $("#mw-content-text > div > div:nth-child(3) > div.col-xl-6.col-md-7 > div:nth-child(1) > div.panel-body > div:nth-child(3) > a:nth-child(3)", html).attr("href");
     })
     .catch(function(err) {
@@ -23,6 +24,7 @@ async function getLeagues() {
   const url = dota_liquipedia_url + await findURL();
   await rp(url)
     .then(function(html) {
+      const $ = cheerio.load(html)
       //success!
       // console.log(html);
       const name = $("#firstHeading > span", html)[0];
@@ -70,10 +72,12 @@ async function liveTournament() {
   const url = dota_liquipedia_url + "/dota2/Main_Page";
   await rp(url)
     .then(function(html) {
+      const $ = cheerio.load(html)
       // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).parent().parent().parent().parent().parent().find("a[title]");
       // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).text();
-      let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .match-countdown", html).text();
-      console.log(tourName);
+      let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .match-countdown", html);
+      // let aa = .text();
+      console.log(tourName.first().text());
     })
     .catch(function(err) {
       //handle error
