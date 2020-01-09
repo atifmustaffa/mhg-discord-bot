@@ -71,10 +71,10 @@ async function upcomingMatches() {
   await rp(url)
     .then(function(html) {
       let matchesEl = $("table.table-full-width.table-striped.infobox_matches_content", html);
-      const matches = []
-      let leagueName = $("table.table-full-width.table-striped.infobox_matches_content match-filler.valvepremier-highlighted", html).text();
+      let valveLeaguesEL = $(".match-filler.valvepremier-highlighted", matchesEl)
+      let titleEL = $("a[title] .timer-object-countdown-live", valveLeaguesEL)
       console.log(matchesEl.length)
-      console.log(leagueName)
+      console.log(titleEL.length + ", ")
     })
     .catch(function(err) {
       //handle error
