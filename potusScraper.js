@@ -12,17 +12,19 @@ async function getHTMLOutput() {
       var rows = $("#mw-content-text > div > table.wikitable tr", html);
       // console.log(rows)
       const header = []
-      for (let i = 0; i < rows.length-14; i++) {
-        console.log("child len ", rows[i].children.length)
+      for (let i = 0; i < rows.length; i++) {
+        let count = 0;
+        let column = {}
         for (let j = 0; j < rows[i].children.length; j++) {
           if (rows[i].children[j].name == "th") {
-            console.log(j, rows[i].children[j].children[0].data.trim())
-            header.push(rows[i].children[j].children[0].data.trim())
+            header.push(rows[i].children[j].children[0].data.trim().replace(/\s+/g, '_').toLowerCase())
           }
           else if (rows[i].children[j].name == "td") {
-            console.log(j, rows[i].children[j].children[0].data.trim())
+            column[header[count]] = rows[i].children[j].children[0].data.trim();
+            count++;
           }
         }
+        if (i > 0) leagues.push(column) // Exclude header
       }
 //       for (var i = 1; i < rows.length; i++) {
 //         console.log(rows[i].childNodes.length)
@@ -43,7 +45,8 @@ async function getHTMLOutput() {
 //         });
 //       }
       // leagues.push(rows[1]);
-      htmlOutput = {"noo": "test"};
+      // htmlOutput = {"noo": "test"};
+      htmlOutput = leagues;
       // console.log(htmlOutput)
     })
     .catch(function(err) {
