@@ -34,21 +34,15 @@ app.get("/watchasian", function(request, response) {
 });
 
 app.get("/dota-procircuit/:type", function(request, response) {
-  console.log(request.)
-  // scraper.getLeagues().then(function(data) {
-  //   response.send(`
-  //    <!DOCTYPE html>
-  //    <html>
-  //    <body>
-  //       <script>
-  //         // console.log(\`${html}\`);
-  //       </script>
-  //    </body>
-  //    </html>
-  // `);
-    // response.status(200).send({ "html": html });
-    // response.status(200).send(data);
-  // });
+  switch (request.params.type) {
+    case "league":
+      scraper.getLeagues().then(function(data) {
+        response.status(200).send(data);
+      });
+      break;
+    default:
+      response.status(404).send("Not found");
+  }
 });
 
 // listen for requests :)

@@ -66,6 +66,8 @@ async function getLeagues() {
   return htmlOutput;
 }
 
+function() 
+
 module.exports = {
   getLeagues: getLeagues,
   findURL: findURL
