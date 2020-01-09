@@ -34,18 +34,18 @@ app.get("/watchasian", function(request, response) {
 });
 
 app.get("/dota-procircuit-league", function(request, response) {
-  setTimeout(function() {
+  scraper.getHTMLOutput().then(function(html) {
     response.send(`
      <!DOCTYPE html>
      <html>
      <body>
         <script>
-          console.log("${scraper.getHTMLOutput()} ");
+          console.log("${html} ");
         </script>
      </body>
      </html>
   `);
-  }, 2000);
+  });
 });
 
 // listen for requests :)
