@@ -12,7 +12,11 @@
   "dependencies": {
     "express": "^4.16.4",
     "discord.js": "^11.4.2",
-    "easy-table": "^1.1.1"
+    "easy-table": "^1.1.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5",
+    "cheerio": "^0.22.0",
+    "puppeteer": "^2.0.0"
   },
   "engines": {
     "node": "8.11.4"

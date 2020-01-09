@@ -33,6 +33,10 @@ app.get('/watchasian', function (request, response) {
   }
 });
 
+app.get('/dota-procircuit-league', function (request, response) {
+  response.sendStatus(200).send();
+});
+
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
