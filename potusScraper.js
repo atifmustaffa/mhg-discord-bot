@@ -10,14 +10,10 @@ async function getHTMLOutput() {
       // console.log(html);
       const leagues = [];
       var rows = $("#mw-content-text > div > table.wikitable tr", html);
-      leagues.push(rows.map((i, row) => {
-        var columns = $(row).querySelectorAll('td');
-        return {
-          "title": columns[1].innerHTML,
-          "date": columns[0].innerHTML,
-          "dpc_points": columns[2].innerHTML
-        }
-      }).get())
+      // console.log(rows[1])
+      rows.map(function (row) {
+        console.log("child len ", row.children.length)
+      })
 //       for (var i = 1; i < rows.length; i++) {
 //         console.log(rows[i].childNodes.length)
 //         var childNodes = rows[i].childNodes;
@@ -36,6 +32,7 @@ async function getHTMLOutput() {
 //           "dpc_points": columns[2].innerHTML
 //         });
 //       }
+      leagues.push(rows[1]);
       htmlOutput = JSON.stringify(leagues);
       // console.log(htmlOutput)
     })
