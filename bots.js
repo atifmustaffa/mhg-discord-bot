@@ -7,18 +7,31 @@ function startBot() {
 
     // Loads data from file
     helper.loadData()
+  
+    let activityName = ""
 
     bot.on("ready", async () => {
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
         require("./potusScraper.js").liveTournament()
-          .then(function(data) {
-            // GET live valve tournament
-            bot.user.setActivity(data.live != "" ? data.live : `Dota 2 Twitch Stream`, {
-                type: "Watching"
-            });
+        .then(function(data) {
+          // GET live valve tournament
+          bot.user.setActivity(data.live != "" ? data.live : `Dota 2 Twitch Stream`, {
+              type: "Watching"
+          });
+          
+          activityName = "Watching " + (data.live != "" ? data.live : "Dota 2 Twitch Stream")
 
-          })
-          .catch(err);
+        })
+        .catch(function(err) {
+          //handle error
+          console.error(err)
+          bot.user.setActivity(`Dota 2 Twitch Stream`, {
+              type: "Watching"
+          });
+          activityName = "Watching Dota 2 Twitch Stream")
+        });
+      
+        helper.log(`${bot.user.username} is ${activityName}`);
     });
 
     bot.on("message", async (message) => {
