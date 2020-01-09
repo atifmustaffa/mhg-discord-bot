@@ -11,9 +11,13 @@ async function getHTMLOutput() {
       const leagues = [];
       var rows = $("#mw-content-text > div > table.wikitable tr", html);
       // console.log(rows)
-      rows.map(function (row, index) {
-        console.log("child len ", rows[""+index])
-      })
+      for (let i = 1; i < rows.length-14; i++) {
+        console.log("child len ", rows[i].children.length)
+        for (let j = 0; j < rows[i].children.length; j++) {
+          if (rows[i].children[j].name == "td")
+            console.log(j, rows[i].children[j].children[0].data)
+        }
+      }
 //       for (var i = 1; i < rows.length; i++) {
 //         console.log(rows[i].childNodes.length)
 //         var childNodes = rows[i].childNodes;
