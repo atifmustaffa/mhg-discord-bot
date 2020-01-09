@@ -1,36 +1,24 @@
+
+const config = require("./config.json");
+const Discord = require("discord.js");
+const bot = new Discord.Client();
+const helper = require('./helper.js');
+const commands = require('./commands.json');
+
 let activityName = ""
 
 function startBot() {
-    const config = require("./config.json");
-    const Discord = require("discord.js");
-    const bot = new Discord.Client();
-    const helper = require('./helper.js');
-    const commands = require('./commands.json');
 
     // Loads data from file
     helper.loadData()
 
     bot.on("ready", async () => {
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
-        
-        await require("./potusScraper.js").liveTournament()
-        .then(function(data) {
-          // GET live valve tournament
-          bot.user.setActivity(data.live != "" ? data.live : "Dota 2 Twitch Stream", {
-              type: "Watching"
-          });
-          
-          activityName = "Watching " + (data.live != "" ? data.live : "Dota 2 Twitch Stream")
-
-        })
-        .catch(function(err) {
-          //handle error
-          console.error(err)
-          bot.user.setActivity(`Dota 2 Twitch Stream`, {
-              type: "Watching"
-          });
-          activityName = "Watching Dota 2 Twitch Stream"
+      
+        bot.user.setActivity(`Dota 2 Twitch Stream`, {
+            type: "Watching"
         });
+        activityName = "Watching Dota 2 Twitch Stream"
       
         helper.log(`${bot.user.username} is ${activityName}`);
     });
@@ -405,10 +393,14 @@ function getTestSQL() {
     LIMIT 200`
 }
 
-function updateActivity() {
+function checkLiveTournament(type, title) {
+  
+  bot.user.setActivity("Dota 2 Twitch Stream", {
+      type: "Watching"
+  });
   
 }
 module.exports = {
     startBot: startBot,
-    updateActivity: updateActivity
+    checkLiveTournament: checkLiveTournament
 }
