@@ -7,8 +7,7 @@ async function findURL() {
   let foundURL = ""
   await rp(url)
     .then(function(html) {
-      foundURL = $("#mw-content-text > div > div:nth-child(3) > div.col-xl-6.col-md-7 > div:nth-child(1) > div.panel-body > div:nth-child(3) > a:nth-child(3)", html)[0].attribs.href;
-      console.log($("#mw-content-text > div > div:nth-child(3) > div.col-xl-6.col-md-7 > div:nth-child(1) > div.panel-body > div:nth-child(3) > a:nth-child(3)", html).text())
+      foundURL = $("#mw-content-text > div > div:nth-child(3) > div.col-xl-6.col-md-7 > div:nth-child(1) > div.panel-body > div:nth-child(3) > a:nth-child(3)", html).attr("href");
     })
     .catch(function(err) {
       //handle error

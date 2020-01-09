@@ -33,8 +33,9 @@ app.get("/watchasian", function(request, response) {
   }
 });
 
-app.get("/dota-procircuit-league", function(request, response) {
-  scraper.getLeagues().then(function(data) {
+app.get("/dota-procircuit/:type", function(request, response) {
+  console.log(request.)
+  // scraper.getLeagues().then(function(data) {
   //   response.send(`
   //    <!DOCTYPE html>
   //    <html>
@@ -46,8 +47,8 @@ app.get("/dota-procircuit-league", function(request, response) {
   //    </html>
   // `);
     // response.status(200).send({ "html": html });
-    response.status(200).send(data);
-  });
+    // response.status(200).send(data);
+  // });
 });
 
 // listen for requests :)
