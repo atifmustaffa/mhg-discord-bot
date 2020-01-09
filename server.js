@@ -2,46 +2,56 @@
 // where your node app starts
 
 // init project
-const express = require('express');
+const express = require("express");
 const app = express();
 
-const http = require('http');
-const bot = require('./bots.js');
+const http = require("http");
+const bot = require("./bots.js");
+const scraper = require("./potusScraper.js");
 
-// we've started you off with Express, 
+// we've started you off with Express,
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
 // http://expressjs.com/en/starter/static-files.html
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get('/', function (request, response) {
+app.get("/", function(request, response) {
   // response.sendFile(__dirname + '/views/index.html');
 
   console.log(new Date().toUTCString() + " Ping Received");
   response.sendStatus(200);
 });
 
-app.get('/watchasian', function (request, response) {
+app.get("/watchasian", function(request, response) {
   if (request.query.param) {
-    require('./views/watchasian/watchasian.js').load(request.query.param)
-    response.sendStatus(200)
-  }
-  else {
-    response.setHeader('Access-Control-Allow-Origin', 'https://watchasian.to');
-    response.sendFile(__dirname + '/views/watchasian/data.json');
+    require("./views/watchasian/watchasian.js").load(request.query.param);
+    response.sendStatus(200);
+  } else {
+    response.setHeader("Access-Control-Allow-Origin", "https://watchasian.to");
+    response.sendFile(__dirname + "/views/watchasian/data.json");
   }
 });
 
-app.get('/dota-procircuit-league', function (request, response) {
-  response.sendStatus(200).send();
+app.get("/dota-procircuit-league", function(request, response) {
+  setTimeout(function() {
+    response.send(`
+     <!DOCTYPE html>
+     <html>
+     <body>
+        <script>
+          console.log("${scraper.getHTMLOutput()} ");
+        </script>
+     </body>
+     </html>
+  `);
+  }, 2000);
 });
 
 // listen for requests :)
-const listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+const listener = app.listen(process.env.PORT, function() {
+  console.log("Your app is listening on port " + listener.address().port);
 });
-
 
 // Code to keep the web alive, pinging itself
 // Not working - >>>> using UptimeRobot
@@ -50,4 +60,4 @@ const listener = app.listen(process.env.PORT, function () {
 // }, 280000);
 
 // startBot
-bot.startBot();
+// bot.startBot();
