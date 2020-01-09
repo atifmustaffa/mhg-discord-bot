@@ -12,10 +12,11 @@ function startBot() {
 
     bot.on("ready", async () => {
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
-        require("./potusScraper.js").liveTournament()
+        
+        await require("./potusScraper.js").liveTournament()
         .then(function(data) {
           // GET live valve tournament
-          bot.user.setActivity(data.live != "" ? data.live : `Dota 2 Twitch Stream`, {
+          bot.user.setActivity(data.live != "" ? data.live : "Dota 2 Twitch Stream", {
               type: "Watching"
           });
           
@@ -28,7 +29,7 @@ function startBot() {
           bot.user.setActivity(`Dota 2 Twitch Stream`, {
               type: "Watching"
           });
-          activityName = "Watching Dota 2 Twitch Stream")
+          activityName = "Watching Dota 2 Twitch Stream"
         });
       
         helper.log(`${bot.user.username} is ${activityName}`);
