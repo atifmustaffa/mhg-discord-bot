@@ -70,20 +70,24 @@ async function getLeagues() {
 
 async function liveTournament() {  
   const url = dota_liquipedia_url + "/dota2/Main_Page";
+  let liveTourName = "";
   await rp(url)
     .then(function(html) {
       const $ = cheerio.load(html)
       // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).parent().parent().parent().parent().parent().find("a[title]");
       // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).text();
-      let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .match-countdown", html);
-      let matchDate = tourName.first().text().replace(" - ",  " ");
-      console.log(new Date(matchDate).toUTCString(), new Date().toUTCString())
+      let tourDate = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .match-countdown", html);
+      let tourName = tourDate.next();
+      let matchDate = tourDate.first().text().replace(" - ",  " ");
+      if (new Date(matchDate).toUTCString() < new Date().toUTCString()) {
+        liveTourName = tourName.first().text().trim();
+      }
     })
     .catch(function(err) {
       //handle error
       console.error(err)
     });
-  return { data: "" };
+  return { live : liveTourName };
 }
 
 module.exports = {

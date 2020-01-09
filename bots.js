@@ -10,9 +10,15 @@ function startBot() {
 
     bot.on("ready", async () => {
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
-        bot.user.setActivity(`Dota 2 Twitch Stream`, {
-            type: "Watching"
-        });
+        require("./potusScraper.js").liveTournament()
+          .then(function(data) {
+            // GET live valve tournament
+            bot.user.setActivity(data.live != "" ? data.live : `Dota 2 Twitch Stream`, {
+                type: "Watching"
+            });
+
+          })
+          .catch(err);
     });
 
     bot.on("message", async (message) => {
