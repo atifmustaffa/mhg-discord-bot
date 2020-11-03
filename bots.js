@@ -7,22 +7,22 @@ let bot = null;
 let botReady = false;
 
 function startBot() {
-  
+
     bot = new Discord.Client();
 
     // Loads data from file
     helper.loadData()
 
-    bot.on("ready", async () => {        
+    bot.on("ready", async () => {
         botReady = true;
-      
+
         helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
-      
+
         bot.user.setActivity(`Dota 2 Twitch Stream`, {
             type: "Watching"
         });
         let activityName = "Watching Dota 2 Twitch Stream"
-      
+
         helper.log(`${bot.user.username} is ${activityName}`);
     });
 
@@ -293,6 +293,35 @@ function startBot() {
                     message.reply(args[0] === 'my' ? `Your dotabuff is ${config.dotabuff}players/${value}` : `<@${userid}> dotabuff is ${config.dotabuff}players/${value}`)
                 }
                 break
+
+            case 'setactivity':
+                if (message.author.id === config.adminId) {
+                    // # Setting `Playing ` status
+                    // # Setting `Streaming ` status
+                    // # Setting `Listening ` status
+                    // # Setting `Watching ` status
+
+                    const defaultStatus = ['Playing', 'Streaming', 'Listening', 'Watching']
+
+                    let newActivity = message.content.slice(config.prefix.length + command.length).trim()
+                    let actType = newActivity.split(/ +/g)[0].toLowerCase()
+
+                    let foundIndex = defaultStatus.findIndex(name => name.toLowerCase() === actType)
+                    let activityName = ''
+                    if (foundIndex >= 0) {
+                        activityName = newActivity.slice(actType.length).trim()
+                    } else {
+                        foundIndex = 3 // set to watching
+                        activityName = 'Dota 2 Twitch Stream'
+                    }
+
+                    bot.user.setActivity(activityName, {
+                        type: defaultStatus[foundIndex]
+                    });
+
+                    helper.log(`${bot.user.username} is ${defaultStatus[foundIndex]} ${activityName}`);
+                }
+                break
         }
     });
 
@@ -397,18 +426,18 @@ function getTestSQL() {
 }
 
 function setActivity(type, title) {
-  if (bot) {
-    bot.user.setActivity(title, {
-        type: type
-    });
-    // bot.user.setActivity("Dota 2 Twitch Stream", {
-    //     type: "Watching"
-    // });
-  }  
+    if (bot) {
+        bot.user.setActivity(title, {
+            type: type
+        });
+        // bot.user.setActivity("Dota 2 Twitch Stream", {
+        //     type: "Watching"
+        // });
+    }
 }
 
 function isReady() {
-  return botReady;
+    return botReady;
 }
 
 module.exports = {
