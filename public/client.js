@@ -1,42 +1,33 @@
-// client-side js
-// run by the browser each time your view template is loaded
+// custom scroll to hide title on header bar    
+var rtime;
+var timeout = false;
+var delta = 100;
+var doAfterScroll = function () {
+  /* Things to do after done scrolling */
+  if ($(window).scrollTop() > document.querySelector('#hero > div > h1').offsetTop) {
+    // $('#header #logo h1 a').fadeIn('slow');
+    $('#header').fadeIn(500);
+  }
+  else {
+    // $('#header #logo h1 a').fadeOut('slow');
+    $('#header').fadeOut(500);
+  }
 
-console.log('hello world :o');
-
-// our default array of dreams
-const dreams = [
-  'Find and count some sheep',
-  'Climb a really tall mountain',
-  'Wash the dishes'
-];
-
-// define variables that reference elements on our page
-const dreamsList = document.getElementById('dreams');
-const dreamsForm = document.forms[0];
-const dreamInput = dreamsForm.elements['dream'];
-
-// a helper function that creates a list item for a given dream
-const appendNewDream = function(dream) {
-  const newListItem = document.createElement('li');
-  newListItem.innerHTML = dream;
-  dreamsList.appendChild(newListItem);
 }
-
-// iterate through every dream and add it to our page
-dreams.forEach( function(dream) {
-  appendNewDream(dream);
+doAfterScroll();
+var scrollend = function () {
+  if (new Date() - rtime < delta) {
+    setTimeout(scrollend, delta);
+  } else {
+    timeout = false;
+    doAfterScroll();
+  }
+}
+$(window).scroll(function () {
+  rtime = new Date();
+  if (timeout === false) {
+    timeout = true;
+    setTimeout(scrollend, delta);
+  }
+  return false;
 });
-
-// listen for the form to be submitted and add a new dream when it is
-dreamsForm.onsubmit = function(event) {
-  // stop our form submission from refreshing the page
-  event.preventDefault();
-
-  // get dream value and add it to the list
-  dreams.push(dreamInput.value);
-  appendNewDream(dreamInput.value);
-
-  // reset form 
-  dreamInput.value = '';
-  dreamInput.focus();
-};

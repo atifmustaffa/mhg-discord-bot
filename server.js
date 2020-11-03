@@ -12,6 +12,8 @@ const scraper = require("./potusScraper.js");
 // we've started you off with Express,
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
+app.set('view engine', 'ejs');
+
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
 
@@ -19,7 +21,7 @@ app.use(express.static("public"));
 app.get("/", function(request, response) {
   // response.sendFile(__dirname + '/views/index.html');
   console.log(new Date().toUTCString() + " Ping Received");
-  response.sendStatus(200);
+  response.status(200).render('home', { config: require('./config.json'), commands: require('./commands.json')});
   
   // Check for live valve match then update bot activity status
   if(bot.isReady()) {
@@ -52,8 +54,17 @@ app.get("/dota-procircuit/:type", function(request, response) {
   }
 });
 
+app.get('/404', function (req, res) {
+  res.status(404).render('error', { message: "Whoops!" })
+});
+
+//The 404 Route (ALWAYS Keep this as the last route)
+app.get('*', function (req, res) {
+  res.redirect('/404')
+});
+
 // listen for requests :)
-const listener = app.listen(process.env.PORT, function() {
+const listener = app.listen(process.env.PORT || 8100, function() {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
