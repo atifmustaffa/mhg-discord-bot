@@ -35,16 +35,6 @@ app.get("/", function(request, response) {
   }
 });
 
-app.get("/watchasian", function(request, response) {
-  if (request.query.param) {
-    require("./views/watchasian/watchasian.js").load(request.query.param);
-    response.sendStatus(200);
-  } else {
-    response.setHeader("Access-Control-Allow-Origin", "https://watchasian.to");
-    response.sendFile(__dirname + "/views/watchasian/data.json");
-  }
-});
-
 app.get("/dota-procircuit/:type", function(request, response) {
   switch (request.params.type) {
     case "leagues":
@@ -67,11 +57,4 @@ const listener = app.listen(process.env.PORT, function() {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
-// Code to keep the web alive, pinging itself
-// Not working - >>>> using UptimeRobot
-//setInterval(() => {
-//  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-// }, 280000);
-
-// startBot
 bot.startBot();
