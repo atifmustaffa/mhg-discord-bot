@@ -327,7 +327,7 @@ function startBot() {
             case 'getactivity':
                 if (message.author.id === config.adminId) {
                     console.log('presence', bot.user.presence.activities[0].name)
-                    message.channel.send(bot.user.presence.activities[0].name)
+                    message.channel.send(`${bot.user.presence.activities[0].name}, ${bot.user.presence.activities[0].details}, ${bot.user.presence.activities[0].type}, ${bot.user.presence.activities[0].toString()}`)
                 }
                 break
         }
