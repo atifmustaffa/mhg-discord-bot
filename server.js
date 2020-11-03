@@ -26,12 +26,14 @@ app.get("/", function (request, response) {
   // Check for live valve match then update bot activity status
   if (bot.isReady()) {
 
-    if (`${bot.defaultActivityType[bot.presence.activities[0].type]} ${bot.presence.activities[0].name}`.toLowerCase() === 'Watching Dota 2 Twitch Stream')
+    if (bot.getActivityString().toLowerCase() === 'watching dota 2 twitch stream')
       scraper
         .liveTournament()
         .then(function (data) {
-          bot.setActivity("Watching", (data.live != "" ? data.live : "Dota 2 Twitch Stream"))
-          console.log("Watching " + (data.live != "" ? data.live : "Dota 2 Twitch Stream"))
+          if (data.live != "") {
+            bot.setActivity("Watching", data.live)
+            console.log("Watching " + data.live)
+          }
         })
         .catch(function (err) {
           console.error(err)

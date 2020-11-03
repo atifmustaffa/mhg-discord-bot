@@ -443,6 +443,12 @@ function setActivity(type, title) {
     }
 }
 
+function getActivityString() {
+    if (bot && bot.user && bot.user.presence && bot.user.presence.activities.length > 0) {
+        return `${defaultActivityType[bot.user.presence.activities[0].type]} ${bot.user.presence.activities[0].name}`
+    }
+}
+
 function isReady() {
     return botReady;
 }
@@ -451,5 +457,6 @@ module.exports = {
     defaultActivityType: defaultActivityType,
     startBot: startBot,
     setActivity: setActivity,
+    getActivityString: getActivityString,
     isReady: isReady
 }
