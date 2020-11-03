@@ -320,6 +320,7 @@ function startBot() {
                     });
 
                     helper.log(`${bot.user.username} is ${defaultStatus[foundIndex]} ${activityName}`);
+                    message.reply(`Bot activity status changed`)
                 }
                 break
         }
