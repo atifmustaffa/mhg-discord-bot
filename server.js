@@ -18,34 +18,35 @@ app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function(request, response) {
+app.get("/", function (request, response) {
   // response.sendFile(__dirname + '/views/index.html');
   console.log(new Date().toUTCString() + " Ping Received");
-  response.status(200).render('home', { config: require('./config.json'), commands: require('./commands.json')});
-  
+  response.status(200).render('home', { config: require('./config.json'), commands: require('./commands.json') });
+
   // Check for live valve match then update bot activity status
-  if(bot.isReady()) {
+  if (bot.isReady()) {
+
     scraper
       .liveTournament()
-      .then(function(data) {
+      .then(function (data) {
         bot.setActivity("Watching", (data.live != "" ? data.live : "Dota 2 Twitch Stream"))
         console.log("Watching " + (data.live != "" ? data.live : "Dota 2 Twitch Stream"))
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.error(err)
       });
   }
 });
 
-app.get("/dota-procircuit/:type", function(request, response) {
+app.get("/dota-procircuit/:type", function (request, response) {
   switch (request.params.type) {
     case "leagues":
-      scraper.getLeagues().then(function(data) {
+      scraper.getLeagues().then(function (data) {
         response.status(200).send(data);
       });
       break;
     case "live-tournament":
-      scraper.liveTournament().then(function(data) {
+      scraper.liveTournament().then(function (data) {
         response.status(200).send(data);
       });
       break;
@@ -64,7 +65,7 @@ app.get('*', function (req, res) {
 });
 
 // listen for requests :)
-const listener = app.listen(process.env.PORT || 8100, function() {
+const listener = app.listen(process.env.PORT || 8100, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
 

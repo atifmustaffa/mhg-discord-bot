@@ -323,6 +323,13 @@ function startBot() {
                     message.reply(`Bot activity status changed`)
                 }
                 break
+
+            case 'getactivity':
+                if (message.author.id === config.adminId) {
+                    console.log('presence', bot.presence.activities[0].name)
+                    message.channel.send(bot.presence.activities[0].name)
+                }
+                break
         }
     });
 
