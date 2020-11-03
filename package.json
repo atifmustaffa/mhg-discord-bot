@@ -7,16 +7,18 @@
   "description": "A simple discord bot for mhg channel.",
   "main": "server.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.16.4",
+    "cheerio": "^0.22.0",
     "discord.js": "^11.4.2",
     "easy-table": "^1.1.1",
+    "ejs": "^3.1.5",
+    "express": "^4.16.4",
+    "nodemon": "^2.0.6",
     "request": "^2.88.0",
-    "request-promise": "^4.2.5",
-    "cheerio": "^0.22.0",
-    "puppeteer": "^2.0.0"
+    "request-promise": "^4.2.5"
   },
   "engines": {
     "node": "8.11.4"
