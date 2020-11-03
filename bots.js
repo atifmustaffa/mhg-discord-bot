@@ -38,10 +38,7 @@ function startBot() {
                 const embed = {
                     "description": "Commands List \n",
                     "color": parseInt(config.color.orange),
-                    "thumbnail": {
-                        "url": "https://gamepedia.cursecdn.com/dota2_gamepedia/thumb/4/46/SeasonalRankTop4.png/140px-SeasonalRankTop4.png?version=c50e23ba43564fe0b153f569d84fab0d"
-                    },
-                    "timestamp": new Date(2019, 8 - 1, 10, 11 - 8, 51, 0), // (year, month - 1, day, hour - 8, minute, second)
+                    "timestamp": new Date(), // (year, month - 1, day, hour - 8, minute, second)
                     "footer": {
                         "text": "Last updated"
                     },
