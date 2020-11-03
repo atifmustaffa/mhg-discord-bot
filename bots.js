@@ -6,6 +6,12 @@ const commands = require('./commands.json');
 let bot = null;
 let botReady = false;
 
+// # Setting `Playing ` status
+// # Setting `Streaming ` status
+// # Setting `Listening ` status
+// # Setting `Watching ` status
+const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
+
 function startBot() {
 
     bot = new Discord.Client();
@@ -296,17 +302,11 @@ function startBot() {
 
             case 'setactivity':
                 if (message.author.id === config.adminId) {
-                    // # Setting `Playing ` status
-                    // # Setting `Streaming ` status
-                    // # Setting `Listening ` status
-                    // # Setting `Watching ` status
-
-                    const defaultStatus = ['Playing', 'Streaming', 'Listening', 'Watching']
 
                     let newActivity = message.content.slice(config.prefix.length + command.length).trim()
                     let actType = newActivity.split(/ +/g)[0].toLowerCase()
 
-                    let foundIndex = defaultStatus.findIndex(name => name.toLowerCase() === actType)
+                    let foundIndex = defaultActivityType.findIndex(name => name.toLowerCase() === actType)
                     let activityName = ''
                     if (foundIndex >= 0) {
                         activityName = newActivity.slice(actType.length).trim()
@@ -316,18 +316,17 @@ function startBot() {
                     }
 
                     bot.user.setActivity(activityName, {
-                        type: defaultStatus[foundIndex]
+                        type: defaultActivityType[foundIndex]
                     });
 
-                    helper.log(`${bot.user.username} is ${defaultStatus[foundIndex]} ${activityName}`);
+                    helper.log(`${bot.user.username} is ${defaultActivityType[foundIndex]} ${activityName}`);
                     message.reply(`Bot activity status changed`)
                 }
                 break
 
             case 'getactivity':
                 if (message.author.id === config.adminId) {
-                    console.log('presence', bot.user.presence.activities[0].name)
-                    message.channel.send(`${bot.user.presence.activities[0].name}, ${bot.user.presence.activities[0].details}, ${bot.user.presence.activities[0].type}, ${bot.user.presence.activities[0].toString()}`)
+                    message.channel.send(`${bot.user.username} is ${defaultActivityType[bot.user.presence.activities[0].type]} ${bot.user.presence.activities[0].name}`)
                 }
                 break
         }
@@ -449,6 +448,7 @@ function isReady() {
 }
 
 module.exports = {
+    defaultActivityType: defaultActivityType,
     startBot: startBot,
     setActivity: setActivity,
     isReady: isReady
