@@ -28,11 +28,11 @@ app.get("/", function (request, response) {
 
     if (bot.getActivityString().toLowerCase() === 'watching dota 2 twitch stream')
       scraper
-        .liveTournament()
+        .liveMatches()
         .then(function (data) {
-          if (data.live != "") {
-            bot.setActivity("Watching", data.live)
-            console.log("Watching " + data.live)
+          if (data.matches.length) {
+            bot.setActivity("Watching", data.matches[0].tournament_name)
+            console.log("Watching " + data.matches[0].tournament_name)
           }
         })
         .catch(function (err) {
@@ -48,9 +48,9 @@ app.get("/dota-procircuit/:type", function (request, response) {
         response.status(200).send(data);
       });
       break;
-    case "live-tournament":
-      scraper.liveTournament().then(function (data) {
-        response.status(200).send(data);
+    case "live-matches":
+      scraper.liveMatches().then(function (data) {
+        response.status(200).send(data.matches.length ? data.matches : { 'data': 'No live matches found' });
       });
       break;
     default:
