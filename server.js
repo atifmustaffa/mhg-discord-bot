@@ -26,21 +26,21 @@ app.get("/", function (request, response) {
   // Check for live valve match then update bot activity status
   if (bot.isReady()) {
 
-    if (bot.getActivityString().toLowerCase() === 'watching dota 2 twitch stream')
-      scraper
-        .liveMatches()
-        .then(function (data) {
-          if (data.matches.length) {
-            bot.setActivity("Watching", data.matches[0].tournament_name)
-            console.log("Watching " + data.matches[0].tournament_name)
-          } else {
-            bot.setActivity("Watching", "Dota 2 Twitch Stream")
-            console.log("Watching Dota 2 Twitch Stream")
-          }
-        })
-        .catch(function (err) {
-          console.error(err)
-        });
+    // if (bot.getActivityString().toLowerCase() === 'watching dota 2 twitch stream')
+    scraper
+      .liveMatches()
+      .then(function (data) {
+        if (data.matches.length) {
+          bot.setActivity("Watching", data.matches[0].tournament_name)
+          console.log("Watching " + data.matches[0].tournament_name)
+        } else {
+          bot.setActivity("Watching", "Dota 2 Twitch Stream")
+          console.log("Watching Dota 2 Twitch Stream")
+        }
+      })
+      .catch(function (err) {
+        console.error(err)
+      });
   }
 });
 
