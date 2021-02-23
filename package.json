@@ -17,6 +17,7 @@
     "ejs": "^3.1.5",
     "express": "^4.16.4",
     "nodemon": "^2.0.6",
+    "reddit-scraper": "^1.0.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   },
