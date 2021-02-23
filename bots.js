@@ -333,6 +333,7 @@ function startBot() {
             case 'meme':
                 const scraper = require("./potusScraper.js")
                 scraper.getRandomMeme().then((meme) => {
+                    message.channel.bulkDelete(message)
                     message.channel.send(`${meme.title}`, { files: [meme.url] })
                 })
                 break
