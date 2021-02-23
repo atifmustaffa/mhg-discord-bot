@@ -61,6 +61,13 @@ app.get("/dota-procircuit/:type", function (request, response) {
   }
 });
 
+app.get("/meme", function (request, response) {
+  scraper.getRandomMeme().then((meme) => {
+    response.status(200).json(meme)
+    // response.send('<img src="' + meme.url + '">')
+  })
+})
+
 app.get('/404', function (req, res) {
   res.status(404).render('error', { message: "Whoops!" })
 });

@@ -110,8 +110,50 @@ async function liveMatches() {
   return { matches: liveMatches };
 }
 
+async function getRandomMeme() {
+  const RedditScraper = require('reddit-scraper')
+
+  let redditScraper
+  let scrapedData
+
+  // script
+  const redditScraperOptions = {
+    AppId: "jyNy7N-bEQSVbA",
+    AppSecret: "m6DjT8cPEQSOnbNT1TZGr9RpqLyMzQ",
+  }
+  // web-app
+  // const redditScraperOptions = {
+  //   AppId: "dVTmPrHEUJfMqA",
+  //   AppSecret: "bI-XsVeqLXdF5fPtt5QJZ4U_nQYNuA",
+  // }
+
+  const requestOptions = {
+    Pages: 1,
+    Records: 25,
+    SubReddit: "dankmemes",
+    SortType: "hot",
+  }
+
+  try {
+    redditScraper = new RedditScraper.RedditScraper(redditScraperOptions)
+    scrapedData = await redditScraper.scrapeData(requestOptions)
+    // console.log(scrapedData)
+  } catch (error) {
+    console.error(error)
+  }
+
+  return scrapedData[randomNumber(25)].data
+}
+
+function randomNumber(max) {
+  const min = 1
+  const r = Math.random() * (max - min) + min
+  return Math.floor(r)
+}
+
 module.exports = {
   getLeagues: getLeagues,
   findURL: findURL,
-  liveMatches: liveMatches
+  liveMatches: liveMatches,
+  getRandomMeme
 };
