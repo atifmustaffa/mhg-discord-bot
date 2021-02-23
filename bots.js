@@ -337,7 +337,9 @@ function startBot() {
                 })
                 break
             case 'delete':
-                message.channel.bulkDelete(1)
+                message.channel.bulkDelete(1).then(() => {
+                    message.channel.send("Deleted 1 message.").then(msg => msg.delete(3000));
+                })
                 break
         }
     });
