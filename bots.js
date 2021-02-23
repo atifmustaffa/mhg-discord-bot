@@ -329,6 +329,13 @@ function startBot() {
                     message.channel.send(`${bot.user.username} is ${defaultActivityType[bot.user.presence.activities[0].type]} ${bot.user.presence.activities[0].name}`)
                 }
                 break
+
+            case 'meme':
+                const scraper = require("./potusScraper.js")
+                scraper.getRandomMeme().then((meme) => {
+                    message.channel.send(`${meme.title}`, { files: [meme.url] })
+                })
+                break
         }
     });
 
