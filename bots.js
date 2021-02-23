@@ -333,11 +333,11 @@ function startBot() {
             case 'meme':
                 const scraper = require("./potusScraper.js")
                 scraper.getRandomMeme().then((meme) => {
-                    message.channel.send(`${meme.title}`, { files: [meme.url] })
+                    message.channel.send(`> ${meme.title}`, { files: [meme.url] }).then(msg => msg.delete(3000))
                 })
                 break
             case 'delete':
-                message.channel.bulkDelete(args[0])
+                message.channel.bulkDelete(args[0] || 2)
                     .then((messages) => {
                         message.channel.send(`Bulk deleted ${messages.size} messages`).then(msg => msg.delete(3000))
                     })
