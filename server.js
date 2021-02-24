@@ -31,8 +31,8 @@ app.get("/", function (request, response) {
       .liveMatches()
       .then(function (data) {
         if (data.matches.length) {
-          bot.setActivity("Watching", data.matches[0].tournament_name)
-          console.log("Watching " + data.matches[0].tournament_name)
+          bot.setActivity("Watching", data.matches[0].match_name)
+          console.log("Watching " + data.matches[0].match_name)
         } else {
           bot.setActivity("Watching", "Dota 2 Twitch Stream")
           console.log("Watching Dota 2 Twitch Stream")
