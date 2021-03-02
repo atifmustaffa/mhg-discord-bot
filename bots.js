@@ -348,9 +348,9 @@ function startBot() {
                     .catch(console.error)
                 break
             case 'custommeme':
-                if ((args[0] && args[1]) && (substr(args[1], 0, 4) == "http")) {
+                if ((args[0] && args[1]) && (args[1].substr(0, 4) == "http")) {
                     message.channel.send(`> ${args[0]}`, { files: [args[1]] })
-                } else if ((args[0] && !args[1]) && (substr(args[0], 0, 4) == "http")) {
+                } else if ((args[0] && !args[1]) && (args[0].substr(0, 4) == "http")) {
                     message.channel.send('', { files: [args[0]] })
                 } else {
                     message.channel.send(`Invalid arguments`).then(msg => msg.delete(2000))
