@@ -348,12 +348,14 @@ function startBot() {
                     .catch(console.error)
                 break
             case 'custommeme':
-                if ((args[0] && args[1]) && (args[1].substr(0, 4) == "http")) {
-                    message.channel.send(`> ${args[0]}`, { files: [args[1]] })
-                } else if ((args[0] && !args[1]) && (args[0].substr(0, 4) == "http")) {
-                    message.channel.send('', { files: [args[0]] })
-                } else {
-                    message.channel.send(`Invalid arguments`).then(msg => msg.delete(2000))
+                if (message.author.id === config.adminId) {
+                    if (args.length && args[args.length].substr(0, 4) == "http") {
+                        let title = args.slice(0, -1).join(' ')
+                        title = title.charAt(0).toLocaleUpperCase() + title.slice(1)
+                        message.channel.send(`> ${title}`, { files: [args[args.length]] })
+                    } else {
+                        message.channel.send(`Invalid arguments`).then(msg => msg.delete(2000))
+                    }
                 }
                 break
         }
