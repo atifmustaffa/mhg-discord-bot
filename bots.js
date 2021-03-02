@@ -337,15 +337,24 @@ function startBot() {
                 const scraper = require("./potusScraper.js")
                 scraper.getRandomMeme().then((meme) => {
                     message.channel.send(`> ${meme.title}`, { files: [meme.url] })
-                    message.delete(3000)
+                    message.delete(2000)
                 })
                 break
             case 'delete':
                 message.channel.bulkDelete(args[0] || 2)
                     .then((messages) => {
-                        message.channel.send(`Bulk deleted ${messages.size} messages`).then(msg => msg.delete(3000))
+                        message.channel.send(`Bulk deleted ${messages.size} messages`).then(msg => msg.delete(2000))
                     })
                     .catch(console.error)
+                break
+            case 'custommeme':
+                if ((args[0] && args[1]) && (substr(args[1], 0, 4) == "http")) {
+                    message.channel.send(`> ${args[0]}`, { files: [args[1]] })
+                } else if ((args[0] && !args[1]) && (substr(args[0], 0, 4) == "http")) {
+                    message.channel.send('', { files: [args[0]] })
+                } else {
+                    message.channel.send(`Invalid arguments`).then(msg => msg.delete(2000))
+                }
                 break
         }
     });
