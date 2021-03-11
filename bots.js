@@ -361,20 +361,23 @@ function startBot() {
                 break
 
             case 'senddm':
-                if (message.author.id === config.adminId) {
+                if (message.author.id === config.adminId && args.length) {
                     var userid
                     if (args[0].includes('@')) userid = args[0].replace(/[<@>]/g, '')
                     else userid = arg
                     // Fetch main channel / guild (MHG)
-                    bot.guilds.fetch(config.channelId)
-                        .then(guild => {
-                            guild.members.fetch(userid)
-                                .then(user => {
-                                    user.send('Hello test DM')
-                                })
-                                .catch(console.error);
-                        })
-                        .catch(console.error);
+                    bot.fetchUser(userid, false).then((user) => {
+                        user.send('heloo');
+                    });
+                    // bot.guilds.fetch(config.channelId)
+                    //     .then(guild => {
+                    //         guild.members.fetch(userid)
+                    //             .then(user => {
+                    //                 user.send('Hello test DM')
+                    //             })
+                    //             .catch(console.error);
+                    //     })
+                    //     .catch(console.error);
                 }
                 break;
         }
