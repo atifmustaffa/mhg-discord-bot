@@ -261,7 +261,7 @@ function startBot() {
                     if (arg === 'my')
                         return message.author.id
                     else if (arg.includes('@'))
-                        return args[0].replace(/[<@>]/g, '')
+                        return convertSnowflake(args[0])
                     else
                         return arg
                 }
@@ -288,7 +288,7 @@ function startBot() {
                     if (arg === 'my')
                         return message.author.id
                     else if (arg.includes('@'))
-                        return args[0].replace(/[<@>]/g, '')
+                        return convertSnowflake(args[0])
                     else
                         return arg
                 }
@@ -362,9 +362,7 @@ function startBot() {
 
             case 'senddm':
                 if (message.author.id === config.adminId && args.length) {
-                    var userid
-                    if (args[0].includes('@')) userid = args[0].replace(/[<@>]/g, '')
-                    else userid = arg
+                    var userid = convertSnowflake(args[0])
                     // Fetch main channel / guild (MHG)
                     bot.fetchUser(userid, false).then((user) => {
                         user.send('heloo');
@@ -481,6 +479,10 @@ function getTestSQL() {
     HAVING count(distinct matches.match_id) >= 1
     ORDER BY "AVG Fantasy Pts" DESC,count DESC NULLS LAST
     LIMIT 200`
+}
+
+function covertSnowflake(strId) {
+    return strId.replace(/[<@!>]/g, '')
 }
 
 function setActivity(type, title) {
