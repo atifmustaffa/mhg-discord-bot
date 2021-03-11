@@ -361,21 +361,14 @@ function startBot() {
                 break
 
             case 'senddm':
-                if (message.author.id === config.adminId && args.length) {
-                    var userid = convertSnowflake(args[0])
-                    // Fetch main channel / guild (MHG)
+                if (message.author.id === config.adminId && args.length > 1) {
+                    var userid = convertSnowflake(args.shift())
+                    var msg = args.join(' ')
+                    msg = msg.charAt(0).toLocaleUpperCase() + msg.slice(1)
+                    // Fetch users
                     bot.fetchUser(userid, false).then((user) => {
-                        user.send('heloo');
+                        user.send(msg);
                     });
-                    // bot.guilds.fetch(config.channelId)
-                    //     .then(guild => {
-                    //         guild.members.fetch(userid)
-                    //             .then(user => {
-                    //                 user.send('Hello test DM')
-                    //             })
-                    //             .catch(console.error);
-                    //     })
-                    //     .catch(console.error);
                 }
                 break;
         }
