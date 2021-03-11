@@ -38,7 +38,7 @@ function startBot() {
     bot.on("message", async (message) => {
         if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-        var args = message.content.toLowerCase().slice(config.prefix.length).trim().split(/ +/g);
+        var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
         helper.log('user:', message.author.tag, 'command:', message.content.toLowerCase())
 
