@@ -374,7 +374,7 @@ function startBot() {
 
             case 'embedthis':
                 if (message.author.id === config.adminId) {
-                    if (args.length != 1) {
+                    if (args.length) {
                         message.channel.send(`Invalid embed attributes`).then(msg => msg.delete(2000))
                         break
                     } else {
