@@ -376,7 +376,8 @@ function startBot() {
                 if (message.author.id === config.adminId) {
                     if (args.length) {
                         // Remove discord json text styling if used > parse to json
-                        var embedConfig = JSON.parse(args.join(' ').replace(/(?:```)|(?:json(\s)*)/g, ''))
+                        var embedConfig = JSON.parse(args.join(' ').replace(/^((```)(json)(\s)*)|(```)$/g, ''))
+                        console.log(embedConfig)
                         message.channel.send(embedConfig)
                     } else {
                         message.channel.send(`Invalid embed attributes`).then(msg => msg.delete(2000))
