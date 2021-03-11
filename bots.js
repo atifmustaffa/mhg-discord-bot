@@ -364,11 +364,28 @@ function startBot() {
                 if (message.author.id === config.adminId && args.length > 1) {
                     var userid = convertSnowflake(args.shift())
                     var msg = args.join(' ')
-                    msg = msg[msg.length - 1].substr(0, 4) != "http" ? msg.charAt(0).toLocaleUpperCase() + msg.slice(1) : msg
                     // Fetch users
                     bot.fetchUser(userid, false).then((user) => {
                         user.send(msg);
                     });
+                }
+                break
+
+            case 'sendembeddm':
+                if (message.author.id === config.adminId && args.length > 2) {
+                    var userid = convertSnowflake(args.shift())
+                    if (args.join(' ').includes('```json')) {
+                        var msg = args.join(' ').split('```json')[0].trim()
+                        // Remove discord json text styling if used > parse to json
+                        var embedConfig = JSON.parse(args.join(' ').substr(msg.length).trim().replace(/^((```)(json)(\s)*)|(```)$/g, ''))
+
+                        // Fetch users
+                        bot.fetchUser(userid, false).then((user) => {
+                            user.send(msg, embedConfig);
+                        });
+                    } else {
+                        message.channel.send(`Invalid embed attributes`).then(msg => msg.delete(2000))
+                    }
                 }
                 break
 
