@@ -349,16 +349,34 @@ function startBot() {
                 break
             case 'custommeme':
                 if (message.author.id === config.adminId) {
-                    if (args.length && args[args.length-1].substr(0, 4) == "http") {
+                    if (args.length && args[args.length - 1].substr(0, 4) == "http") {
                         let title = args.slice(0, -1).join(' ')
                         title = title.charAt(0).toLocaleUpperCase() + title.slice(1)
-                        message.channel.send(title ? `> ${title}` : '', { files: [args[args.length-1]] })
+                        message.channel.send(title ? `> ${title}` : '', { files: [args[args.length - 1]] })
                         message.delete(2000)
                     } else {
                         message.channel.send(`Invalid arguments`).then(msg => msg.delete(2000))
                     }
                 }
                 break
+
+            case 'senddm':
+                if (message.author.id === config.adminId) {
+                    var userid
+                    if (args[0].includes('@')) userid = args[0].replace(/[<@>]/g, '')
+                    else userid = arg
+                    // Fetch main channel / guild (MHG)
+                    bot.guilds.fetch(config.channelId)
+                        .then(guild => {
+                            guild.members.fetch(userid)
+                                .then(user => {
+                                    user.send('Hello test DM')
+                                })
+                                .catch(console.error);
+                        })
+                        .catch(console.error);
+                }
+                break;
         }
     });
 
