@@ -481,7 +481,7 @@ function getTestSQL() {
     LIMIT 200`
 }
 
-function covertSnowflake(strId) {
+function convertSnowflake(strId) {
     return strId.replace(/[<@!>]/g, '')
 }
 
