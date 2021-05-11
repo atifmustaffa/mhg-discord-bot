@@ -7,7 +7,7 @@
   "description": "A simple discord bot for mhg channel.",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "dotenv -- nodemon server.js",
     "start": "node server.js"
   },
   "dependencies": {
