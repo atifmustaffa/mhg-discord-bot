@@ -118,14 +118,9 @@ async function getRandomMeme() {
 
   // script
   const redditScraperOptions = {
-    AppId: "jyNy7N-bEQSVbA",
-    AppSecret: "m6DjT8cPEQSOnbNT1TZGr9RpqLyMzQ",
+    AppId: process.env.REDDIT_ID,
+    AppSecret: process.env.REDDIT_SECRET,
   }
-  // web-app
-  // const redditScraperOptions = {
-  //   AppId: "dVTmPrHEUJfMqA",
-  //   AppSecret: "bI-XsVeqLXdF5fPtt5QJZ4U_nQYNuA",
-  // }
 
   const requestOptions = {
     Pages: 1,
