@@ -6,13 +6,6 @@ const commands = require('./commands.json');
 let bot = null;
 let botReady = false;
 
-// OAuth url for adding into channel
-// https://discord.com/api/oauth2/authorize?client_id=157730590492196864&scope=bot&permissions=8
-
-// # Setting `Playing ` status
-// # Setting `Streaming ` status
-// # Setting `Listening ` status
-// # Setting `Watching ` status
 const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
 
 function startBot() {

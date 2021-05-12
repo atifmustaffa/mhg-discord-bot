@@ -60,6 +60,8 @@
             <p class="status"><span class="icon-circle" style="vertical-align: middle;"></span><span
                     style="vertical-align: middle;">Online</span></p>
             <a href="#commands" class="btn-get-started">Commands</a>
+            <a href="https://discord.com/api/oauth2/authorize?client_id=157730590492196864&scope=bot&permissions=8"
+                class="btn-get-started">Add to server</a>
         </div>
     </section><!-- #hero -->
 
@@ -85,12 +87,17 @@
                                 <th>Description</th>
                             </tr>
                             <%commands.commands.forEach(function(command) {%>
-                            <tr>
-                                <td><i class="fa fa-angle-right"></i></td>
-                                <td><%= config.prefix %><%= command.name %></td>
-                                <td><%= command.value %></td>
-                            </tr>
-                            <%});%>
+                                <tr>
+                                    <td><i class="fa fa-angle-right"></i></td>
+                                    <td>
+                                        <%= config.prefix %>
+                                            <%= command.name %>
+                                    </td>
+                                    <td>
+                                        <%= command.value %>
+                                    </td>
+                                </tr>
+                                <%});%>
                         </table>
                     </div>
                 </div>
