@@ -1,27 +1,42 @@
-Welcome to Glitch
-=================
+# MHG Discord Bot
+## About
+> A special discord bot for MHG channel
+## Notes
+- This bot is solely made to be used in MHG channel. Thus, won't be accepting any pull request. - _#PepoSad_
+- The only reason this is in public repo because we don't have enough resource and we rely on free deployment. - _Yes I broke_
+- Please ignore any programming ethics/mistakes because this bot is built from time to time, sometimes as programming practice. - _Why? Because I lazy_
+- If you find this useful, just wish us the best.
+## Installation
+You can add MHG to your server with this [link](https://discord.com/api/oauth2/authorize?client_id=157730590492196864&scope=bot&permissions=8)! Alternatively, you can clone this repo and host the bot yourself.
+```
+git clone https://github.com/atifmustaffa/mhg-discord-bot.git
+```
+After cloning, run an
+```
+npm install
+```
+to snag all of the dependencies. Of course, you need node installed.
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
+Then prepare an `.env` file that contains the following variables:
+```
+BOT_TOKEN=<discord bot token>
+BOT_APP_ID=<discord app id>
+REDDIT_ID=<reddit app id>
+REDDIT_SECRET=<reddit secret>
+```
+I also strongly recommend `nodemon` and `dotenv-cli` from npm as it makes testing much easier.
 
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+## Config
+- Bot prefix: `!`
+- Check `config.json` for more such as admin, colors etc
 
-Find out more [about Glitch](https://glitch.com/about).
+## Features
+Just check them out yourself, goodluck reading :D
 
+---
+Made by [Atif Mustaffa](https://www.github.com/atifmustaffa)
 
-Your Project
-------------
+Find me on Discord: ninjaessszzz#3528
 
-On the front-end,
-- edit `public/client.js`, `public/style.css` and `views/index.html`
-- drag in `assets`, like images or music, to add them to your project
-
-On the back-end,
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
-
-
-Made by [Glitch](https://glitch.com/)
--------------------
 
 \ ゜o゜)ノ
