@@ -432,7 +432,7 @@ function startBot() {
         let findMessage = gamesCollection.filter((game) => game.id === messageReaction.message.id)
         if (findMessage.length) {
             let tictactoe = findMessage[0].game
-            message.edit(
+            messageReaction.message.edit(
                 tictactoe.printTable() + '\nCurrent move: ' + tictactoe.getCurrentMove()
             )
         }
