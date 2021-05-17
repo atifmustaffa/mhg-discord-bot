@@ -410,13 +410,33 @@ function startBot() {
                     // Fetch users
                     player1 = await bot.fetchUser(message.author.id, false)
                     player2 = await bot.fetchUser(convertSnowflake(args.shift()), false)
-                    let tictactoe = new TicTacToe(player1.id, 3, player1.username, player2.username)
-                    gamesCollection.push(tictactoe)
-                    message.channel.send(tictactoe.printTable())
+                    let size = 3
+                    let tictactoe = new TicTacToe(player1.id, size, player1.username, player2.username)
+                    message.channel.send(
+                        tictactoe.printTable() + '\nCurrent move: ' + tictactoe.getCurrentMove()
+                    ).then((msg) => {
+                        const numberEmoji = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
+                        for (var i = 1; i < size * size; i++) {
+                            msg.react(numberEmoji[i])
+                        }
+                        // Store message and reaction id into game collection
+                        gamesCollection.push({ id: msg.id, game: tictactoe })
+                    })
                 }
                 break
         }
     });
+
+    bot.on("messageReactionAdd", async (messageReaction, user) => {
+        // Check if reaction is made onto game message
+        let findMessage = gamesCollection.filter((game) => game.id === messageReaction.message.id)
+        if (findMessage.length) {
+            let tictactoe = findMessage[0].game
+            message.edit(
+                tictactoe.printTable() + '\nCurrent move: ' + tictactoe.getCurrentMove()
+            )
+        }
+    })
 
     // helper.saveData('atif', 'name', 'Atif')
 
