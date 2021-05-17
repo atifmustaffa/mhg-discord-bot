@@ -73,7 +73,7 @@ const TicTacToe = require('./games/tictactoe')
 let ttt
 
 app.get('/tictactoe/new/:size', function (request, response) {
-  ttt = new TicTacToe('' + Date.now(), parseInt(request.params.size), request.query.player1 || 'Player 1', request.query.player2 || 'Player 2')
+  ttt = new TicTacToe('' + Date.now(), parseInt(request.params.size), request.query.players)
   let object = {}
   object.table = ttt.getTable()
   object.players = ttt.players

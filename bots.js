@@ -399,7 +399,6 @@ function startBot() {
                 break
 
             case 'tictactoe':
-                var players = Array()
                 if (args.length !== 1) {
                     message.channel.send(
                         'Please tag your opponent. Eg:`' +
@@ -410,11 +409,12 @@ function startBot() {
                     break
                 }
                 else {
+                    var players = Array()
                     // Fetch users
                     players.push(await bot.fetchUser(message.author.id, false))
                     players.push(await bot.fetchUser(convertSnowflake(args.shift()), false))
                     let size = 3
-                    let tictactoe = new TicTacToe(players[0].id, size, players[0].username, players[1].username)
+                    let tictactoe = new TicTacToe(players[0].id, size, players.map((u) => { return u.username }))
                     message.channel.send(
                         tictactoe.playerEmoji[0] +
                         ' TicTacToe ' +
