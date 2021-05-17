@@ -415,9 +415,8 @@ function startBot() {
                     message.channel.send(
                         tictactoe.printTable() + '\nCurrent move: ' + tictactoe.getCurrentMove()
                     ).then((msg) => {
-                        const numberEmoji = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
                         for (var i = 1; i < size * size; i++) {
-                            msg.react(numberEmoji[i])
+                            msg.react(tictactoe.numberEmojiDiscord[i])
                         }
                         // Store message and reaction id into game collection
                         gamesCollection.push({ id: msg.id, game: tictactoe })
@@ -428,13 +427,20 @@ function startBot() {
     });
 
     bot.on("messageReactionAdd", async (messageReaction, user) => {
+        // Make sure it is not bot itself
+        if (user === messageReaction.message.author.bot) {
+            return
+        }
         // Check if reaction is made onto game message
-        let findMessage = gamesCollection.filter((game) => game.id === messageReaction.message.id)
-        if (findMessage.length) {
-            let tictactoe = findMessage[0].game
-            messageReaction.message.edit(
-                tictactoe.printTable() + '\nCurrent move: ' + tictactoe.getCurrentMove()
-            )
+        let foundGame = gamesCollection.filter((game) => game.id === messageReaction.message.id)
+        if (foundGame.length) {
+            let game = foundGame[0].game
+            if (foundGame[0].game instanceof TicTacToe) {
+                game.setMove(game.numberEmojiDiscord.indexOf(messageReaction.emoji.toString()))
+                messageReaction.message.edit(
+                    game.printTable() + '\nCurrent move: ' + game.getCurrentMove()
+                )
+            }
         }
     })
 
