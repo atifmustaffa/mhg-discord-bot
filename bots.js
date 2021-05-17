@@ -402,7 +402,10 @@ function startBot() {
                 var players = Array()
                 if (args.length !== 1) {
                     message.channel.send(
-                        'Please tag your opponent. Eg:`' + config.prefix + 'tictactoe `' + convertToSnowflake(config.adminId)
+                        'Please tag your opponent. Eg:`' +
+                        config.prefix +
+                        'tictactoe `' +
+                        convertToSnowflake(config.adminId)
                     ).then(msg => msg.delete(5000))
                     break
                 }
@@ -413,13 +416,21 @@ function startBot() {
                     let size = 3
                     let tictactoe = new TicTacToe(players[0].id, size, players[0].username, players[1].username)
                     message.channel.send(
-                        tictactoe.playerEmoji[0] + ' TicTacToe ' + tictactoe.playerEmoji[1] + ' _Loading game..._'
+                        tictactoe.playerEmoji[0] +
+                        ' TicTacToe ' +
+                        tictactoe.playerEmoji[1] +
+                        ' _Loading game..._'
                     ).then(async (msg) => {
                         for (var i = 1; i <= size * size; i++) {
                             await msg.react(tictactoe.numberEmoji[i])
                             if (i === size * size) {
                                 msg.edit(
-                                    tictactoe.printTable() + '\nCurrent move: ' + tictactoe.playerEmoji[tictactoe.getCurrentMoveIndex()] + ' ' + tictactoe.getCurrentMove() + '\n'
+                                    tictactoe.printTable() +
+                                    '\nCurrent move: ' +
+                                    tictactoe.playerEmoji[tictactoe.getCurrentMoveIndex()] +
+                                    ' ' +
+                                    tictactoe.getCurrentMove() +
+                                    '\n'
                                 )
                             }
                         }
@@ -444,18 +455,28 @@ function startBot() {
                 game.setMovePos(game.numberEmoji.indexOf(messageReaction.emoji.toString()))
                 if (game.checkMoves() !== 1) {
                     messageReaction.message.edit(
-                        game.printTable() + '\nCurrent move: ' + game.playerEmoji[game.getCurrentMoveIndex()] + ' ' + game.getCurrentMove() + '\n'
+                        game.printTable() +
+                        '\nCurrent move: ' +
+                        game.playerEmoji[game.getCurrentMoveIndex()] +
+                        ' ' +
+                        game.getCurrentMove() +
+                        '\n'
                     )
                 }
                 else {
                     messageReaction.message.edit(
-                        game.printTable() + '\n' + game.playerEmoji[game.getCurrentMoveIndex()] + ' **' + game.winner + ' wins**\n'
+                        game.printTable() +
+                        '\n' +
+                        game.playerEmoji[game.winner] +
+                        ' **' +
+                        game.getPlayer(game.winner) +
+                        ' wins**\n'
                     )
                     // Remove completed game from collection
-                    // Remove all reactions from message
                     gamesCollection.splice(foundGameIndex, 1)
+                    // Remove all reactions from message
                     messageReaction.message.clearReactions().then(() => {
-                      console.log(gamesCollection)
+                        console.log(gamesCollection)
                     })
                 }
             }
