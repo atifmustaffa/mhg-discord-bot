@@ -1,10 +1,14 @@
-
+// Imports
 const config = require("./config.json");
 const Discord = require("discord.js");
 const helper = require('./helper.js');
 const commands = require('./commands.json');
+// Games
+const TicTacToe = require('./games/tictactoe')
+
 let bot = null;
 let botReady = false;
+let gamesCollection = Array()
 
 const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
 
@@ -325,20 +329,19 @@ function startBot() {
                     message.channel.send(`${bot.user.username} is ${defaultActivityType[bot.user.presence.activities[0].type]} ${bot.user.presence.activities[0].name}`)
                 }
                 break
-
-            case 'meme':
-                const scraper = require("./potusScraper.js")
-                scraper.getRandomMeme().then((meme) => {
-                    message.channel.send(`> ${meme.title}`, { files: [meme.url] })
-                    message.delete(2000)
-                })
-                break
             case 'delete':
                 message.channel.bulkDelete(args[0] || 2)
                     .then((messages) => {
                         message.channel.send(`Bulk deleted ${messages.size} messages`).then(msg => msg.delete(2000))
                     })
                     .catch(console.error)
+                break
+            case 'meme':
+                const scraper = require("./potusScraper.js")
+                scraper.getRandomMeme().then((meme) => {
+                    message.channel.send(`> ${meme.title}`, { files: [meme.url] })
+                    message.delete(2000)
+                })
                 break
             case 'custommeme':
                 if (message.author.id === config.adminId) {
@@ -392,6 +395,24 @@ function startBot() {
                     } else {
                         message.channel.send(`Invalid embed attributes`).then(msg => msg.delete(2000))
                     }
+                }
+                break
+
+            case 'tictactoe':
+                var player1 = player2 = ''
+                if (args.length !== 2) {
+                    message.channel.send(
+                        'Please tag your opponent. Eg:`' + config.prefix + 'tictactoe ' + convertToSnowflake(config.adminId) + '`'
+                    ).then(msg => msg.delete(3000))
+                    break
+                }
+                else {
+                    // Fetch users
+                    player1 = await bot.fetchUser(message.author.id, false)
+                    player2 = await bot.fetchUser(args.shift(), false)
+                    let tictactoe = new TicTacToe(player1, 3, player1, player2)
+                    gamesCollection.push(tictactoe)
+                    message.channel.send(tictactoe.printTable())
                 }
                 break
         }
@@ -499,6 +520,10 @@ function getTestSQL() {
 
 function convertSnowflake(strId) {
     return strId.replace(/[<@!>]/g, '')
+}
+
+function convertToSnowflake(strId) {
+    return `<@!${strId}>`
 }
 
 function setActivity(type, title) {
