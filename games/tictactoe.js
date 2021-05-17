@@ -10,6 +10,10 @@ module.exports = class TicTacToe {
     winner = ''
     player1 = 'Player 1'
     player2 = 'Player 2'
+    emptyEmoji = '⬛️'
+    numberEmoji = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
+    playerEmoji = ['⭕️', '✖️']
+    numberEmojiDiscord = [':zero:', ':one:', ':two:', ':three:', ':four:', ':five:', ':six:', ':seven:', ':eight:', ':nine:']
 
     constructor(id, size = this.size, player1 = this.player1, player2 = this.player2) {
         if (size % 2 === 0) {
@@ -122,18 +126,15 @@ module.exports = class TicTacToe {
     }
 
     printTable() {
-        const emptyEmoji = '⬛️'
-        const numberEmoji = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
-        const playerEmoji = ['⭕️', '✖️']
         let emoji = Array(this.size).fill().map(() => Array(this.size).fill(''))
         // Convert value to player emoji and add padding
         for (var x = 0; x < this.size; x++) {
             for (var y = 0; y < this.size; y++) {
                 if (this.table[x][y] === 0) {
-                    emoji[x][y] = numberEmoji[this.size * x + (y + 1)]
+                    emoji[x][y] = this.numberEmoji[this.size * x + (y + 1)]
                 }
                 else {
-                    emoji[x][y] = playerEmoji[this.table[x][y] > 0 ? 0 : 1]
+                    emoji[x][y] = this.playerEmoji[this.table[x][y] > 0 ? 0 : 1]
                 }
             }
         }
@@ -144,7 +145,7 @@ module.exports = class TicTacToe {
         const emptyPad = padding * 2 + ('' + this.size * this.size).length
         const hSeparator = Array(this.size * this.size * 3 + this.size * this.size).fill(hSeparatorChar).join('')
         const emptySpaces = (s) => {
-            return Array(s).fill(emptyEmoji).join('')
+            return Array(s).fill(this.emptyEmoji).join('')
         }
         let rows = ''
         for (var x = 0; x < this.size; x++) {
