@@ -142,7 +142,7 @@ module.exports = class TicTacToe {
         const hSeparatorChar = '-'
         const padding = 1
         const emptyPad = padding * 2 + ('' + this.size * this.size).length
-        const hSeparator = Array(emptyPad * this.size * 2 + this.size - 1).fill(hSeparatorChar).join('')
+        const hSeparator = Array(this.size * this.size * 3 + this.size * this.size).fill(hSeparatorChar).join('')
         const emptySpaces = (s) => {
             return Array(s).fill(emptyEmoji).join('')
         }
