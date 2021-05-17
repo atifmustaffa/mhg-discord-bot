@@ -465,7 +465,7 @@ function startBot() {
                 }
                 else {
                     let emoji = game.checkMoves() === 0 ? '' : game.playerEmoji[game.winner] + ' '
-                    let status = game.checkMoves() === 0 ? game.playerEmoji.concat(' Draw ') : (game.getPlayer(game.winner) + ' wins')
+                    let status = game.checkMoves() === 0 ? game.playerEmoji.join(' Draw ') : (game.getPlayer(game.winner) + ' wins')
                     messageReaction.message.edit(
                         game.printTable() +
                         '\n' + emoji + '**' + status + '**\n'
