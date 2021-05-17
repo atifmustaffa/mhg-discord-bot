@@ -400,17 +400,17 @@ function startBot() {
 
             case 'tictactoe':
                 var player1 = player2 = ''
-                if (args.length !== 2) {
+                if (args.length !== 1) {
                     message.channel.send(
-                        'Please tag your opponent. Eg:`' + config.prefix + 'tictactoe ' + convertToSnowflake(config.adminId) + '`'
+                        'Please tag your opponent. Eg:`' + config.prefix + 'tictactoe `' + convertToSnowflake(config.adminId)
                     ).then(msg => msg.delete(3000))
                     break
                 }
                 else {
                     // Fetch users
                     player1 = await bot.fetchUser(message.author.id, false)
-                    player2 = await bot.fetchUser(args.shift(), false)
-                    let tictactoe = new TicTacToe(player1, 3, player1, player2)
+                    player2 = await bot.fetchUser(convertSnowflake(args.shift()), false)
+                    let tictactoe = new TicTacToe(player1.id, 3, player1.username, player2.username)
                     gamesCollection.push(tictactoe)
                     message.channel.send(tictactoe.printTable())
                 }
