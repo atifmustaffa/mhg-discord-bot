@@ -12,7 +12,7 @@ module.exports = class TicTacToe {
     player2 = 'Player 2'
     emptyEmoji = '⬛️'
     numberEmoji = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
-    playerEmoji = ['⭕️', '✖️']
+    playerEmoji = ['🅾️', '❎']
     numberEmojiDiscord = [':zero:', ':one:', ':two:', ':three:', ':four:', ':five:', ':six:', ':seven:', ':eight:', ':nine:']
 
     constructor(id, size = this.size, player1 = this.player1, player2 = this.player2) {
@@ -45,6 +45,10 @@ module.exports = class TicTacToe {
 
     getPlayers() {
         return { player1: this.player1, player2: this.player2 }
+    }
+
+    getCurrentMoveIndex() {
+        return (this.move + 1) % 2 != 0 ? 0 : 1
     }
 
     getCurrentMove() {

@@ -399,27 +399,32 @@ function startBot() {
                 break
 
             case 'tictactoe':
-                var player1 = player2 = ''
+                var players = Array()
                 if (args.length !== 1) {
                     message.channel.send(
                         'Please tag your opponent. Eg:`' + config.prefix + 'tictactoe `' + convertToSnowflake(config.adminId)
-                    ).then(msg => msg.delete(3000))
+                    ).then(msg => msg.delete(5000))
                     break
                 }
                 else {
                     // Fetch users
-                    player1 = await bot.fetchUser(message.author.id, false)
-                    player2 = await bot.fetchUser(convertSnowflake(args.shift()), false)
+                    players.push(await bot.fetchUser(message.author.id, false))
+                    players.push(await bot.fetchUser(convertSnowflake(args.shift()), false))
                     let size = 3
-                    let tictactoe = new TicTacToe(player1.id, size, player1.username, player2.username)
+                    let tictactoe = new TicTacToe(players[0].id, size, players[0].username, players[1].username)
                     message.channel.send(
-                        tictactoe.printTable() + '\nCurrent move: ' + tictactoe.getCurrentMove()
-                    ).then((msg) => {
-                        for (var i = 1; i < size * size; i++) {
-                            msg.react(tictactoe.numberEmoji[i])
+                        tictactoe.playerEmoji[0] + ' TicTacToe ' + tictactoe.playerEmoji[1] + ' _Loading game..._'
+                    ).then(async (msg) => {
+                        for (var i = 1; i <= size * size; i++) {
+                            await msg.react(tictactoe.numberEmoji[i])
+                            if (i === size * size) {
+                                msg.edit(
+                                    tictactoe.printTable() + '\nCurrent move: ' + tictactoe.playerEmoji[tictactoe.getCurrentMoveIndex()] + ' ' + tictactoe.getCurrentMove() + '\n'
+                                )
+                            }
                         }
                         // Store message and reaction id into game collection
-                        gamesCollection.push({ id: msg.id, game: tictactoe })
+                        gamesCollection.push({ id: msg.id, game: tictactoe, players: players })
                     })
                 }
                 break
@@ -428,18 +433,31 @@ function startBot() {
 
     bot.on("messageReactionAdd", async (messageReaction, user) => {
         // Make sure it is not bot itself
-        if (user === messageReaction.message.author.bot) {
-            return
+        if (user.bot) {
+            return;
         }
         // Check if reaction is made onto game message
-        let foundGame = gamesCollection.filter((game) => game.id === messageReaction.message.id)
-        if (foundGame.length) {
-            let game = foundGame[0].game
-            if (foundGame[0].game instanceof TicTacToe) {
-                game.setMove(game.numberEmoji.indexOf(messageReaction.emoji.toString()))
-                messageReaction.message.edit(
-                    game.printTable() + '\nCurrent move: ' + game.getCurrentMove()
-                )
+        let foundGameIndex = gamesCollection.findIndex(game => game.id === messageReaction.message.id)
+        if (foundGameIndex >= 0) {
+            let game = gamesCollection[foundGameIndex].game
+            if (game instanceof TicTacToe && gamesCollection[foundGameIndex].players.find(p => p.id === user.id)) {
+                game.setMovePos(game.numberEmoji.indexOf(messageReaction.emoji.toString()))
+                if (game.checkMoves() !== 1) {
+                    messageReaction.message.edit(
+                        game.printTable() + '\nCurrent move: ' + game.playerEmoji[game.getCurrentMoveIndex()] + ' ' + game.getCurrentMove() + '\n'
+                    )
+                }
+                else {
+                    messageReaction.message.edit(
+                        game.printTable() + '\n' + game.playerEmoji[game.getCurrentMoveIndex()] + ' **' + game.winner + ' wins**\n'
+                    )
+                    // Remove completed game from collection
+                    // Remove all reactions from message
+                    gamesCollection.splice(foundGameIndex, 1)
+                    messageReaction.message.clearReactions().then(() => {
+                      console.log(gamesCollection)
+                    })
+                }
             }
         }
     })
