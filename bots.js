@@ -416,7 +416,7 @@ function startBot() {
                         tictactoe.printTable() + '\nCurrent move: ' + tictactoe.getCurrentMove()
                     ).then((msg) => {
                         for (var i = 1; i < size * size; i++) {
-                            msg.react(tictactoe.numberEmojiDiscord[i])
+                            msg.react(tictactoe.numberEmoji[i])
                         }
                         // Store message and reaction id into game collection
                         gamesCollection.push({ id: msg.id, game: tictactoe })
@@ -436,7 +436,7 @@ function startBot() {
         if (foundGame.length) {
             let game = foundGame[0].game
             if (foundGame[0].game instanceof TicTacToe) {
-                game.setMove(game.numberEmojiDiscord.indexOf(messageReaction.emoji.toString()))
+                game.setMove(game.numberEmoji.indexOf(messageReaction.emoji.toString()))
                 messageReaction.message.edit(
                     game.printTable() + '\nCurrent move: ' + game.getCurrentMove()
                 )
