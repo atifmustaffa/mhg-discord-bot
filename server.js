@@ -68,6 +68,46 @@ app.get("/meme", function (request, response) {
   })
 })
 
+// TicTacToe api
+const TicTacToe = require('./games/tictactoe')
+let ttt
+
+app.get('/tictactoe/new/:size', function (request, response) {
+  ttt = new TicTacToe('' + Date.now(), parseInt(request.params.size), request.query.player1 || 'Player 1', request.query.player2 || 'Player 2')
+  let object = {}
+  object.table = ttt.getTable()
+  object.players = ttt.getPlayers()
+  object.current = ttt.getCurrentMove()
+  object.status = ttt.defaultStatus[ttt.checkMoves()]
+  object.winner = ttt.winner
+  ttt.printTable()
+  response.status(200).json(object)
+});
+
+app.get('/tictactoe/move/:x/:y', function (request, response) {
+  ttt.setMove(parseInt(request.params.x), parseInt(request.params.y))
+  let object = {}
+  object.table = ttt.getTable()
+  object.players = ttt.getPlayers()
+  object.move = ttt.move
+  object.current = ttt.getCurrentMove()
+  object.status = ttt.defaultStatus[ttt.checkMoves()]
+  object.winner = ttt.winner
+  response.status(200).json(object)
+});
+
+app.get('/tictactoe/move/:pos', function (request, response) {
+  ttt.setMovePos(parseInt(request.params.pos))
+  let object = {}
+  object.table = ttt.getTable()
+  object.players = ttt.getPlayers()
+  object.move = ttt.move
+  object.current = ttt.getCurrentMove()
+  object.status = ttt.defaultStatus[ttt.checkMoves()]
+  object.winner = ttt.winner
+  response.status(200).json(object)
+});
+
 app.get('/404', function (req, res) {
   res.status(404).render('error', { message: "Whoops!" })
 });
