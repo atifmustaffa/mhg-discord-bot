@@ -453,7 +453,7 @@ function startBot() {
             let game = gamesCollection[foundGameIndex].game
             if (game instanceof TicTacToe && gamesCollection[foundGameIndex].players.find(p => p.id === user.id)) {
                 game.setMovePos(game.numberEmoji.indexOf(messageReaction.emoji.toString()))
-                if (game.checkMoves() !== 1) {
+                if (game.checkMoves() === -1) {
                     messageReaction.message.edit(
                         game.printTable() +
                         '\nCurrent move: ' +
@@ -464,13 +464,11 @@ function startBot() {
                     )
                 }
                 else {
+                    let emoji = game.checkMoves() === 0 ? '' : game.playerEmoji[game.winner] + ' '
+                    let status = game.checkMoves() === 0 ? game.playerEmoji.concat(' Draw ') : (game.getPlayer(game.winner) + ' wins')
                     messageReaction.message.edit(
                         game.printTable() +
-                        '\n' +
-                        game.playerEmoji[game.winner] +
-                        ' **' +
-                        game.getPlayer(game.winner) +
-                        ' wins**\n'
+                        '\n' + emoji + '**' + status + '**\n'
                     )
                     // Remove completed game from collection
                     gamesCollection.splice(foundGameIndex, 1)

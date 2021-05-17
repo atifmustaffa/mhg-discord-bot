@@ -5,8 +5,8 @@ module.exports = class TicTacToe {
     size = 3
     table = Array()
     move = 0
-    defaultStatus = ['Ongoing', 'Ended']
-    status = 0
+    defaultStatus = ['Ongoing', 'Draw', 'Ended']
+    status = -1
     winner = -1
     players = ['Player 1', 'Player 2']
     emptyEmoji = '⬛️'
@@ -111,7 +111,7 @@ module.exports = class TicTacToe {
                 return this.status = 1
             }
         }
-        return 0
+        return this.move === this.size * this.size ? 0 : -1
     }
 
     printTable() {

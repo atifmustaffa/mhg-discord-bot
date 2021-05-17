@@ -91,7 +91,7 @@ app.get('/tictactoe/move/:x/:y', function (request, response) {
   object.players = ttt.players
   object.move = ttt.move
   object.current = ttt.getCurrentMove()
-  object.status = ttt.defaultStatus[ttt.checkMoves()]
+  object.status = ttt.defaultStatus[ttt.checkMoves() + 1]
   object.winner = ttt.winner
   response.status(200).json(object)
 });
@@ -103,7 +103,7 @@ app.get('/tictactoe/move/:pos', function (request, response) {
   object.players = ttt.players
   object.move = ttt.move
   object.current = ttt.getCurrentMove()
-  object.status = ttt.defaultStatus[ttt.checkMoves()]
+  object.status = ttt.defaultStatus[ttt.checkMoves() + 1]
   object.winner = ttt.winner
   response.status(200).json(object)
 });
