@@ -1,4 +1,5 @@
 /* styles */
+
 /* called by your view template */
 
 @charset "UTF-8";
@@ -8,9 +9,11 @@
   Author: BootstrapMade.com
   License: https://bootstrapmade.com/license/
 */
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
 body {
   color: #fff !important;
   background-color: #333 !important;
@@ -109,6 +112,7 @@ span {
 }
 
 /* Back to top button */
+
 .back-to-top {
   position: fixed;
   display: none;
@@ -141,17 +145,25 @@ span {
 }
 
 p.status {
-	animation: blink 4s infinite;
+  animation: blink 4s infinite;
 }
+
 @keyframes blink {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
+
 #header {
   display: none;
   position: fixed;
@@ -204,6 +216,7 @@ p.status {
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
+
 #hero {
   width: 100%;
   height: calc(100vh - 40px);
@@ -316,7 +329,9 @@ p.status {
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
+
 /* Nav Menu Essentials */
+
 .nav-menu, .nav-menu * {
   margin: 0;
   padding: 0;
@@ -336,12 +351,11 @@ p.status {
   white-space: nowrap;
 }
 
-.nav-menu > li {
+.nav-menu>li {
   float: left;
 }
 
-.nav-menu li:hover > ul,
-.nav-menu li.sfHover > ul {
+.nav-menu li:hover>ul, .nav-menu li.sfHover>ul {
   display: block;
 }
 
@@ -355,6 +369,7 @@ p.status {
 }
 
 /* Nav Menu Arrows */
+
 .sf-arrows .sf-with-ul {
   padding-right: 22px;
 }
@@ -374,6 +389,7 @@ p.status {
 }
 
 /* Nav Meu Container */
+
 #nav-menu-container {
   float: right;
   margin: 0 0 0 0;
@@ -386,6 +402,7 @@ p.status {
 }
 
 /* Nav Meu Styling */
+
 .nav-menu a {
   padding: 8px 8px;
   text-decoration: none;
@@ -399,11 +416,11 @@ p.status {
   transition: 0.3s;
 }
 
-.nav-menu li:hover > a, .nav-menu > .menu-active > a {
+.nav-menu li:hover>a, .nav-menu>.menu-active>a {
   color: #ecb248;
 }
 
-.nav-menu > li {
+.nav-menu>li {
   margin-left: 10px;
 }
 
@@ -427,7 +444,7 @@ p.status {
   text-transform: none;
 }
 
-.nav-menu ul li:hover > a {
+.nav-menu ul li:hover>a {
   color: #ecb248;
 }
 
@@ -436,6 +453,7 @@ p.status {
 }
 
 /* Mobile Nav Toggle */
+
 #mobile-nav-toggle {
   position: fixed;
   right: 0;
@@ -463,6 +481,7 @@ p.status {
 }
 
 /* Mobile Nav Styling */
+
 #mobile-nav {
   position: fixed;
   top: 0;
@@ -536,6 +555,7 @@ p.status {
 }
 
 /* Mobile Nav body classes */
+
 body.mobile-nav-active {
   overflow: hidden;
 }
@@ -551,6 +571,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 /*--------------------------------------------------------------
 # Sections
 --------------------------------------------------------------*/
+
 .padd-section {
   padding-bottom: 80px;
   padding-top: 80px;
@@ -597,6 +618,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Get Started Section
 --------------------------------*/
+
 #get-started {
   display: inline-block;
   height: 100%;
@@ -643,6 +665,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* About Us Section
 --------------------------------*/
+
 #about-us img {
   max-width: 100%;
 }
@@ -677,6 +700,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Features Section
 --------------------------------*/
+
 #features {
   display: inline-block;
   height: 100%;
@@ -705,7 +729,8 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Screenshots Section
 --------------------------------*/
-.owl-dot.active > span {
+
+.owl-dot.active>span {
   height: 10px !important;
   width: 10px !important;
 }
@@ -738,6 +763,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Video Section
 --------------------------------*/
+
 #video {
   background: url(../img/video-bg.jpg) center center;
   background-repeat: no-repeat;
@@ -867,6 +893,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Team Section
 --------------------------------*/
+
 #team .team-block {
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.1);
   height: 254px;
@@ -920,7 +947,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
   color: #ecb248;
 }
 
-#team .team-block .team-content ul > span {
+#team .team-block .team-content ul>span {
   display: inline-block;
   font-size: 14px;
   font-weight: 300;
@@ -936,6 +963,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Testimonials Section
 --------------------------------*/
+
 #testimonials .testimonials-content {
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.1);
   padding: 49px 20px;
@@ -952,7 +980,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
   top: -29px;
 }
 
-#testimonials .top-top > h2 {
+#testimonials .top-top>h2 {
   font-family: "Roboto" sans-serif;
   font-size: 45px;
   font-weight: 100;
@@ -961,7 +989,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
   text-transform: capitalize;
 }
 
-#testimonials .top-top > h4 {
+#testimonials .top-top>h4 {
   font: 700 12px Lato, sans-serif;
 }
 
@@ -1011,6 +1039,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Pricing Table Section
 --------------------------------*/
+
 #pricing .block-pricing {
   background: #fff;
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 4px 0 rgba(0, 0, 0, 0.19);
@@ -1079,6 +1108,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Blog Section
 --------------------------------*/
+
 @media (max-width: 991px) {
   #blog .block-blog {
     margin-bottom: 30px;
@@ -1116,7 +1146,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
   color: #ecb248;
 }
 
-#blog .block-blog .content-blog > span {
+#blog .block-blog .content-blog>span {
   float: left;
   font-size: 12px;
 }
@@ -1137,6 +1167,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Newsletter Section
 --------------------------------*/
+
 #newsletter {
   background: transparent url(../img/newsletter-bg.jpg) no-repeat center top fixed;
   background-size: cover;
@@ -1225,6 +1256,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 /* Contact Section
 --------------------------------*/
+
 #contact {
   background: #fff;
 }
@@ -1328,6 +1360,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
+
 .footer {
   /* background: #2a2c30; */
   padding-top: 50px;
@@ -1352,7 +1385,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
   letter-spacing: 1px;
 }
 
-.footer .list-menu > h4 {
+.footer .list-menu>h4 {
   color: #fff;
   padding-bottom: 20px;
 }
@@ -1387,11 +1420,13 @@ body.mobile-nav-active #mobile-nav-toggle i {
 }
 
 /* Status */
+
 .status {
   text-transform: uppercase;
   font-weight: bold;
   color: lightgreen;
 }
+
 .status .icon-circle {
   height: 7px;
   width: 7px;
@@ -1402,24 +1437,30 @@ body.mobile-nav-active #mobile-nav-toggle i {
 }
 
 /* Table- COmmands */
+
 .table-commands {
   width: 100%;
   font-family: 'Roboto', 'san-serif';
 }
+
 .table-commands tr td, .table-commands tr th {
   padding: 10px;
 }
+
 .table-commands tr:nth-child(even), .copyrights, .scroll-header {
   /* Stripes */
   background-color: rgba(57, 57, 57, 1);
 }
+
 .table-commands tr td:first-child, .table-commands tr th:first-child {
   width: 10%;
 }
+
 .table-commands tr td:nth-child(2), .table-commands tr th:nth-child(2) {
   width: 35%;
   text-align: left;
 }
+
 .table-commands tr td:nth-child(3), .table-commands tr th:nth-child(3) {
   width: 55%;
   text-align: left;
