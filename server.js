@@ -9,15 +9,12 @@ const http = require("http");
 const bot = require("./bots.js");
 const scraper = require("./potusScraper.js");
 
-// we've started you off with Express,
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+const ReplitDB = require("@replit/database");
+const db = new ReplitDB();
 
 app.set('view engine', 'ejs');
-
-// http://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
 
-// http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
   // response.sendFile(__dirname + '/views/index.html');
   console.log(new Date().toUTCString() + " Ping Received");
@@ -107,6 +104,23 @@ app.get('/tictactoe/move/:pos', function (request, response) {
   object.winner = ttt.winner
   response.status(200).json(object)
 });
+
+app.get('/db/set', async function (request, response) {
+  try {
+    for (var key of Object.keys(request.query)) {
+      await ReplitDB.set(key, request.query[key]);
+    }
+    response.status(200).json({ status: 'Success' })
+  } catch (error) {
+    response.status(404).redirect('/404')
+  }
+})
+
+app.get('/db/get', async function (request, response) {
+  let value = await db.get(request.query.key);
+  console.log(value);
+  response.status(200).json({ data: value })
+})
 
 app.get('/404', function (req, res) {
   res.status(404).render('error', { message: "Whoops!" })
