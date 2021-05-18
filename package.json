@@ -16,6 +16,7 @@
     "easy-table": "^1.1.1",
     "ejs": "^3.1.5",
     "express": "^4.16.4",
+    "mongoose": "^5.12.9",
     "nodemon": "^2.0.6",
     "reddit-scraper": "^1.0.1",
     "request": "^2.88.0",
