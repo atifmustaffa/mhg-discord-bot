@@ -482,8 +482,9 @@ function startBot() {
     })
 
     // helper.saveData('atif', 'name', 'Atif')
-
-    bot.login(process.env.BOT_TOKEN);
+    if (process.env.NODE_ENV === 'production') {
+        bot.login(process.env.BOT_TOKEN);
+    }
 }
 function getTotalSQL() {
     return `SELECT
