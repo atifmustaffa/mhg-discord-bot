@@ -108,18 +108,21 @@ app.get('/tictactoe/move/:pos', function (request, response) {
 app.get('/db/set', async function (request, response) {
   try {
     for (var key of Object.keys(request.query)) {
-      await ReplitDB.set(key, request.query[key]);
+      await db.set(key, request.query[key]);
     }
     response.status(200).json({ status: 'Success' })
   } catch (error) {
-    response.status(404).redirect('/404')
+    response.status(404)
   }
 })
 
 app.get('/db/get', async function (request, response) {
-  let value = await db.get(request.query.key);
-  console.log(value);
-  response.status(200).json({ data: value })
+  try {
+    let value = await db.get(request.query.key);
+    response.status(200).json({ data: value })
+  } catch(error) {
+    response.status(404)
+  }
 })
 
 app.get('/404', function (req, res) {
