@@ -9,6 +9,9 @@ const http = require("http");
 const bot = require("./bots.js");
 const scraper = require("./potusScraper.js");
 
+// Database
+const database = require('./class/Database.js')
+
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
@@ -102,12 +105,31 @@ app.get('/tictactoe/move/:pos', function (request, response) {
   response.status(200).json(object)
 });
 
-app.get('/db/set', async function (request, response) {
-  response.status(200).json({ status: 'Success' })
+app.get('/db/set/:type', async function (request, response) {
+  let id = request.query['id'] || ''
+  let name = request.query['name'] || ''
+  let value = {}
+  switch (request.params.type) {
+    case 'user':
+      let obj = {}
+      if (id !== '')
+        obj._id = id
+      obj.name = name
+      value = await database.setUser(obj)
+      break
+  }
+  response.status(200).json(value)
 })
 
-app.get('/db/get', async function (request, response) {
-  response.status(200).json({ status: 'Sucess' })
+app.get('/db/get/:type', async function (request, response) {
+  let param = request.query['param'] || ''
+  let value = {}
+  switch (request.params.type) {
+    case 'user':
+      value = await database.getUser(param)
+      break
+  }
+  response.status(200).json(value)
 })
 
 app.get('/404', function (req, res) {
@@ -121,6 +143,7 @@ app.get('*', function (req, res) {
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT || 8100, function () {
+  database.init()
   console.log("Your app is listening on port " + listener.address().port);
 });
 
