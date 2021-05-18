@@ -9,9 +9,6 @@ const http = require("http");
 const bot = require("./bots.js");
 const scraper = require("./potusScraper.js");
 
-const ReplitDB = require("@replit/database");
-const db = new ReplitDB();
-
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
@@ -106,23 +103,11 @@ app.get('/tictactoe/move/:pos', function (request, response) {
 });
 
 app.get('/db/set', async function (request, response) {
-  try {
-    for (var key of Object.keys(request.query)) {
-      await db.set(key, request.query[key]);
-    }
-    response.status(200).json({ status: 'Success' })
-  } catch (error) {
-    response.status(404)
-  }
+  response.status(200).json({ status: 'Success' })
 })
 
 app.get('/db/get', async function (request, response) {
-  try {
-    let value = await db.get(request.query.key);
-    response.status(200).json({ data: value })
-  } catch(error) {
-    response.status(404)
-  }
+  response.status(200).json({ status: 'Sucess' })
 })
 
 app.get('/404', function (req, res) {
