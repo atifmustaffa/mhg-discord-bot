@@ -337,7 +337,7 @@ function startBot() {
                     .catch(console.error)
                 break
             case 'meme':
-                const scraper = require("./potusScraper.js")
+                const scraper = require("./scraper.js")
                 scraper.getRandomMeme().then((meme) => {
                     message.channel.send(`> ${meme.title}`, { files: [meme.url] })
                     message.delete(2000)
