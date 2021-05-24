@@ -14,7 +14,7 @@ function init() {
     mongoose.connect(uri, opts)
     mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
     mongoose.connection.once('open', function () {
-        console.log('Database connected ✅')
+        console.info('Database connected ✅')
     })
 }
 

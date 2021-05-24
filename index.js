@@ -18,7 +18,7 @@ app.use(express.static("public"))
 
 app.get("/", function (request, response) {
   // response.sendFile(__dirname + '/views/index.html')
-  console.log(new Date().toUTCString() + " Ping Received")
+  console.info(new Date().toUTCString() + " Ping Received")
   response.status(200).render('home', { config: require('./config.json'), commands: require('./commands.json') })
 })
 
@@ -126,5 +126,5 @@ app.get('*', function (req, res) {
 const listener = app.listen(process.env.PORT || 8100, function () {
   bot.init()
   database.init()
-  console.log("Your app is listening on port " + listener.address().port)
+  console.info("Your app is listening on port " + listener.address().port)
 })
