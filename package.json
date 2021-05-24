@@ -5,10 +5,10 @@
   "name": "discord-bot-mhg",
   "version": "0.0.1",
   "description": "A simple discord bot for mhg channel.",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "dotenv -- nodemon server.js",
-    "start": "node server.js"
+    "dev": "dotenv -- nodemon index.js",
+    "start": "node index.js"
   },
   "dependencies": {
     "cheerio": "^0.22.0",
