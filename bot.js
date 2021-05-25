@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const scraper = require('./scraper')
 const config = require('./config.json')
-const commandHandler = require('./commands')
+const commands = require('./commands')
 
 const bot = new Discord.Client()
 
@@ -22,7 +22,7 @@ bot.on('ready', () => {
 })
 
 // Handle commands
-bot.on('message', commandHandler)
+bot.on('message', commands.handler)
 
 function init() {
     // Start bot
