@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.mev9w.mongodb.net/mhg-db?retryWrites=true&w=majority`
 const opts = { useNewUrlParser: true, useUnifiedTopology: true }

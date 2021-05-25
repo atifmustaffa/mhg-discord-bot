@@ -1,42 +1,39 @@
 // Imports
-const config = require("./config.json");
-const Discord = require("discord.js");
-const helper = require('./helper.js');
-const commands = require('./commands.json');
+const config = require("./config.json")
+const Discord = require("discord.js")
+const helper = require('./helper.js')
+const commands = require('./commands.json')
 // Games
 const TicTacToe = require('./games/tictactoe')
 
-let bot = null;
-let botReady = false;
+let bot = null
+let botReady = false
 let gamesCollection = Array()
 
 const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
 
 function startBot() {
 
-    bot = new Discord.Client();
+    bot = new Discord.Client()
 
     // Loads data from file
     helper.loadData()
 
     bot.on("ready", async () => {
-        botReady = true;
-
-        helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`);
-
+        botReady = true
+        helper.log(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`)
         bot.user.setActivity(`Dota 2 Twitch Stream`, {
             type: "Watching"
-        });
+        })
         let activityName = "Watching Dota 2 Twitch Stream"
-
-        helper.log(`${bot.user.username} is ${activityName}`);
-    });
+        helper.log(`${bot.user.username} is ${activityName}`)
+    })
 
     bot.on("message", async (message) => {
-        if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+        if (!message.content.startsWith(config.prefix) || message.author.bot) return
 
-        var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-        const command = args.shift().toLowerCase();
+        var args = message.content.slice(config.prefix.length).trim().split(/ +/g)
+        const command = args.shift().toLowerCase()
         helper.log('user:', message.author.tag, 'command:', message.content.toLowerCase())
 
         switch (command) {
@@ -52,7 +49,7 @@ function startBot() {
                         "text": "Last updated"
                     },
                     "fields": commands.commands
-                };
+                }
                 // [
                 //     {
                 //         "name": "🤔",
@@ -77,8 +74,8 @@ function startBot() {
                 //         "inline": true
                 //     }
                 // ]
-                message.channel.send({ embed });
-                break;
+                message.channel.send({ embed })
+                break
 
             // Special TI9 Fantasy
             case 'fantasy':
@@ -86,6 +83,7 @@ function startBot() {
                 // Custom formatting
                 const TEXT_SYNTAX = 'md'
                 const PLAYER_MATCH = helper.getData(message.author.id, 'highlight') ? helper.getData(message.author.id, 'highlight').value : ''
+
                 let matchName = function (name) {
                     if (PLAYER_MATCH.includes(name.toLowerCase())) return '# ' + name
                     else return name
@@ -106,31 +104,35 @@ function startBot() {
                     if (arg.includes('limit=')) {
                         limit = parseInt(arg.replace('limit=', ""))
                     }
+
                     if (arg.includes('highlight=false'))
                         isHighlight = false
-                });
+                })
 
                 let apiCall = function (title, sql) {
 
                     var url = `${config.API.opendota}explorer?sql=${sql}`
                     https.get(url, (resp) => {
-                        let data = '';
+                        let data = ''
                         // A chunk of data has been recieved.
                         resp.on('data', (chunk) => {
-                            data += chunk;
-                        });
+                            data += chunk
+                        })
                         // The whole response has been received. Print out the result.
                         resp.on('end', () => {
                             var rows = new Array()
+
                             try {
                                 rows = JSON.parse(data).rows
                             } catch (e) {
                                 console.log('Error: ', e)
                                 message.channel.send('```Server error. Try again later```')
                             }
+
                             if (rows && rows.length > 0) {
                                 var t = new Table
                                 t.separator = '   '
+
                                 for (var row of rows) {
                                     t.cell('Name', isHighlight ? matchName(row["name"]) : row["name"])
                                     t.cell('AVG', parseFloat(row["AVG Fantasy Pts"]), Table.number(2))
@@ -144,10 +146,13 @@ function startBot() {
                                     switch (args[2]) {
                                         case 'avg': t.sort(['AVG|des'])
                                             break
+
                                         case 'matches': t.sort(['Matches|des'])
                                             break
+
                                         case 'sum': t.sort(['Sum|des'])
                                             break
+
                                         default:
                                     }
                                 }
@@ -157,12 +162,14 @@ function startBot() {
 
                                 var messages = new Array()
                                 var tables = t.toString()
+
                                 while (tables.length > MAX_CHAR - CODE_BLOCK.length * 2) {
                                     const lim = tables.substring(0, Math.min(tables.length, MAX_CHAR - CODE_BLOCK.length * 2))
-                                    const msg = lim.substring(0, lim.lastIndexOf("\n"));
+                                    const msg = lim.substring(0, lim.lastIndexOf("\n"))
                                     messages.push(msg)
                                     tables = tables.replace(msg, "")
                                 }
+
                                 messages.push(tables) // Remaining data
 
                                 message.channel.send(title)
@@ -177,10 +184,10 @@ function startBot() {
                                     }
                                 })
                             } else message.channel.send('```Data not found. Please try again later```')
-                        });
+                        })
                     }).on("error", (err) => {
-                        console.log("Error: " + err.message);
-                    });
+                        console.log("Error: " + err.message)
+                    })
                 }
 
                 if (args[0] === 'total') {
@@ -194,29 +201,37 @@ function startBot() {
                 else if (args[0] === 'set' && args[1] === 'highlight') {
                     if (args[2] != undefined) {
                         var name_str = ''
+
                         for (var x = 2; ; x++) {
                             if (args[x] === undefined) break
                             name_str += (x !== 2 ? " " : "") + args[x]
                         }
-                        var players = name_str.replace(/,/g, "").split(/ +(?=(?:(?:[^"]*"){2})|(?:(?:[^']*'){2})*[^("|')]*$)/g); // Use regex to split between spaces except those in quotes (' or ")
+
+                        var players = name_str.replace(/,/g, "").split(/ +(?=(?:(?:[^"]*"){2})|(?:(?:[^']*'){2})*[^("|')]*$)/g) // Use regex to split between spaces except those in quotes (' or ")
+
                         for (var i = 0; i < players.length; i++) {
                             if ((players[i].charAt(0) === "\'" || players[i].charAt(0) === "\"") && (players[i].charAt(players[i].length - 1) === "\'" || players[i].charAt(players[i].length - 1) === "\""))
                                 players[i] = players[i].slice(1, -1)
                         }
+
                         helper.saveData(message.author.id, 'highlight', players)
                         message.channel.send('Rest ease. Player names stored')
                     }
                 }
                 else if (args[0] === 'get' && args[1] === 'highlight') {
                     var text = '```Data not found / Data not set```'
+
                     if (helper.getData(message.author.id, 'highlight')) {
                         var names = helper.getData(message.author.id, 'highlight').value
+
                         for (var i = 0; i < names.length; i++) {
                             if (names[i].includes(" "))
                                 names[i] = "\"" + names[i] + "\""
                         }
+
                         text = names.join(" ")
                     }
+
                     message.channel.send(text)
                 }
                 else
@@ -224,11 +239,11 @@ function startBot() {
                 break
 
             case 'hi':
-                message.channel.send(`Hey ${message.author}!`);
+                message.channel.send(`Hey ${message.author}!`)
                 break
 
             case 'ping':
-                message.reply("pong!");
+                message.reply("pong!")
                 break
 
             case 'clear':
@@ -262,7 +277,9 @@ function startBot() {
                     else
                         return arg
                 }
+
                 var userid = getUserId(args[0])
+
                 if (args[1] === 'dotaid') {
                     helper.saveData(userid, 'dotaid', args[2])
                     message.reply(`Alright I'll remember that`, args[0])
@@ -289,7 +306,9 @@ function startBot() {
                     else
                         return arg
                 }
+
                 var userid = getUserId(args[0])
+
                 if (args[1] === 'dotaid') {
                     var value = helper.getData(userid, 'dotaid').value
                     message.reply(args[0] === 'my' ? `Your dotaid is ${value}` : `<@${userid}> dotaid is ${value}`)
@@ -308,6 +327,7 @@ function startBot() {
 
                     let foundIndex = defaultActivityType.findIndex(name => name.toLowerCase() === actType)
                     let activityName = ''
+
                     if (foundIndex >= 0) {
                         activityName = newActivity.slice(actType.length).trim()
                     } else {
@@ -317,9 +337,9 @@ function startBot() {
 
                     bot.user.setActivity(activityName, {
                         type: defaultActivityType[foundIndex]
-                    });
+                    })
 
-                    helper.log(`${bot.user.username} is ${defaultActivityType[foundIndex]} ${activityName}`);
+                    helper.log(`${bot.user.username} is ${defaultActivityType[foundIndex]} ${activityName}`)
                     message.reply(`Bot activity status changed`)
                 }
                 break
@@ -329,6 +349,7 @@ function startBot() {
                     message.channel.send(`${bot.user.username} is ${defaultActivityType[bot.user.presence.activities[0].type]} ${bot.user.presence.activities[0].name}`)
                 }
                 break
+
             case 'delete':
                 message.channel.bulkDelete(args[0] || 2)
                     .then((messages) => {
@@ -336,6 +357,7 @@ function startBot() {
                     })
                     .catch(console.error)
                 break
+
             case 'meme':
                 const scraper = require("./scraper.js")
                 scraper.getRandomMeme().then((meme) => {
@@ -343,6 +365,7 @@ function startBot() {
                     message.delete(2000)
                 })
                 break
+
             case 'custommeme':
                 if (message.author.id === config.adminId) {
                     if (args.length && args[args.length - 1].substr(0, 4) == "http") {
@@ -362,14 +385,15 @@ function startBot() {
                     var msg = args.join(' ')
                     // Fetch users
                     bot.fetchUser(userid, false).then((user) => {
-                        user.send(msg);
-                    });
+                        user.send(msg)
+                    })
                 }
                 break
 
             case 'sendembeddm':
                 if (message.author.id === config.adminId && args.length > 2) {
                     var userid = convertSnowflake(args.shift())
+
                     if (args.join(' ').includes('```json')) {
                         var msg = args.join(' ').split('```json')[0].trim()
                         // Remove discord json text styling if used > parse to json
@@ -377,8 +401,8 @@ function startBot() {
 
                         // Fetch users
                         bot.fetchUser(userid, false).then((user) => {
-                            user.send(msg, embedConfig);
-                        });
+                            user.send(msg, embedConfig)
+                        })
                     } else {
                         message.channel.send(`Invalid embed attributes`).then(msg => msg.delete(2000))
                     }
@@ -388,7 +412,7 @@ function startBot() {
             case 'embedthis':
                 if (message.author.id === config.adminId) {
                     if (args.length) {
-                        // Remove discord json text styling if used > parse to json
+                    // Remove discord json text styling if used > parse to json
                         var embedConfig = JSON.parse(args.join(' ').replace(/^((```)(json)(\s)*)|(```)$/g, ''))
                         console.log(embedConfig)
                         message.channel.send(embedConfig)
@@ -423,6 +447,7 @@ function startBot() {
                     ).then(async (msg) => {
                         for (var i = 1; i <= size * size; i++) {
                             await msg.react(tictactoe.numberEmoji[i])
+
                             if (i === size * size) {
                                 msg.edit(
                                     tictactoe.printTable() +
@@ -434,25 +459,30 @@ function startBot() {
                                 )
                             }
                         }
+
                         // Store message and reaction id into game collection
                         gamesCollection.push({ id: msg.id, game: tictactoe, players: players })
                     })
                 }
                 break
         }
-    });
+    })
 
     bot.on("messageReactionAdd", async (messageReaction, user) => {
         // Make sure it is not bot itself
         if (user.bot) {
-            return;
+            return
         }
+
         // Check if reaction is made onto game message
         let foundGameIndex = gamesCollection.findIndex(game => game.id === messageReaction.message.id)
+
         if (foundGameIndex >= 0) {
             let game = gamesCollection[foundGameIndex].game
+
             if (game instanceof TicTacToe && gamesCollection[foundGameIndex].players.find(p => p.id === user.id)) {
                 game.setMovePos(game.numberEmoji.indexOf(messageReaction.emoji.toString()))
+
                 if (game.checkMoves() === -1) {
                     messageReaction.message.edit(
                         game.printTable() +
@@ -483,9 +513,10 @@ function startBot() {
 
     // helper.saveData('atif', 'name', 'Atif')
     if (process.env.NODE_ENV === 'production') {
-        bot.login(process.env.BOT_TOKEN);
+        bot.login(process.env.BOT_TOKEN)
     }
 }
+
 function getTotalSQL() {
     return `SELECT
     notable_players.name ,
@@ -517,6 +548,7 @@ function getTotalSQL() {
     ORDER BY "AVG Fantasy Pts" DESC,count DESC NULLS LAST
     LIMIT 200`
 }
+
 function getRangedSQL(start, end) {
     return `SELECT
     notable_players.name ,
@@ -549,6 +581,7 @@ function getRangedSQL(start, end) {
     ORDER BY "AVG Fantasy Pts" DESC,count DESC NULLS LAST
     LIMIT 200`
 }
+
 function getTestSQL() {
     return `SELECT
     notable_players.name ,
@@ -594,7 +627,7 @@ function setActivity(type, title) {
     if (bot) {
         bot.user.setActivity(title, {
             type: type
-        });
+        })
         // bot.user.setActivity("Dota 2 Twitch Stream", {
         //     type: "Watching"
         // });
@@ -608,7 +641,7 @@ function getActivityString() {
 }
 
 function isReady() {
-    return botReady;
+    return botReady
 }
 
 module.exports = {
