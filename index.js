@@ -15,22 +15,22 @@ const bot = require('./bot')
 app.set('view engine', 'ejs')
 app.use(express.static("public"))
 
-app.get("/", function (request, response) {
+app.get("/", function(request, response) {
     // response.sendFile(__dirname + '/views/index.html')
     console.info(new Date().toUTCString() + " Ping Received")
     response.status(200).render('home', { config: require('./config.json'), commands: require('./commands.json') })
 })
 
-app.get("/dota-procircuit/:type", function (request, response) {
+app.get("/dota-procircuit/:type", function(request, response) {
     switch (request.params.type) {
         case "leagues":
-            scraper.getLeagues().then(function (data) {
+            scraper.getLeagues().then(function(data) {
                 response.status(200).send(data)
             })
             break
 
         case "live-matches":
-            scraper.liveMatches().then(function (data) {
+            scraper.liveMatches().then(function(data) {
                 response.status(200).send(data.matches.length ? data.matches : { 'data': 'No live matches found' })
             })
             break
@@ -40,7 +40,7 @@ app.get("/dota-procircuit/:type", function (request, response) {
     }
 })
 
-app.get("/meme", function (request, response) {
+app.get("/meme", function(request, response) {
     scraper.getRandomMeme().then((meme) => {
         response.status(200).json(meme)
     // response.send('<img src="' + meme.url + '">')
@@ -51,7 +51,7 @@ app.get("/meme", function (request, response) {
 const TicTacToe = require('./games/tictactoe-class')
 let ttt
 
-app.get('/tictactoe/new/:size', function (request, response) {
+app.get('/tictactoe/new/:size', function(request, response) {
     ttt = new TicTacToe('' + Date.now(), request.query.players, parseInt(request.params.size))
     let object = {}
     object.table = ttt.getTable()
@@ -63,7 +63,7 @@ app.get('/tictactoe/new/:size', function (request, response) {
     response.status(200).json(object)
 })
 
-app.get('/tictactoe/move/:x/:y', function (request, response) {
+app.get('/tictactoe/move/:x/:y', function(request, response) {
     ttt.setMove(parseInt(request.params.x), parseInt(request.params.y))
     let object = {}
     object.table = ttt.getTable()
@@ -75,7 +75,7 @@ app.get('/tictactoe/move/:x/:y', function (request, response) {
     response.status(200).json(object)
 })
 
-app.get('/tictactoe/move/:pos', function (request, response) {
+app.get('/tictactoe/move/:pos', function(request, response) {
     ttt.setMovePos(parseInt(request.params.pos))
     let object = {}
     object.table = ttt.getTable()
@@ -87,7 +87,7 @@ app.get('/tictactoe/move/:pos', function (request, response) {
     response.status(200).json(object)
 })
 
-app.get('/db/set/:type', async function (request, response) {
+app.get('/db/set/:type', async function(request, response) {
     let value = {}
 
     switch (request.params.type) {
@@ -100,7 +100,7 @@ app.get('/db/set/:type', async function (request, response) {
     response.status(200).json(value)
 })
 
-app.get('/db/get/:type', async function (request, response) {
+app.get('/db/get/:type', async function(request, response) {
     let param = request.query['param'] || ''
     let value = {}
 
@@ -113,17 +113,17 @@ app.get('/db/get/:type', async function (request, response) {
     response.status(200).json(value)
 })
 
-app.get('/404', function (req, res) {
+app.get('/404', function(req, res) {
     res.status(404).render('error', { message: "Whoops!" })
 })
 
 //The 404 Route (ALWAYS Keep this as the last route)
-app.get('*', function (req, res) {
+app.get('*', function(req, res) {
     res.redirect('/404')
 })
 
 // listen for requests :)
-const listener = app.listen(process.env.PORT || 8100, function () {
+const listener = app.listen(process.env.PORT || 8100, function() {
     bot.init()
     database.init()
     console.info("Your app is listening on port " + listener.address().port)
