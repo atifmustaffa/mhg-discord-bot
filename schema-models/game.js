@@ -50,5 +50,8 @@ module.exports = {
     model,
     getGame,
     addGame,
-    setGame
+    setGame,
+    getData,
+    setData,
+    deleteGame,
 }
