@@ -88,17 +88,12 @@ app.get('/tictactoe/move/:pos', function (request, response) {
 })
 
 app.get('/db/set/:type', async function (request, response) {
-    let id = request.query['id'] || ''
-    let name = request.query['name'] || ''
     let value = {}
 
     switch (request.params.type) {
         case 'user':
-            let obj = {}
-            if (id !== '')
-                obj._id = id
-            obj.name = name
-            value = await database.setUser(obj)
+            let obj = request.query
+            value = await require('./schema-models/user').setUser(obj)
             break
     }
 
@@ -111,7 +106,7 @@ app.get('/db/get/:type', async function (request, response) {
 
     switch (request.params.type) {
         case 'user':
-            value = await database.getUser(param)
+            value = await require('./schema-models/user').getUser(param)
             break
     }
 
