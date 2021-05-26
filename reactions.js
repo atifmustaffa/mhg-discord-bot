@@ -1,44 +1,46 @@
-const TicTacToe = require('./games/tictactoe')
+const gameDB = require('./schema-models/game')
 
-module.exports = async (messageReaction, user) => {
+module.exports = async(messageReaction, user) => {
     // Make sure it is not bot itself
     if (user.bot) {
         return
     }
 
     // Check if reaction is made onto game message
-    let foundGameIndex = 0 // gamesCollection.findIndex(game => game.id === messageReaction.message.id)
+    let foundGame = await gameDB.getGame(messageReaction.message.id)
 
-    if (foundGameIndex >= 0) {
-        let game = null //gamesCollection[foundGameIndex].game
+    if (foundGame) {
+        let gameData = JSON.parse(foundGame.data)
 
-        // if (game instanceof TicTacToe && gamesCollection[foundGameIndex].players.find(p => p.id === user.id)) {
-        if (game instanceof TicTacToe) {
-            game.setMovePos(game.numberEmoji.indexOf(messageReaction.emoji.toString()))
+        if (foundGame.game = 'tictactoe') {
+            gameData.setMovePos(gameData.numberEmoji.indexOf(messageReaction.emoji.toString()))
 
-            if (game.checkMoves() === -1) {
+            if (gameData.checkMoves() === -1) {
                 messageReaction.message.edit(
-                    game.printTable() +
+                    gameData.printTable() +
                     '\nCurrent move: ' +
-                    game.playerEmoji[game.getCurrentMoveIndex()] +
+                    gameData.playerEmoji[gameData.getCurrentMoveIndex()] +
                     ' ' +
-                    game.getCurrentMove() +
+                    gameData.getCurrentMove() +
                     '\n'
                 )
+                // Update game data into db
+                gameDB.setGame({
+                    _id: messageReaction.message.id,
+                    data: JSON.stringify(gameData)
+                })
             }
             else {
-                let emoji = game.checkMoves() === 0 ? '' : game.playerEmoji[game.winner] + ' '
-                let status = game.checkMoves() === 0 ? game.playerEmoji.join(' Draw ') : (game.getPlayer(game.winner) + ' wins')
+                let emoji = gameData.checkMoves() === 0 ? '' : gameData.playerEmoji[gameData.winner] + ' '
+                let status = gameData.checkMoves() === 0 ? gameData.playerEmoji.join(' Draw ') : (gameData.getPlayer(gameData.winner) + ' wins')
                 messageReaction.message.edit(
-                    game.printTable() +
+                    gameData.printTable() +
                     '\n' + emoji + '**' + status + '**\n'
                 )
-                // Remove completed game from collection
-                // gamesCollection.splice(foundGameIndex, 1)
+                // Remove completed game from db collection
+                gameDB.deleteGame(messageReaction.message.id)
                 // Remove all reactions from message
-                messageReaction.message.clearReactions().then(() => {
-                    // console.log(gamesCollection)
-                })
+                messageReaction.message.clearReactions()
             }
         }
     }
