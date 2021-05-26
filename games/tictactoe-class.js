@@ -1,17 +1,17 @@
-module.exports = class TicTacToe {
+const Game = require('./game-class')
 
-    constructor(id, size = this.size, players = this.players) {
+module.exports = class TicTacToe extends Game {
 
+    constructor(id, players, size) {
+        super(id, 'tictactoe', players || ['Player 1', 'Player 2'])
         // Default values
         this.DEBUG = false
-        this.id = '-1'
-        this.size = 3
+        this.size = size || 3
         this.table = Array()
         this.move = 0
         this.defaultStatus = ['Ongoing', 'Draw', 'Ended']
         this.status = -1
         this.winner = -1
-        this.players = ['Player 1', 'Player 2']
         this.emptyEmoji = '⬛️'
         this.numberEmoji = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
         this.playerEmoji = ['🅾️', '❎']
@@ -22,10 +22,7 @@ module.exports = class TicTacToe {
             throw console.error('Tictactoe:', 'Cannot create space of even numbers!')
         }
 
-        this.id = id
-        this.size = size
         this.table = Array(size).fill().map(() => Array(size).fill(0))
-        this.players = players ? players : this.players
     }
 
     setTable(newTable) {
@@ -52,7 +49,7 @@ module.exports = class TicTacToe {
     }
 
     getCurrentMoveIndex() {
-        return (this.move + 1) % 2 != 0 ? 0 : 1
+        return (this.move + 1) % 2 != 0 ? 0 : this.players.length > 0 ? 1 : 0
     }
 
     getCurrentMove() {

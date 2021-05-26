@@ -4,7 +4,6 @@
 const express = require("express")
 const app = express()
 
-const http = require("http")
 const scraper = require("./scraper")
 
 // Database
@@ -24,20 +23,20 @@ app.get("/", function (request, response) {
 
 app.get("/dota-procircuit/:type", function (request, response) {
     switch (request.params.type) {
-    case "leagues":
-        scraper.getLeagues().then(function (data) {
-            response.status(200).send(data)
-        })
-        break
+        case "leagues":
+            scraper.getLeagues().then(function (data) {
+                response.status(200).send(data)
+            })
+            break
 
-    case "live-matches":
-        scraper.liveMatches().then(function (data) {
-            response.status(200).send(data.matches.length ? data.matches : { 'data': 'No live matches found' })
-        })
-        break
+        case "live-matches":
+            scraper.liveMatches().then(function (data) {
+                response.status(200).send(data.matches.length ? data.matches : { 'data': 'No live matches found' })
+            })
+            break
 
-    default:
-        response.status(404).send("Not found")
+        default:
+            response.status(404).send("Not found")
     }
 })
 
@@ -49,11 +48,11 @@ app.get("/meme", function (request, response) {
 })
 
 // TicTacToe api
-const TicTacToe = require('./games/tictactoe')
+const TicTacToe = require('./games/tictactoe-class')
 let ttt
 
 app.get('/tictactoe/new/:size', function (request, response) {
-    ttt = new TicTacToe('' + Date.now(), parseInt(request.params.size), request.query.players)
+    ttt = new TicTacToe('' + Date.now(), request.query.players, parseInt(request.params.size))
     let object = {}
     object.table = ttt.getTable()
     object.players = ttt.players
@@ -94,13 +93,13 @@ app.get('/db/set/:type', async function (request, response) {
     let value = {}
 
     switch (request.params.type) {
-    case 'user':
-        let obj = {}
-        if (id !== '')
-            obj._id = id
-        obj.name = name
-        value = await database.setUser(obj)
-        break
+        case 'user':
+            let obj = {}
+            if (id !== '')
+                obj._id = id
+            obj.name = name
+            value = await database.setUser(obj)
+            break
     }
 
     response.status(200).json(value)
@@ -111,9 +110,9 @@ app.get('/db/get/:type', async function (request, response) {
     let value = {}
 
     switch (request.params.type) {
-    case 'user':
-        value = await database.getUser(param)
-        break
+        case 'user':
+            value = await database.getUser(param)
+            break
     }
 
     response.status(200).json(value)
