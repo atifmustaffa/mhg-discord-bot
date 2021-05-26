@@ -57,8 +57,8 @@ app.get('/tictactoe/new/:size', function (request, response) {
     object.table = ttt.getTable()
     object.players = ttt.players
     object.current = ttt.getCurrentMove()
-    object.status = ttt.defaultStatus[ttt.checkMoves()]
-    object.winner = ttt.winner
+    object.status = ttt.config.defaultStatus[ttt.checkMoves()]
+    object.winner = ttt.config.winner
     ttt.printTable()
     response.status(200).json(object)
 })

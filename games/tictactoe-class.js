@@ -3,36 +3,37 @@ const Game = require('./game-class')
 module.exports = class TicTacToe extends Game {
 
     constructor(id, players, size) {
-        super(id, 'tictactoe', players || ['Player 1', 'Player 2'])
-        // Default values
-        this.DEBUG = false
-        this.size = size || 3
-        this.table = Array()
-        this.move = 0
-        this.defaultStatus = ['Ongoing', 'Draw', 'Ended']
-        this.status = -1
-        this.winner = -1
-        this.emptyEmoji = '⬛️'
-        this.numberEmoji = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
-        this.playerEmoji = ['🅾️', '❎']
-        this.numberEmojiDiscord = [':zero:', ':one:', ':two:', ':three:', ':four:', ':five:', ':six:', ':seven:', ':eight:', ':nine:']
+        let config = {
+            DEBUG: false,
+            size: size || 3,
+            table: Array(),
+            move: 0,
+            defaultStatus: ['Ongoing', 'Draw', 'Ended'],
+            status: -1,
+            winner: -1,
+            emptyEmoji: '⬛️',
+            numberEmoji: ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'],
+            playerEmoji: ['🅾️', '❎'],
+            numberEmojiDiscord: [':zero:', ':one:', ':two:', ':three:', ':four:', ':five:', ':six:', ':seven:', ':eight:', ':nine:']
+        }
+        super(id, 'tictactoe', players || ['Player 1', 'Player 2'], config)
 
         // Avoid even value size
         if (size % 2 === 0) {
             throw console.error('Tictactoe:', 'Cannot create space of even numbers!')
         }
 
-        this.table = Array(size).fill().map(() => Array(size).fill(0))
+        this.config.table = Array(size).fill().map(() => Array(size).fill(0))
     }
 
     setTable(newTable) {
-        this.table = newTable
-        this.move = this.size * this.size
+        this.config.table = newTable
+        this.config.move = this.config.size * this.config.size
 
-        for (var x = 0; x < this.size; x++) {
-            for (var y = 0; y < this.size; y++) {
-                if (this.table[x][y] == 0) {
-                    this.move--
+        for (var x = 0; x < this.config.size; x++) {
+            for (var y = 0; y < this.config.size; y++) {
+                if (this.config.table[x][y] == 0) {
+                    this.config.move--
                 }
             }
         }
@@ -41,7 +42,7 @@ module.exports = class TicTacToe extends Game {
     }
 
     getTable() {
-        return this.table
+        return this.config.table
     }
 
     getPlayer(i) {
@@ -49,7 +50,7 @@ module.exports = class TicTacToe extends Game {
     }
 
     getCurrentMoveIndex() {
-        return (this.move + 1) % 2 != 0 ? 0 : this.players.length > 0 ? 1 : 0
+        return (this.config.move + 1) % 2 != 0 ? 0 : this.players.length > 0 ? 1 : 0
     }
 
     getCurrentMove() {
@@ -57,16 +58,16 @@ module.exports = class TicTacToe extends Game {
     }
 
     setMove(x, y) {
-        if ((this.move < this.size * this.size) && this.table[x][y] == 0) {
-            this.move++
+        if ((this.config.move < this.config.size * this.config.size) && this.config.table[x][y] == 0) {
+            this.config.move++
 
             // Player 1
-            if (this.move % 2 != 0) {
-                this.table[x][y] = 1
+            if (this.config.move % 2 != 0) {
+                this.config.table[x][y] = 1
             }
             // Player 2
             else {
-                this.table[x][y] = -1
+                this.config.table[x][y] = -1
             }
 
             this.printMove()
@@ -74,71 +75,71 @@ module.exports = class TicTacToe extends Game {
     }
 
     setMovePos(pos) {
-        let x = pos % this.size === 0 ? Math.floor(pos / this.size) - 1 : Math.floor(pos / this.size)
-        let y = (pos % this.size === 0 ? this.size : pos % this.size) - 1
+        let x = pos % this.config.size === 0 ? Math.floor(pos / this.config.size) - 1 : Math.floor(pos / this.config.size)
+        let y = (pos % this.config.size === 0 ? this.config.size : pos % this.config.size) - 1
         this.setMove(x, y)
     }
 
     checkMoves() {
         // Final checkup (calculate sum)
-        let sumCol = Array(this.size).fill(0)
+        let sumCol = Array(this.config.size).fill(0)
         let sumDiagAsc = 0
         let sumDiagDesc = 0
 
-        for (var x = 0; x < this.size; x++) {
+        for (var x = 0; x < this.config.size; x++) {
             // Sum row
-            let total = this.table[x].reduce((value, prev) => { return value + prev })
+            let total = this.config.table[x].reduce((value, prev) => { return value + prev })
 
             // Check rows
-            if (Math.abs(total) == this.size) {
-                this.winner = total > 0 ? 0 : 1
-                return this.status = 1
+            if (Math.abs(total) == this.config.size) {
+                this.config.winner = total > 0 ? 0 : 1
+                return this.config.status = 1
             }
 
             // Sum col
-            for (var y = 0; y < this.size; y++) {
-                sumCol[y] += this.table[x][y]
+            for (var y = 0; y < this.config.size; y++) {
+                sumCol[y] += this.config.table[x][y]
 
                 // Check columns
-                if (Math.abs(sumCol[y]) == this.size) {
-                    this.winner = sumCol[y] > 0 ? 0 : 1
-                    return this.status = 1
+                if (Math.abs(sumCol[y]) == this.config.size) {
+                    this.config.winner = sumCol[y] > 0 ? 0 : 1
+                    return this.config.status = 1
                 }
             }
 
             // Sum diagonal ascending
-            sumDiagAsc += this.table[x][(this.size - 1) - x]
+            sumDiagAsc += this.config.table[x][(this.config.size - 1) - x]
 
             // Check diagonal ascending
-            if (Math.abs(sumDiagAsc) == this.size) {
-                this.winner = sumDiagAsc > 0 ? 0 : 1
-                return this.status = 1
+            if (Math.abs(sumDiagAsc) == this.config.size) {
+                this.config.winner = sumDiagAsc > 0 ? 0 : 1
+                return this.config.status = 1
             }
 
             // Sum diagonal descending
-            sumDiagDesc += this.table[x][x]
+            sumDiagDesc += this.config.table[x][x]
 
             // Check diagonal descending
-            if (Math.abs(sumDiagDesc) == this.size) {
-                this.winner = sumDiagDesc > 0 ? 0 : 1
-                return this.status = 1
+            if (Math.abs(sumDiagDesc) == this.config.size) {
+                this.config.winner = sumDiagDesc > 0 ? 0 : 1
+                return this.config.status = 1
             }
         }
 
-        return this.move === this.size * this.size ? 0 : -1
+        return this.config.move === this.config.size * this.config.size ? 0 : -1
     }
 
     printTable() {
-        let emoji = Array(this.size).fill().map(() => Array(this.size).fill(''))
+        let emoji = Array(this.config.size).fill().map(() => Array(this.config.size).fill(''))
 
         // Convert value to player emoji and add padding
-        for (var x = 0; x < this.size; x++) {
-            for (var y = 0; y < this.size; y++) {
-                if (this.table[x][y] === 0) {
-                    emoji[x][y] = this.numberEmoji[this.size * x + (y + 1)]
+        for (var x = 0; x < this.config.size; x++) {
+            for (var y = 0; y < this.config.size; y++) {
+                if (this.config.table[x][y] === 0) {
+                    emoji[x][y] = this.config.numberEmoji[this.config.size * x + (y + 1)]
                 }
                 else {
-                    emoji[x][y] = this.playerEmoji[this.table[x][y] > 0 ? 0 : 1]
+                    emoji[x][y] = this.config.playerEmoji[this.config.table[x][y] > 0 ? 0 : 1]
                 }
             }
         }
@@ -147,19 +148,19 @@ module.exports = class TicTacToe extends Game {
         const vSeparatorChar = '|'
         const hSeparatorChar = '-'
         const padding = 1
-        const emptyPad = padding * 2 + ('' + this.size * this.size).length
-        const hSeparator = Array(this.size * this.size * 3 + this.size * this.size).fill(hSeparatorChar).join('')
+        const emptyPad = padding * 2 + ('' + this.config.size * this.config.size).length
+        const hSeparator = Array(this.config.size * this.config.size * 3 + this.config.size * this.config.size).fill(hSeparatorChar).join('')
 
         const emptySpaces = (s) => {
-            return Array(s).fill(this.emptyEmoji).join('')
+            return Array(s).fill(this.config.emptyEmoji).join('')
         }
 
         let rows = ''
 
-        for (var x = 0; x < this.size; x++) {
+        for (var x = 0; x < this.config.size; x++) {
             let rowColsArr = Array(emptyPad).fill('')
 
-            for (var y = 0; y < this.size; y++) {
+            for (var y = 0; y < this.config.size; y++) {
                 let vSeparator = (y !== 0 ? vSeparatorChar : '')
 
                 for (var i = 0; i < emptyPad; i++) {
@@ -171,10 +172,10 @@ module.exports = class TicTacToe extends Game {
                 rows += rowColsArr[i] + '\n'
             }
 
-            rows += (x !== this.size - 1 ? hSeparator + '\n' : '')
+            rows += (x !== this.config.size - 1 ? hSeparator + '\n' : '')
         }
 
-        if (this.DEBUG) {
+        if (this.config.DEBUG) {
             console.log(rows)
         }
 
@@ -182,11 +183,11 @@ module.exports = class TicTacToe extends Game {
     }
 
     printMove() {
-        if (!this.DEBUG) return
-        console.log(this.move)
+        if (!this.config.DEBUG) return
+        console.log(this.config.move)
 
-        for (var i = 0; i < this.size; i++) {
-            console.log(this.table[i])
+        for (var i = 0; i < this.config.size; i++) {
+            console.log(this.config.table[i])
         }
     }
 
