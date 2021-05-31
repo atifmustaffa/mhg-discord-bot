@@ -12,7 +12,7 @@ bot.on('ready', () => {
     let activityType = 'Watching'
     scraper
         .liveMatches()
-        .then(function (data) {
+        .then(function(data) {
             bot.user.setActivity(data.matches.length ? data.matches[0].match_name : 'Dota 2 Twitch Stream', { type: activityType })
             console.info(activityType, data.matches.length ? data.matches[0].match_name : 'Dota 2 Twitch Stream')
         })
@@ -25,7 +25,7 @@ bot.on('ready', () => {
 bot.on('message', commands.handler)
 
 // Handle reactions
-bot.on('messageReactionAdd', reactionsHandler)
+// bot.on('messageReactionAdd', reactionsHandler)
 
 function init() {
     // Start bot
