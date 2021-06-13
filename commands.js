@@ -1,7 +1,14 @@
 const config = require('./config.json')
 
 const commands = {
+    custommeme: require('./commands/custommeme'),
+    delete: require('./commands/delete'),
+    embedthis: require('./commands/embedthis'),
+    meme: require('./commands/meme'),
     ping: require('./commands/ping'),
+    senddm: require('./commands/senddm'),
+    sendembeddm: require('./commands/sendembeddm'),
+    setactivity: require('./commands/setactivity'),
     // tictactoe: require('./commands/tictactoe'),
 }
 
@@ -17,7 +24,7 @@ module.exports = {
         // Perform bot command
         if (commands[command]) {
             // Exit if admin command but user is not an admin
-            if (commands[command].admin && message.author.id !== config.adminId) return
+            if (commands[command].admin === true && message.author.id !== config.adminId) return
             commands[command].handler(message, args)
         }
     }
