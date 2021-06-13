@@ -1,12 +1,11 @@
-const config = require('../config.json')
 const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
 
 module.exports = {
     description: 'Change bot activity status',
     admin: true,
     handler: (message, args) => {
-        let newActivity = args.join(' ')
-        let actType = args[0]
+        let actType = args.shift() || 'none'
+        let newActivity = args.join(' ') || 'none'
 
         let actTypeIndex = defaultActivityType.findIndex(name => name.toLowerCase() === actType.toLowerCase())
         let activityName = ''
@@ -15,7 +14,7 @@ module.exports = {
             actTypeIndex = 3 // by default set to watching
             activityName = 'Dota 2 Twitch Stream'
         } else {
-            activityName = newActivity.slice(actType.length).trim()
+            activityName = newActivity.trim()
         }
 
         message.client.user.setActivity(activityName, {
