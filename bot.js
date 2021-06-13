@@ -13,20 +13,32 @@ bot.on('ready', () => {
 
     // Schedule jobs
     const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
-    // Every 5minutes = */5 * * * *
+
+    // Recurrence every 5minutes = */5 * * * *
     schedule.scheduleJob('*/5 * * * *', function(){
-        // Only scrap live matches if not a custom status, prevent custom status gets reset
-        if (bot.user.presence.activities.length === 0 || (bot.user.presence.activities[0].type === 3 && bot.user.presence.activities[0].name === 'Dota 2 Twitch Stream')) {
-            scraper
-                .liveMatches()
-                .then(function(data) {
-                    bot.user.setActivity(data.matches.length ? data.matches[0].match_name : 'Dota 2 Twitch Stream', { type: defaultActivityType[3] })
-                    console.info(bot.user.username, 'is', defaultActivityType[3], data.matches.length ? data.matches[0].match_name : 'Dota 2 Twitch Stream')
-                })
-                .catch((error) => {
-                    console.error(error)
-                })
-        }
+        // if (bot.user.presence.activities.length === 0 || (bot.user.presence.activities[0].type === 3 && bot.user.presence.activities[0].name === 'Dota 2 Twitch Stream')) {
+        scraper
+            .liveMatches()
+            .then(function(data) {
+                if (data.matches.length) {
+                    let type = 3, name = data.matches[0].match_name
+                    bot.user.setActivity(name, { type: defaultActivityType[type] })
+                    console.info(bot.user.username, 'is', defaultActivityType[type], name)
+                }
+                else if (
+                    !data.matches.length &&
+                    bot.user.presence.activities.length &&
+                    bot.user.presence.activities[0].type === 3 &&
+                    bot.user.presence.activities[0].name.indexOf(' vs ') >= 0
+                ) {
+                    let type = 3, name = 'Dota 2 Twitch Stream'
+                    bot.user.setActivity(name, { type: defaultActivityType[type] })
+                    console.info(bot.user.username, 'is', defaultActivityType[type], name)
+                }
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     })
 })
 
