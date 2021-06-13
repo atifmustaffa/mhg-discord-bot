@@ -16,8 +16,7 @@ app.set('view engine', 'ejs')
 app.use(express.static("public"))
 
 app.get("/", function(request, response) {
-    // response.sendFile(__dirname + '/views/index.html')
-    console.info(new Date().toUTCString() + " Ping Received")
+    // console.info(new Date().toUTCString() + " Ping Received")
     response.status(200).render('home', { config: require('./config.json'), commands: require('./commands.json') })
 })
 
