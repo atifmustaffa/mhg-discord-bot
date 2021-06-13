@@ -16,6 +16,8 @@ module.exports = {
 
         // Perform bot command
         if (commands[command]) {
+            // Exit if admin command but user is not an admin
+            if (commands[command].admin && message.author.id !== config.adminId) return
             commands[command].handler(message, args)
         }
     }
