@@ -27,7 +27,7 @@ module.exports = {
         if (commands[command]) {
             // Exit if admin command but user is not an admin
             if (commands[command].admin === true && message.author.id !== config.adminId) return
-            commands[command].handler(message, args)
+            commands[command].handler(message, command === 'help' ? commands : args)
         }
     }
 }
