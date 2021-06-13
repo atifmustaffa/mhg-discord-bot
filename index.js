@@ -17,7 +17,7 @@ app.use(express.static("public"))
 
 app.get("/", function(request, response) {
     // console.info(new Date().toUTCString() + " Ping Received")
-    response.status(200).render('home', { config: require('./config.json'), commands: require('./commands.json') })
+    response.status(200).render('home', { config: require('./config.json'), commands: require('./commands').commands })
 })
 
 app.get("/dota-procircuit/:type", function(request, response) {

@@ -15,7 +15,7 @@ const commands = {
 }
 
 module.exports = {
-    commands,
+    commands: commands,
     handler: async(message) => {
         // Check to avoid if message is not a command and not message from bot
         if (!message.content.startsWith(config.prefix) || message.author.bot) return

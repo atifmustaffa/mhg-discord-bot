@@ -6,11 +6,11 @@ async function findURL() {
     const url = dota_liquipedia_url + "/dota2/Main_Page"
     let foundURL = ""
     await rp(url)
-        .then(function (html) {
+        .then(function(html) {
             const $ = cheerio.load(html)
             foundURL = $("#mw-content-text > div > div:nth-child(3) > div.col-xl-6.col-md-7 > div:nth-child(1) > div.panel-body > div:nth-child(3) > a:nth-child(3)", html).attr("href")
         })
-        .catch(function (err) {
+        .catch(function(err) {
             //handle error
             console.error(err)
         })
@@ -23,7 +23,7 @@ async function getLeagues() {
     const currentYear = new Date().getFullYear()
     const url = dota_liquipedia_url + await findURL()
     await rp(url)
-        .then(function (html) {
+        .then(function(html) {
             const $ = cheerio.load(html)
             //success!
             // console.log(html);
@@ -34,7 +34,7 @@ async function getLeagues() {
             const header = []
 
             // find last text element
-            let lastChild = function (el) {
+            let lastChild = function(el) {
                 if (el.children == null) return el
                 return lastChild(el.children[0])
             }
@@ -64,7 +64,7 @@ async function getLeagues() {
             }
             // console.log(htmlOutput)
         })
-        .catch(function (err) {
+        .catch(function(err) {
             //handle error
             console.error(err)
         })
@@ -77,12 +77,12 @@ async function liveMatches() {
     let liveMatches = []
     const valveColor = "#ffffcc"
 
-    let checkLive = function (timestring) {
+    let checkLive = function(timestring) {
         return new Date(timestring) < new Date()
     }
 
     await rp(url)
-        .then(function (html) {
+        .then(function(html) {
             const $ = cheerio.load(html)
             // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).parent().parent().parent().parent().parent().find("a[title]");
             // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).text();
@@ -90,12 +90,12 @@ async function liveMatches() {
 
             let matches = $('div[data-toggle-area-content=1] table.infobox_matches_content', html)
 
-            let valveMatches = matches.toArray().filter(function (el) {
+            let valveMatches = matches.toArray().filter(function(el) {
                 if ($(el).find('tr').first().css('background-color') == valveColor && checkLive($(el).find('tr').next().find('.match-countdown .timer-object').text().trim().replace(' - ', ' '))) return $(el)
             })
 
             // console.log(valveMatches.length)
-            valveMatches.forEach(function (matchEL) {
+            valveMatches.forEach(function(matchEL) {
                 let matchNameEL = $(matchEL).find('tr').first()
                 let matchDescEL = $(matchEL).find('tr').next()
                 let match_name = `${$(matchNameEL).find('.team-left').text().trim()} vs ${$(matchNameEL).find('.team-right').text().trim()}`
@@ -106,7 +106,7 @@ async function liveMatches() {
                 liveMatches.push({ match_name, current_score, match_timedate, match_timestamp, tournament_name })
             })
         })
-        .catch(function (err) {
+        .catch(function(err) {
             //handle error
             console.error(err)
         })
@@ -125,11 +125,12 @@ async function getRandomMeme() {
         AppSecret: process.env.REDDIT_SECRET,
     }
 
+    const subreddit = ['gamingmemes', 'dankmemes']
     const requestOptions = {
         Pages: 1,
         Records: 25,
-        SubReddit: "dankmemes",
-        SortType: "hot",
+        SubReddit: subreddit[randomNumber(subreddit.length)],
+        SortType: 'hot',
     }
 
     try {
@@ -144,7 +145,7 @@ async function getRandomMeme() {
 }
 
 function randomNumber(max) {
-    const min = 1
+    const min = 0
     const r = Math.random() * (max - min) + min
     return Math.floor(r)
 }

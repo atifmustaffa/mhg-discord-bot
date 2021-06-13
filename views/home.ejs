@@ -91,15 +91,15 @@
                                 <th>Command</th>
                                 <th>Description</th>
                             </tr>
-                            <%commands.commands.forEach(function(command) {%>
+                            <%Object.keys(commands).sort().forEach((command)=> {%>
                                 <tr>
                                     <td><i class="fa fa-angle-right"></i></td>
                                     <td>
-                                        <%= config.prefix %>
-                                            <%= command.name %>
+                                        <%= config.prefix + command %>
                                     </td>
                                     <td>
-                                        <%= command.value %>
+                                        <%= commands[command].admin===true ? '[Admin] ' + commands[command].description
+                                            : commands[command].description %>
                                     </td>
                                 </tr>
                                 <%});%>
