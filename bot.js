@@ -11,16 +11,25 @@ bot.on('ready', () => {
     console.info('Bot is ready ✅')
     console.info(`${bot.user.username} is online on ${bot.guilds.size} server(s)!`)
 
-    // Schedule jobs
     const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
 
+    if (!bot.user.presence.activities.length) {
+        let type = 3, name = 'Dota 2 Twitch Stream'
+        bot.user.setActivity(name, { type: defaultActivityType[type] })
+        console.info(bot.user.username, 'is', defaultActivityType[type], name)
+    }
+
+    // Schedule jobs
     // Recurrence every 5minutes = */5 * * * *
     schedule.scheduleJob('*/5 * * * *', function(){
-        // if (bot.user.presence.activities.length === 0 || (bot.user.presence.activities[0].type === 3 && bot.user.presence.activities[0].name === 'Dota 2 Twitch Stream')) {
+
         scraper
             .liveMatches()
             .then(function(data) {
-                if (data.matches.length) {
+                if (
+                    (data.matches.length && !bot.user.presence.activities.length) ||
+                    (data.matches.length && data.matches[0].match_name !== bot.user.presence.activities[0].name)
+                ) {
                     let type = 3, name = data.matches[0].match_name
                     bot.user.setActivity(name, { type: defaultActivityType[type] })
                     console.info(bot.user.username, 'is', defaultActivityType[type], name)
