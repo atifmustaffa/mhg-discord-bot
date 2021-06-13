@@ -1,4 +1,4 @@
-const scraper = require("./scraper.js")
+const scraper = require("../scraper")
 
 module.exports = {
     description: 'Gets a random meme from reddit',
