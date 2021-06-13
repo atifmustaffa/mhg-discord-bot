@@ -1,4 +1,4 @@
-const gameDB = require('./schema-models/game')
+const gameDB = require('./schema-models/game-model')
 
 module.exports = async(messageReaction, user) => {
     // Make sure it is not bot itself

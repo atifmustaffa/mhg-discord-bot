@@ -93,7 +93,7 @@ app.get('/db/set/:type', async function(request, response) {
     switch (request.params.type) {
         case 'user':
             let obj = request.query
-            value = await require('./schema-models/user').setUser(obj)
+            value = await require('./schema-models/user-model').setUser(obj)
             break
     }
 
@@ -106,7 +106,7 @@ app.get('/db/get/:type', async function(request, response) {
 
     switch (request.params.type) {
         case 'user':
-            value = await require('./schema-models/user').getUser(param)
+            value = await require('./schema-models/user-model').getUser(param)
             break
     }
 
