@@ -1,5 +1,5 @@
 module.exports = {
-    description: 'Create an Discord Embed based on a json object',
+    description: 'Create a Discord Embed from json object',
     admin: true,
     handler: (message, args) => {
         if (args.length) {

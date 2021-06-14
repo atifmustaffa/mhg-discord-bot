@@ -1,7 +1,7 @@
 const helper = require('../helper')
 
 module.exports = {
-    description: 'Send an Discord Embed DM to specific user in a channel',
+    description: 'Send a Discord Embed DM to specific user in a channel',
     admin: true,
     handler: (message, args) => {
         var userid = helper.convertSnowflake(args.shift())

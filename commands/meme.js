@@ -1,7 +1,7 @@
 const scraper = require("../scraper")
 
 module.exports = {
-    description: 'Gets a random meme from reddit',
+    description: 'Return a random meme from reddit',
     handler: (message, args) => {
         scraper.getRandomMeme().then((meme) => {
             message.channel.send(`> ${meme.title}`, { files: [meme.url] })

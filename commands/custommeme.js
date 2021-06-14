@@ -1,5 +1,5 @@
 module.exports = {
-    description: 'Create a custom meme from reddit',
+    description: 'Create a custom meme from an image url',
     admin: true,
     handler: (message, args) => {
         if (args.length && args[args.length - 1].substr(0, 4) === "http") {
