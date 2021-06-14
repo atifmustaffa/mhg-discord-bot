@@ -3,6 +3,7 @@ const scraper = require('./scraper')
 const commands = require('./commands')
 const reactionsHandler = require('./reactions')
 const schedule = require('node-schedule')
+const activityDB =  require('./schema-models/activity-model')
 
 const bot = new Discord.Client()
 
@@ -14,15 +15,19 @@ bot.on('ready', () => {
     const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
 
     if (!bot.user.presence.activities.length) {
-        let type = 3, name = 'Dota 2 Twitch Stream'
-        bot.user.setActivity(name, { type: defaultActivityType[type] })
-        console.info(bot.user.username, 'is', defaultActivityType[type], name)
+        // Check from db for any custom status
+        activityDB.getActivity(bot.user.id).then((status) => {
+            if (status) {
+                let type = status.type || 3, name = status.name || 'Dota 2 Twitch Stream'
+                bot.user.setActivity(name, { type: defaultActivityType[type] })
+                console.info(bot.user.username, 'is', defaultActivityType[type], name)
+            }
+        })
     }
 
     // Schedule jobs
     // Recurrence every 5minutes = */5 * * * *
-    schedule.scheduleJob('*/5 * * * *', function(){
-
+    schedule.scheduleJob('*/5 * * * *', function() {
         scraper
             .liveMatches()
             .then(function(data) {
@@ -40,9 +45,14 @@ bot.on('ready', () => {
                     bot.user.presence.activities[0].type === 3 &&
                     bot.user.presence.activities[0].name.indexOf(' vs ') >= 0
                 ) {
-                    let type = 3, name = 'Dota 2 Twitch Stream'
-                    bot.user.setActivity(name, { type: defaultActivityType[type] })
-                    console.info(bot.user.username, 'is', defaultActivityType[type], name)
+                    // Check from db for any custom status, if any then reset into custom status
+                    activityDB.getActivity(bot.user.id).then((status) => {
+                        if (status) {
+                            let type = status.type || 3, name = status.name || 'Dota 2 Twitch Stream'
+                            bot.user.setActivity(name, { type: defaultActivityType[type] })
+                            console.info(bot.user.username, 'is', defaultActivityType[type], name)
+                        }
+                    })
                 }
             })
             .catch((error) => {

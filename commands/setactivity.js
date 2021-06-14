@@ -1,3 +1,4 @@
+const activityDB = require('../schema-models/activity-model')
 const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
 
 module.exports = {
@@ -16,6 +17,13 @@ module.exports = {
         } else {
             activityName = newActivity.trim()
         }
+
+        // Store new activity into db
+        activityDB.setActivity({
+            id: message.client.user.id,
+            type: actTypeIndex,
+            name: activityName
+        })
 
         message.client.user.setActivity(activityName, {
             type: defaultActivityType[actTypeIndex]
