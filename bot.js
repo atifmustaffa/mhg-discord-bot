@@ -18,9 +18,8 @@ bot.on('ready', () => {
         // Check from db for any custom status
         activityDB.getActivity(bot.user.id).then((status) => {
             if (status) {
-                let type = status.type || 3, name = status.name || 'Dota 2 Twitch Stream'
-                bot.user.setActivity(name, { type: defaultActivityType[type] })
-                console.info(bot.user.username, 'is', defaultActivityType[type], name)
+                bot.user.setActivity(status.name, { type: defaultActivityType[status.type] })
+                console.info(bot.user.username, 'is', defaultActivityType[status.type], status.name)
             }
         })
     }
@@ -48,9 +47,8 @@ bot.on('ready', () => {
                     // Check from db for any custom status, if any then reset into custom status
                     activityDB.getActivity(bot.user.id).then((status) => {
                         if (status) {
-                            let type = status.type || 3, name = status.name || 'Dota 2 Twitch Stream'
-                            bot.user.setActivity(name, { type: defaultActivityType[type] })
-                            console.info(bot.user.username, 'is', defaultActivityType[type], name)
+                            bot.user.setActivity(status.name, { type: defaultActivityType[status.type] })
+                            console.info(bot.user.username, 'is', defaultActivityType[status.type], status.name)
                         }
                     })
                 }
