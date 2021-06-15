@@ -32,25 +32,25 @@ bot.on('ready', () => {
             .liveMatches()
             .then(async function(data) {
                 // Filter only live valve tournament
-                data.matches = data.matches.filter(match => match.is_valve === true)
+                let liveMatches = data.matches.filter(match => match.is_valve === true)
 
                 // If no valve tournament, check if tour exist in db
-                if (!data.matches.length) {
+                if (!liveMatches.length) {
                     let tourFromDB = await tournamentDB.getTournament(bot.user.id)
-                    data.matches = data.matches.filter(match => match.is_valve === false && match.tournament_name === tourFromDB.name)
+                    liveMatches = data.matches.filter(match => match.is_valve === false && match.tournament_name === tourFromDB.name)
                 }
 
                 if (
-                    (data.matches.length && !bot.user.presence.activities.length) ||
-                    (data.matches.length && data.matches[0].name !== bot.user.presence.activities[0].name)
+                    (liveMatches.length && !bot.user.presence.activities.length) ||
+                    (liveMatches.length && liveMatches[0].name !== bot.user.presence.activities[0].name)
 
                 ) {
-                    let type = 3, name = data.matches[0].name
+                    let type = 3, name = liveMatches[0].name
                     bot.user.setActivity(name, { type: defaultActivityType[type] })
                     console.info(bot.user.username, 'is', defaultActivityType[type], name)
                 }
                 else if (
-                    !data.matches.length &&
+                    !liveMatches.length &&
                     bot.user.presence.activities.length &&
                     bot.user.presence.activities[0].type === 3 &&
                     bot.user.presence.activities[0].name.indexOf(' vs ') >= 0
