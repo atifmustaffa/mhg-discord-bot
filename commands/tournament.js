@@ -25,6 +25,5 @@ module.exports = {
             default:
                 message.channel.send('Invalid args')
         }
-
     }
 }

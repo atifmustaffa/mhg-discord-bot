@@ -37,7 +37,10 @@ bot.on('ready', () => {
                 // If no valve tournament, check if tour exist in db
                 if (!liveMatches.length) {
                     let tourFromDB = await tournamentDB.getTournament(bot.user.id)
-                    liveMatches = data.matches.filter(match => match.is_valve === false && match.tournament_name === tourFromDB.name)
+
+                    if (tourFromDB) {
+                        liveMatches = data.matches.filter(match => match.is_valve === false && match.tournament_name === tourFromDB.name)
+                    }
                 }
 
                 if (
