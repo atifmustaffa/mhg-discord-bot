@@ -12,6 +12,7 @@ const commands = {
     sendembeddm: require('./commands/sendembeddm'),
     setactivity: require('./commands/setactivity'),
     // tictactoe: require('./commands/tictactoe'),
+    tournament: require('./commands/tournament'),
 }
 
 module.exports = {
