@@ -19,18 +19,15 @@ async function findURL() {
 
 async function getLeagues() {
     let htmlOutput
-    // console.log(await findURL())
     const currentYear = new Date().getFullYear()
     const url = dota_liquipedia_url + await findURL()
     await rp(url)
         .then(function(html) {
             const $ = cheerio.load(html)
             //success!
-            // console.log(html);
             const name = $("#firstHeading > span", html)[0]
             const leagues = []
             var rows = $("#mw-content-text > div > table.wikitable tr", html)
-            // console.log(rows)
             const header = []
 
             // find last text element
@@ -62,7 +59,6 @@ async function getLeagues() {
                 "url": url,
                 "leagues": leagues
             }
-            // console.log(htmlOutput)
         })
         .catch(function(err) {
             //handle error
@@ -72,7 +68,6 @@ async function getLeagues() {
 }
 
 async function liveMatches() {
-    // const url = dota_liquipedia_url + "/dota2/Main_Page";
     const url = dota_liquipedia_url + "/dota2/Liquipedia:Upcoming_and_ongoing_matches"
     let liveMatches = []
     const valveColor = "#ffffcc"
@@ -84,26 +79,26 @@ async function liveMatches() {
     await rp(url)
         .then(function(html) {
             const $ = cheerio.load(html)
-            // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).parent().parent().parent().parent().parent().find("a[title]");
-            // let tourName = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .timer-object-countdown-live", html).text();
-            // let tourDate = $("table.table-full-width.table-striped.infobox_matches_content .match-filler.valvepremier-highlighted .match-countdown", html);
 
             let matches = $('div[data-toggle-area-content=1] table.infobox_matches_content', html)
 
+            // Filter for live matches only
             let valveMatches = matches.toArray().filter(function(el) {
-                if ($(el).find('tr').first().css('background-color') == valveColor && checkLive($(el).find('tr').next().find('.match-countdown .timer-object').text().trim().replace(' - ', ' '))) return $(el)
+                if (checkLive($(el).find('tr').next().find('.match-countdown .timer-object').text().trim().replace(' - ', ' '))) return $(el)
             })
 
-            // console.log(valveMatches.length)
+            // Restructure match data into json object
             valveMatches.forEach(function(matchEL) {
                 let matchNameEL = $(matchEL).find('tr').first()
                 let matchDescEL = $(matchEL).find('tr').next()
-                let match_name = `${$(matchNameEL).find('.team-left').text().trim()} vs ${$(matchNameEL).find('.team-right').text().trim()}`
+                // Object variables
+                let name = `${$(matchNameEL).find('.team-left').text().trim()} vs ${$(matchNameEL).find('.team-right').text().trim()}`
                 let current_score = `${$(matchNameEL).find('.versus').text().trim()}`
-                let match_timedate = `${new Date($(matchDescEL).find('.match-countdown .timer-object').text().trim().replace(' - ', ' '))}`
-                let match_timestamp = `${new Date($(matchDescEL).find('.match-countdown .timer-object').text().trim().replace(' - ', ' ')).getTime()}`
+                let timedate = `${new Date($(matchDescEL).find('.match-countdown .timer-object').text().trim().replace(' - ', ' '))}`
+                let timestamp = `${new Date($(matchDescEL).find('.match-countdown .timer-object').text().trim().replace(' - ', ' ')).getTime()}`
                 let tournament_name = `${$(matchDescEL).find('div a[title]').text().trim()}`
-                liveMatches.push({ match_name, current_score, match_timedate, match_timestamp, tournament_name })
+                let is_valve = $(matchEL).find('tr').first().css('background-color') == valveColor
+                liveMatches.push({ name, current_score, timedate, timestamp, tournament_name, is_valve })
             })
         })
         .catch(function(err) {

@@ -20,7 +20,7 @@ app.get("/", function(request, response) {
     response.status(200).render('home', { config: require('./config.json'), commands: require('./commands').commands })
 })
 
-app.get("/dota-procircuit/:type", function(request, response) {
+app.get("/dpc/:type", function(request, response) {
     switch (request.params.type) {
         case "leagues":
             scraper.getLeagues().then(function(data) {
