@@ -4,7 +4,7 @@ module.exports = {
     description: 'Manage tournament for bot status',
     admin: true,
     handler: (message, args) => {
-        let action = args.shft(), name = args.join(' ')
+        let action = args.shift(), name = args.join(' ')
 
         switch (action) {
             case 'add':
