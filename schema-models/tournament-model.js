@@ -33,7 +33,13 @@ async function setTournament(newValue) {
 }
 
 function deleteTournament(id) {
-    return model.deleteOne({ id })
+    return model.deleteOne({ id }, errorHandler)
+}
+
+function errorHandler(error) {
+    if (error) {
+        console.error(error)
+    }
 }
 
 module.exports = {

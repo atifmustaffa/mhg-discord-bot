@@ -41,7 +41,13 @@ async function setManyUser(newValues) {
 }
 
 function deleteUser(id) {
-    return model.deleteOne({ id })
+    return model.deleteOne({ id }, errorHandler)
+}
+
+function errorHandler(error) {
+    if (error) {
+        console.error(error)
+    }
 }
 
 module.exports = {
