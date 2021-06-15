@@ -4,6 +4,7 @@ const commands = require('./commands')
 const reactionsHandler = require('./reactions')
 const schedule = require('node-schedule')
 const activityDB =  require('./schema-models/activity-model')
+const tournamentDB = require('./schema-models/tournament-model')
 
 const bot = new Discord.Client()
 
@@ -29,12 +30,22 @@ bot.on('ready', () => {
     schedule.scheduleJob('*/5 * * * *', function() {
         scraper
             .liveMatches()
-            .then(function(data) {
+            .then(async function(data) {
+                // Filter only live valve tournament
+                data.matches = data.matches.filter(match => match.is_valve === true)
+
+                // If no valve tournament, check if tour exist in db
+                if (!data.matches.length) {
+                    let tourFromDB = await tournamentDB.getTournament(bot.user.id)
+                    data.matches = data.matches.filter(match => match.is_valve === false && match.name === tourFromDB.name)
+                }
+
                 if (
                     (data.matches.length && !bot.user.presence.activities.length) ||
-                    (data.matches.length && data.matches[0].match_name !== bot.user.presence.activities[0].name)
+                    (data.matches.length && data.matches[0].name !== bot.user.presence.activities[0].name)
+
                 ) {
-                    let type = 3, name = data.matches[0].match_name
+                    let type = 3, name = data.matches[0].name
                     bot.user.setActivity(name, { type: defaultActivityType[type] })
                     console.info(bot.user.username, 'is', defaultActivityType[type], name)
                 }
