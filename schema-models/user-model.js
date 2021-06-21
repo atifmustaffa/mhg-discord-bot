@@ -1,11 +1,9 @@
 const mongoose = require('mongoose')
-const ReminderDB = require('./reminder-model')
 
 const schema = new mongoose.Schema({
     id: String,
     username: String,
-    dota_id: [String],
-    reminder: [ReminderDB.schema]
+    dota_id: [String]
 })
 const model = mongoose.model('User', schema)
 

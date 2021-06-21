@@ -2,8 +2,12 @@ const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
     id: String,
+    user_id: String,
     notes: String,
-    created_time: Date,
+    created_time: {
+        type: Date,
+        default: Date.now
+    },
     remind_time: Date
 })
 const model = mongoose.model('Reminder', schema)
