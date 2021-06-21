@@ -11,6 +11,7 @@ const commands = {
     meme: require('./commands/meme'),
     ping: require('./commands/ping'),
     prefix: require('./commands/prefix'),
+    remindme: require('./commands/remindme'),
     setactivity: require('./commands/setactivity'),
     // tictactoe: require('./commands/tictactoe'),
     tournament: require('./commands/tournament'),
