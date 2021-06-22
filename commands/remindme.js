@@ -32,6 +32,8 @@ module.exports = {
 
                     case 'hour':
 
+                    case 'hrs':
+
                     case 'hr':
 
                     case 'h':
@@ -42,6 +44,8 @@ module.exports = {
                     case 'minutes':
 
                     case 'minute':
+
+                    case 'mins':
 
                     case 'min':
 
