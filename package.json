@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "cheerio": "^0.22.0",
+    "date-fns": "^2.22.1",
     "discord.js": "^11.6.4",
     "easy-table": "^1.1.1",
     "ejs": "^3.1.5",
