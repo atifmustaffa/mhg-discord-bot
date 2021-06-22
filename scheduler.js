@@ -29,7 +29,7 @@ module.exports = async(bot) => {
         .then((expired_reminders) => {
             if (expired_reminders.length) console.info('Cleaned ' + expired_reminders.length + ' expired reminder(s)')
         })
-        .catch(function(error) {
+        .catch((error) => {
             console.log(error)
         })
 }

@@ -1,5 +1,6 @@
 const ReminderDB = require('../schema-models/reminder-model')
 const schedule = require('node-schedule')
+const { addDays, addHours, addMinutes, isFuture } = require('date-fns')
 
 module.exports = {
     description: 'Ask bot to remind you something',
@@ -15,7 +16,6 @@ module.exports = {
             // Check digits and types match, else means formatting is wrong
             if (digits.length !== types.length) return null
             let finalTime = new Date()
-            let now = finalTime.getTime()
             types.forEach((type, index) => {
                 switch(type) {
                     case 'days':
@@ -24,7 +24,7 @@ module.exports = {
 
                     case 'd':
                         types[index] = digits[index] > 1 ? 'days' : 'day'
-                        finalTime.setDate(finalTime.getDate() + parseInt(digits[index]))
+                        finalTime = addDays(finalTime, parseInt(digits[index]))
                         break
 
                     case 'hours':
@@ -35,7 +35,7 @@ module.exports = {
 
                     case 'h':
                         types[index] = digits[index] > 1 ? 'hours' : 'hour'
-                        finalTime.setHours(finalTime.getHours() + parseInt(digits[index]))
+                        finalTime = addHours(finalTime, parseInt(digits[index]))
                         break
 
                     case 'minutes':
@@ -46,11 +46,11 @@ module.exports = {
 
                     case 'm':
                         types[index] = digits[index] > 1 ? 'minutes' : 'minute'
-                        finalTime.setMinutes(finalTime.getMinutes() + parseInt(digits[index]))
+                        finalTime = addMinutes(finalTime, parseInt(digits[index]))
                         break
                 }
             })
-            return finalTime.getTime() > now ? { date: new Date(finalTime), types, digits } : null
+            return isFuture(finalTime) ? { date: new Date(finalTime), types, digits } : null
         }
 
         let remindTime = convertStrToDate(remindTimeStr)
