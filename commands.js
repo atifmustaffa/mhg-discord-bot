@@ -8,6 +8,7 @@ const commands = {
     embeddm: require('./commands/embeddm'),
     embedthis: require('./commands/embedthis'),
     help: require('./commands/help'),
+    killbot: require('./commands/killbot'),
     meme: require('./commands/meme'),
     ping: require('./commands/ping'),
     prefix: require('./commands/prefix'),
