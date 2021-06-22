@@ -66,17 +66,18 @@ module.exports = {
                 notes: remindNotes,
                 created_time: new Date(),
                 remind_time: remindTime.date
+            }).then(() => {
+                // Schedule job into future~
+                schedule.scheduleJob(remindTime.date, () => {
+                    message.author.send(`_Reminder:_ ${remindNotes}`)
+                })
+                message.channel.send(
+                    'Noted. Will remind you in `' +
+                    remindTime.types.map((type, index) => remindTime.digits[index] + type).join(' ') +
+                    '`'
+                )
             })
 
-            // Schedule job into future~
-            schedule.scheduleJob(remindTime.date, () => {
-                message.author.send('Reminder: ' + remindNotes)
-            })
-            message.channel.send(
-                'Noted. Will remind you in `' +
-                remindTime.types.map((type, index) => remindTime.digits[index] + type).join(' ') +
-                '`'
-            )
         }
 
     }

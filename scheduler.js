@@ -21,6 +21,7 @@ module.exports = async(bot) => {
         schedule.scheduleJob(reminder.remind_time, () => {
             bot.fetchUser(reminder.user_id, false).then((user) => {
                 user.send('Reminder: ' + reminder.notes)
+                user.send(`_Reminder:_ ${reminder.notes}`)
             })
         })
     })
