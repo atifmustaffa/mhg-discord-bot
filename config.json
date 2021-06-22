@@ -2,7 +2,7 @@
     "adminId": "298136441353928704",
     "channelId": "298143447586570240",
     "prefix": "!",
-    "data_filename": "data.json",
+    "timezone": "Asia/Kuala_Lumpur",
     "opendota": "https://www.opendota.com/",
     "dotabuff": "https://www.dotabuff.com/",
     "color": {

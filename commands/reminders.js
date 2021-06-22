@@ -1,4 +1,4 @@
-const  { format } = require('date-fns')
+const  { utcToZonedTime, format } = require('date-fns-tz')
 const ReminderDB = require('../schema-models/reminder-model')
 const config = require('../config.json')
 
@@ -10,8 +10,13 @@ module.exports = {
             .then((reminders) => {
                 if (reminders.length) {
                     let reminderList = reminders.map((reminder) => {
+                        // Convert utc time to locale from config
                         return {
-                            name: format(reminder.remind_time, 'EEE, dd MMM yyyy, hh:mm:ss a'),
+                            name: format(
+                                utcToZonedTime(reminder.remind_time, config.timezone),
+                                'EEE, dd MMM yyyy, hh:mm:ss a',
+                                { timeZone: config.timezone }
+                            ),
                             value: reminder.notes
                         }
                     })
