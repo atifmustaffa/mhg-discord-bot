@@ -4,7 +4,8 @@ module.exports = {
     description: 'Show a list of commands available for MHG Bot',
     handler: (message, args) => {
         // Generate discord embed (beautify commands list)
-        let list = Object.keys(args).sort().map((command) => {
+        let list = Object.keys(args).sort().filter(cmd => !args[cmd].hidden).map((command) => {
+            // Only command that is not set hidden
             return {
                 name: command,
                 value: args[command].admin === true ? '[_Admin_] ' + args[command].description : args[command].description
