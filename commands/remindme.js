@@ -4,6 +4,7 @@ const { addDays, addHours, addMinutes, isFuture } = require('date-fns')
 
 module.exports = {
     description: 'Ask bot to remind you something',
+    example: (prefix, command) => `\`${prefix}${command} Do homework 3d2hr10min\``,
     handler: (message, args) => {
         let remindTimeStr = args.pop()
         let remindNotes = args.join(' ')

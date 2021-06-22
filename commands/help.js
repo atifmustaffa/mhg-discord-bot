@@ -8,7 +8,9 @@ module.exports = {
             // Only command that is not set hidden
             return {
                 name: command,
-                value: args[command].admin === true ? '[_Admin_] ' + args[command].description : args[command].description
+                value:
+                (args[command].admin === true ? '[_Admin_] ' : '') + args[command].description +
+                (args[command].example ? '\nExample: ' + args[command].example(config.prefix, command) : '')
             }
         })
         const embed = {
