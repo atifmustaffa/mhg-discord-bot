@@ -1,111 +1,119 @@
 const rp = require("request-promise")
-const cheerio = require("cheerio")
-const dota_liquipedia_url = "https://liquipedia.net"
+const { JSDOM } = require('jsdom')
 
-async function findURL() {
-    const url = dota_liquipedia_url + "/dota2/Main_Page"
-    let foundURL = ""
-    await rp(url)
-        .then(function(html) {
-            const $ = cheerio.load(html)
-            foundURL = $("#mw-content-text > div > div:nth-child(3) > div.col-xl-6.col-md-7 > div:nth-child(1) > div.panel-body > div:nth-child(3) > a:nth-child(3)", html).attr("href")
-        })
-        .catch(function(err) {
-            //handle error
-            console.error(err)
-        })
-    return foundURL
-}
+const liquipediaURL = 'https://liquipedia.net'
+const twitchURL = 'https://www.twitch.tv'
+const youtubeURL = 'https://www.youtube.com'
+const valveColor = '#ffffcc'
+const valveColorRGB = 'rgb(255, 255, 204)'
 
-async function getLeagues() {
-    let htmlOutput
-    const currentYear = new Date().getFullYear()
-    const url = dota_liquipedia_url + await findURL()
-    await rp(url)
-        .then(function(html) {
-            const $ = cheerio.load(html)
-            //success!
-            const name = $("#firstHeading > span", html)[0]
-            const leagues = []
-            var rows = $("#mw-content-text > div > table.wikitable tr", html)
-            const header = []
+async function getMatches(limit = 20) {
+    const subpage = 'dota2'
+    return await rp(concatURL(liquipediaURL, subpage, 'Liquipedia:Upcoming_and_ongoing_matches')).then(htmlContent => {
+        const jsdomContent = new JSDOM(htmlContent)
+        let matchesEL = jsdomContent.window.document.querySelectorAll('div[data-toggle-area-content="1"] table.infobox_matches_content')
 
-            // find last text element
-            let lastChild = function(el) {
-                if (el.children == null) return el
-                return lastChild(el.children[0])
+        // Format matches into array
+        let matches = Array.from(matchesEL).slice(0, limit).map(matchEL => {
+            let matchObject = {}
+            let teamLeft = {
+                name: matchEL.querySelector('tr .team-left').textContent.trim(),
+                // icon: matchEL.querySelector('tr .team-left .team-template-image-icon img').src
+            }
+            let teamRight = {
+                name: matchEL.querySelector('tr .team-right').textContent.trim(),
+                // icon: matchEL.querySelector('tr .team-right .team-template-image-icon img').src
+            }
+            // Title
+            matchObject.title = teamLeft.name + ' vs ' + teamRight.name
+
+            // Teams
+            matchObject.teams = [teamLeft, teamRight]
+
+            // Current score
+            matchObject.current_score = matchEL.querySelector('tr .versus div').textContent.trim()
+
+            // Playoff format
+            matchObject.playoff_format = matchEL.querySelector('tr .versus div').nextElementSibling.textContent.trim()
+
+            // Date
+            matchObject.date =  new Date(
+                matchEL
+                    .querySelector('tr').nextElementSibling
+                    .querySelector('.match-countdown .timer-object').textContent.trim().replace(' - ', ' ')
+            )
+
+            // Live
+            const isLive = (date) => {
+                return new Date(date) < new Date()
             }
 
-            for (let i = 0; i < rows.length; i++) {
-                let count = 0
-                let column = {}
+            matchObject.live = isLive(matchObject.date)
 
-                for (let j = 0; j < rows[i].children.length; j++) {
-                    if (rows[i].children[j].name == "th") {
-                        header.push(lastChild(rows[i].children[j]).data.trim().replace(/\s+/g, '_').toLowerCase())
-                    }
-                    else if (rows[i].children[j].name == "td") {
-                        column[header[count]] = lastChild(rows[i].children[j]).data.trim()
-                        count++
-                    }
+            // Tournament
+            matchObject.tournament = matchEL
+                .querySelector('tr').nextElementSibling
+                .querySelector('.match-countdown').nextElementSibling.textContent.trim()
+
+            // Valve Tour?
+            let color = matchEL.querySelector('tr').style.backgroundColor || jsdomContent.window.getComputedStyle(matchEL.querySelector('tr'), null).backgroundColor
+            matchObject.valve_tournament = color === valveColor || color === valveColorRGB
+
+            // Streams
+            let streamsEL = Array.from(matchEL.querySelector('tr').nextElementSibling.querySelector('.match-countdown .timer-object').attributes)
+                .filter(attr => attr.name.includes('data-stream-'))
+
+            let createStreamURL = (type, name) => {
+                switch (type) {
+                    case 'twitch':
+                        return concatURL(twitchURL, name)
+
+                    case 'youtube':
+                        return concatURL(youtubeURL, name)
+
+                    default: return ''
                 }
-
-                if (i > 0) leagues.push(column) // Exclude header
             }
 
-            // htmlOutput = {"noo": "test"};
-            htmlOutput = {
-                "name": name.children[0].data.trim().replace(": Schedule", ""),
-                "url": url,
-                "leagues": leagues
-            }
+            // Store stream links
+            matchObject.streams = streamsEL.map(attr => {
+                let type = attr.name.replace('data-stream-', '')
+                let name = attr.value
+                return {
+                    type,
+                    name,
+                    url: createStreamURL(type, name)
+                }
+            })
+            return matchObject
         })
-        .catch(function(err) {
-            //handle error
-            console.error(err)
-        })
-    return htmlOutput
+        return matches
+    })
 }
 
-async function liveMatches() {
-    const url = dota_liquipedia_url + "/dota2/Liquipedia:Upcoming_and_ongoing_matches"
-    let liveMatches = []
-    const valveColor = "#ffffcc"
+async function getTournaments() {
+    const subpage = 'dota2'
+    return await rp(concatURL(liquipediaURL, subpage, 'Portal:Tournaments')).then(htmlContent => {
+        const jsdomContent = new JSDOM(htmlContent)
+        let headingsEL = jsdomContent.window.document.querySelectorAll('h3 .mw-headline')
+        let tournamentsObject = {}
 
-    let checkLive = function(timestring) {
-        return new Date(timestring) < new Date()
-    }
-
-    await rp(url)
-        .then(function(html) {
-            const $ = cheerio.load(html)
-
-            let matches = $('div[data-toggle-area-content=1] table.infobox_matches_content', html)
-
-            // Filter for live matches only
-            let valveMatches = matches.toArray().filter(function(el) {
-                if (checkLive($(el).find('tr').next().find('.match-countdown .timer-object').text().trim().replace(' - ', ' '))) return $(el)
-            })
-
-            // Restructure match data into json object
-            valveMatches.forEach(function(matchEL) {
-                let matchNameEL = $(matchEL).find('tr').first()
-                let matchDescEL = $(matchEL).find('tr').next()
-                // Object variables
-                let name = `${$(matchNameEL).find('.team-left').text().trim()} vs ${$(matchNameEL).find('.team-right').text().trim()}`
-                let current_score = `${$(matchNameEL).find('.versus').text().trim()}`
-                let timedate = `${new Date($(matchDescEL).find('.match-countdown .timer-object').text().trim().replace(' - ', ' '))}`
-                let timestamp = `${new Date($(matchDescEL).find('.match-countdown .timer-object').text().trim().replace(' - ', ' ')).getTime()}`
-                let tournament_name = `${$(matchDescEL).find('div a[title]').text().trim()}`
-                let is_valve = $(matchEL).find('tr').first().css('background-color') == valveColor
-                liveMatches.push({ name, current_score, timedate, timestamp, tournament_name, is_valve })
+        // Format each type into object attr
+        headingsEL.forEach(headingEL => {
+            let tournamentsEL = headingEL.parentElement.nextElementSibling.querySelectorAll('.divRow')
+            tournamentsObject[headingEL.id.toLowerCase()] = Array.from(tournamentsEL).map(tourEL => {
+                return {
+                    name: tourEL.querySelector('.divCell.Tournament').textContent.trim(),
+                    tier: tourEL.querySelector('.divCell.Tier a').textContent.trim(),
+                    date: tourEL.querySelector('.divCell.Date').textContent.trim(),
+                    price: tourEL.querySelector('.divCell.Prize').textContent.trim(),
+                    location: tourEL.querySelector('.divCell.Location').textContent.trim(),
+                    winner: tourEL.querySelector('.divCell.FirstPlace').textContent.trim()
+                }
             })
         })
-        .catch(function(err) {
-            //handle error
-            console.error(err)
-        })
-    return { matches: liveMatches }
+        return tournamentsObject
+    })
 }
 
 async function getRandomMeme() {
@@ -120,7 +128,7 @@ async function getRandomMeme() {
         AppSecret: process.env.REDDIT_SECRET,
     }
 
-    const subreddit = ['gamingmemes', 'dankmemes']
+    const subreddit = ['gamingmemes', 'memes']
     const requestOptions = {
         Pages: 1,
         Records: 25,
@@ -136,7 +144,25 @@ async function getRandomMeme() {
         console.error(error)
     }
 
-    return scrapedData[randomNumber(25)].data
+    let validData = null
+    let count = 0
+
+    // Make sure the url is a valid media(an image)
+    while(validData === null) {
+        if (count >= 25) break
+        count++
+        let meme = scrapedData[randomNumber(25)].data
+
+        if (isMediaURL(meme.url)) {
+            validData = meme
+        }
+    }
+
+    return validData
+}
+
+function concatURL(...args) {
+    return args.map(arg => arg.replace(/^(\/+)|(\/+)$/, '')).join('/')
 }
 
 function randomNumber(max) {
@@ -145,9 +171,12 @@ function randomNumber(max) {
     return Math.floor(r)
 }
 
+function isMediaURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) !== null)
+}
+
 module.exports = {
-    getLeagues: getLeagues,
-    findURL: findURL,
-    liveMatches: liveMatches,
-    getRandomMeme
+    getMatches,
+    getTournaments,
+    getRandomMeme,
 }

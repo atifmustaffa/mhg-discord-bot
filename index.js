@@ -22,14 +22,14 @@ app.get("/", function(request, response) {
 
 app.get("/dpc/:type", function(request, response) {
     switch (request.params.type) {
-        case "leagues":
-            scraper.getLeagues().then(function(data) {
+        case "tournaments":
+            scraper.getTournaments().then(function(data) {
                 response.status(200).send(data)
             })
             break
 
         case "live-matches":
-            scraper.liveMatches().then(function(data) {
+            scraper.getMatches().then(function(data) {
                 response.status(200).send(data.matches.length ? data.matches : { 'data': 'No live matches found' })
             })
             break
