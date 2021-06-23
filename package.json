@@ -11,13 +11,13 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "cheerio": "^0.22.0",
     "date-fns": "^2.22.1",
     "date-fns-tz": "^1.1.4",
     "discord.js": "^11.6.4",
     "easy-table": "^1.1.1",
     "ejs": "^3.1.5",
     "express": "^4.16.4",
+    "jsdom": "^16.6.0",
     "mongodb": "^3.6.6",
     "mongoose": "^5.12.9",
     "node-schedule": "^2.0.0",
