@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
-    id: String,
     name: String
 })
 const model = mongoose.model('Tournament', schema)
@@ -11,29 +10,17 @@ module.exports = {
     model
 }
 
-function getTournament(id) {
-    return model.findOne({ id })
+function getTournaments() {
+    return model.find({})
 }
 
 function addTournament(newTournament) {
-    let tournament = new model(newTournament)
+    let tournament = new model({ name: newTournament })
     return tournament.save()
 }
 
-async function setTournament(newValue) {
-    // Function to add or set existing Tournament
-    let tournament = await getTournament(newValue.id)
-
-    if (tournament) {
-        return model.updateOne({ id: newValue.id }, newValue, { upsert: true, new: true, setDefaultsOnInsert: true, useFindAndModify: false })
-    }
-    else {
-        return addTournament(newValue)
-    }
-}
-
-function deleteTournament(id) {
-    return model.deleteOne({ id }, errorHandler)
+function deleteTournament(name) {
+    return model.deleteOne({ name }, errorHandler)
 }
 
 function errorHandler(error) {
@@ -45,8 +32,7 @@ function errorHandler(error) {
 module.exports = {
     schema,
     model,
-    getTournament,
+    getTournaments,
     addTournament,
-    setTournament,
     deleteTournament,
 }

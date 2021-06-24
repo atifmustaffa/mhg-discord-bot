@@ -9,17 +9,23 @@ module.exports = {
         switch (action) {
             case 'add':
                 // Store new tournament into db
-                tournamentDB.setTournament({
-                    id: message.client.user.id,
-                    name: name
+                tournamentDB.addTournament(name).then(() => {
+                    message.channel.send('Tournament added')
                 })
-                message.channel.send('Tournament added')
                 break
 
-            case 'delete':
+            case 'remove':
                 // Delete tournament from db
-                tournamentDB.deleteTournament(message.client.user.id)
-                message.channel.send('Tournament deleted')
+                tournamentDB.deleteTournament(name).then(() => {
+                    message.channel.send('Tournament removed')
+                })
+                break
+
+            case 'view':
+                // View tournaments from db
+                tournamentDB.getTournaments().then(tours => {
+                    message.channel.send(`\`${tours.map(t => t.name).join('\n')}\``)
+                })
                 break
 
             default:

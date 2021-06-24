@@ -10,16 +10,16 @@ module.exports = {
     handler: (bot) => {
         scraper
             .getMatches()
-            .then(async function(data) {
+            .then(async function(matches) {
                 // Filter only live valve tournament
-                let liveMatches = data.matches.filter(match => match.live === true && match.valve_tournament === true)
+                let liveMatches = matches.filter(match => match.live === true && match.valve_tournament === true)
 
                 // If no valve tournament, check if tour exist in db
                 if (!liveMatches.length) {
-                    let tourFromDB = await tournamentDB.getTournament(bot.user.id)
+                    let tourFromDB = await tournamentDB.getTournaments()
 
-                    if (tourFromDB) {
-                        liveMatches = data.matches.filter(match => match.valve_tournament === false && match.tournament === tourFromDB.name)
+                    if (tourFromDB.length) {
+                        liveMatches = matches.filter(match => match.valve_tournament === false && tourFromDB.map(t => t.name).indexOf(match.tournament) !== -1)
                     }
                 }
 
