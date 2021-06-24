@@ -35,7 +35,7 @@ module.exports = {
             default:
                 // Re-add into args
                 if (action !== 'add' || action !== 'set') {
-                    args =  [type, ...args]
+                    args =  [action, ...args]
                 }
 
                 let type = args.shift()
