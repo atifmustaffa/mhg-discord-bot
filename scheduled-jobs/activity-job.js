@@ -14,19 +14,18 @@ module.exports = {
                 // Filter only live valve tournament
                 let liveMatches = matches.filter(match => match.live === true && match.valve_tournament === true)
 
-                // If no valve tournament, check if tour exist in db
+                // If no valve tournament, check if live tour exist in db
                 if (!liveMatches.length) {
                     let tourFromDB = await tournamentDB.getTournaments()
 
                     if (tourFromDB.length) {
-                        liveMatches = matches.filter(match => match.valve_tournament === false && tourFromDB.map(t => t.name).indexOf(match.tournament) !== -1)
+                        liveMatches = matches.filter(match => match.live === true && tourFromDB.map(t => t.name).indexOf(match.tournament) !== -1)
                     }
                 }
 
                 if (
                     (liveMatches.length && !bot.user.presence.activities.length) ||
                         (liveMatches.length && liveMatches[0].title !== bot.user.presence.activities[0].name)
-
                 ) {
                     let type = 3, name = liveMatches[0].title
                     bot.user.setActivity(name, { type: defaultActivityType[type] })
