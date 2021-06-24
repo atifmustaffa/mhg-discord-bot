@@ -1,14 +1,15 @@
 const activityDB = require('../schema-models/activity-model')
-const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
+const { ActivityType } = require('../constants')
 
 module.exports = {
     description: 'Change bot activity status',
     admin: true,
     handler: (message, args) => {
         let actType = args.shift() || 'none'
+        let url = helper.isValidURL(args[args.length - 1]) ? args.pop() : ''
         let newActivity = args.join(' ') || 'none'
 
-        let actTypeIndex = defaultActivityType.findIndex(name => name.toLowerCase() === actType.toLowerCase())
+        let actTypeIndex = ActivityType.findIndex(name => name.toLowerCase() === actType.toLowerCase())
         let activityName = ''
 
         if (actTypeIndex === -1) { // Not found
@@ -29,7 +30,7 @@ module.exports = {
             type: defaultActivityType[actTypeIndex]
         })
 
-        console.info(`${message.client.user.username} is ${defaultActivityType[actTypeIndex]} ${activityName}`)
+        console.info(`${message.client.user.username} is ${ActivityType[actTypeIndex]} ${activityName}`)
         message.channel.send('Bot activity status changed')
     }
 }

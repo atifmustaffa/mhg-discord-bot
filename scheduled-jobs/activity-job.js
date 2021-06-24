@@ -1,8 +1,7 @@
 const scraper = require('../scraper')
 const tournamentDB = require('../schema-models/tournament-model')
 const activityDB =  require('../schema-models/activity-model')
-
-const defaultActivityType = ['Playing', 'Streaming', 'Listening', 'Watching']
+const { ActivityType } = require('../constants')
 
 module.exports = {
     description: 'Periodically change bot activity status',
@@ -28,8 +27,8 @@ module.exports = {
                         (liveMatches.length && liveMatches[0].title !== bot.user.presence.activities[0].name)
                 ) {
                     let type = 3, name = liveMatches[0].title
-                    bot.user.setActivity(name, { type: defaultActivityType[type] })
-                    console.info(bot.user.username, 'is', defaultActivityType[type], name)
+                    bot.user.setActivity(name, { type: ActivityType[type] })
+                    console.info(bot.user.username, 'is', ActivityType[type], name)
                 }
                 else if (
                     !liveMatches.length &&
@@ -40,8 +39,8 @@ module.exports = {
                     // Check from db for any custom status, if any then reset into custom status
                     activityDB.getActivity(bot.user.id).then((status) => {
                         if (status) {
-                            bot.user.setActivity(status.name, { type: defaultActivityType[status.type] })
-                            console.info(bot.user.username, 'is', defaultActivityType[status.type], status.name)
+                            bot.user.setActivity(status.name, { type: ActivityType[status.type] })
+                            console.info(bot.user.username, 'is', ActivityType[status.type], status.name)
                         }
                     })
                 }

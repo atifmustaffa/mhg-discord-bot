@@ -1,5 +1,6 @@
 const rp = require("request-promise")
 const { JSDOM } = require('jsdom')
+const helper = require('./helper')
 
 const liquipediaURL = 'https://liquipedia.net'
 const twitchURL = 'https://www.twitch.tv'
@@ -9,7 +10,7 @@ const valveColorRGB = 'rgb(255, 255, 204)'
 
 async function getMatches(limit = 20) {
     const subpage = 'dota2'
-    return await rp(concatURL(liquipediaURL, subpage, 'Liquipedia:Upcoming_and_ongoing_matches')).then(htmlContent => {
+    return await rp(helper.concatURL(liquipediaURL, subpage, 'Liquipedia:Upcoming_and_ongoing_matches')).then(htmlContent => {
         const jsdomContent = new JSDOM(htmlContent)
         let matchesEL = jsdomContent.window.document.querySelectorAll('div[data-toggle-area-content="1"] table.infobox_matches_content')
 
@@ -66,10 +67,10 @@ async function getMatches(limit = 20) {
             let createStreamURL = (type, name) => {
                 switch (type) {
                     case 'twitch':
-                        return concatURL(twitchURL, name)
+                        return helper.concatURL(twitchURL, name)
 
                     case 'youtube':
-                        return concatURL(youtubeURL, name)
+                        return helper.concatURL(youtubeURL, name)
 
                     default: return ''
                 }
@@ -93,7 +94,7 @@ async function getMatches(limit = 20) {
 
 async function getTournaments() {
     const subpage = 'dota2'
-    return await rp(concatURL(liquipediaURL, subpage, 'Portal:Tournaments')).then(htmlContent => {
+    return await rp(helper.concatURL(liquipediaURL, subpage, 'Portal:Tournaments')).then(htmlContent => {
         const jsdomContent = new JSDOM(htmlContent)
         let headingsEL = jsdomContent.window.document.querySelectorAll('h3 .mw-headline')
         let tournamentsObject = {}
@@ -132,7 +133,7 @@ async function getRandomMeme() {
     const requestOptions = {
         Pages: 1,
         Records: 25,
-        SubReddit: subreddit[randomNumber(subreddit.length)],
+        SubReddit: subreddit[helper.randomNumber(0, subreddit.length)],
         SortType: 'hot',
     }
 
@@ -151,28 +152,14 @@ async function getRandomMeme() {
     while(validData === null) {
         if (count >= 25) break
         count++
-        let meme = scrapedData[randomNumber(25)].data
+        let meme = scrapedData[helper.randomNumber(0, 25)].data
 
-        if (isMediaURL(meme.url)) {
+        if (helper.isMediaURL(meme.url)) {
             validData = meme
         }
     }
 
     return validData
-}
-
-function concatURL(...args) {
-    return args.map(arg => arg.replace(/^(\/+)|(\/+)$/, '')).join('/')
-}
-
-function randomNumber(max) {
-    const min = 0
-    const r = Math.random() * (max - min) + min
-    return Math.floor(r)
-}
-
-function isMediaURL(url) {
-    return(url.match(/\.(jpeg|jpg|gif|png)$/) !== null)
 }
 
 module.exports = {
