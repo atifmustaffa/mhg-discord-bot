@@ -27,9 +27,9 @@ module.exports = {
                     (liveMatches.length && !bot.user.presence.activities.length) ||
                         (liveMatches.length && liveMatches[0].title !== bot.user.presence.activities[0].name)
                 ) {
-                    let type = ActivityType.WATCHING
                     let name = liveMatches[0].title
                     let url = liveMatches[0].streams.length ? liveMatches[0].streams[0].url : ''
+                    let type = url !== '' ? ActivityType.STREAMING : ActivityType.WATCHING
 
                     let activityOpts = { type, url }
                     if (activityOpts.url === '') delete activityOpts.url
