@@ -23,7 +23,7 @@ module.exports = {
 
             case 'remove':
                 // Delete activity from db
-                activityDB.deleteActivity(name).then(() => {
+                activityDB.deleteActivity(args.join()).then(() => {
                     message.channel.send('Activity removed')
                 })
                 break
