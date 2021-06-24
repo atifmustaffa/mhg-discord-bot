@@ -13,10 +13,12 @@ bot.on('ready', () => {
 
     if (!bot.user.presence.activities.length) {
         // Check from db for any custom status
-        activityDB.getActivity(bot.user.id).then((status) => {
+        activityDB.getLatestActivity().then((status) => {
             if (status) {
-                bot.user.setActivity(status.name, { type: ActivityType[status.type] })
-                console.info(bot.user.username, 'is', ActivityType[status.type], status.name)
+                let activityOpts = { type: status.type, url: status.url }
+                if (activityOpts.url === '') delete activityOpts.url
+                bot.user.setActivity(status.name, activityOpts)
+                console.info(bot.user.username, 'is', status.type, status.name)
             }
         })
     }

@@ -1,9 +1,13 @@
 const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
-    id: String,
-    type: Number,
-    name: String
+    type: String,
+    name: String,
+    url: String,
+    created_time: {
+        type: Date,
+        default: Date.now
+    }
 })
 const model = mongoose.model('Activity', schema)
 
@@ -12,8 +16,12 @@ module.exports = {
     model
 }
 
-function getActivity(id) {
-    return model.findOne({ id })
+function getActivities() {
+    return model.find({})
+}
+
+function getLatestActivity() {
+    return model.findOne({}).sort({ created_time: -1 })
 }
 
 function addActivity(newActivity) {
@@ -21,20 +29,8 @@ function addActivity(newActivity) {
     return activity.save()
 }
 
-async function setActivity(newValue) {
-    // Function to add or set existing Activity
-    let activity = await getActivity(newValue.id)
-
-    if (activity) {
-        return model.updateOne({ id: newValue.id }, newValue, { upsert: true, new: true, setDefaultsOnInsert: true, useFindAndModify: false })
-    }
-    else {
-        return addActivity(newValue)
-    }
-}
-
-function deleteActivity(id) {
-    return model.deleteOne({ id }, errorHandler)
+function deleteActivity(name) {
+    return model.deleteOne({ name }, errorHandler)
 }
 
 function errorHandler(error) {
@@ -46,8 +42,8 @@ function errorHandler(error) {
 module.exports = {
     schema,
     model,
-    getActivity,
+    getActivities,
+    getLatestActivity,
     addActivity,
-    setActivity,
     deleteActivity,
 }

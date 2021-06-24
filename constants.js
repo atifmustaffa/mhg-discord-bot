@@ -1,3 +1,10 @@
 module.exports = {
-    ActivityType: ['PLAYING', 'STREAMING', 'LISTENING', 'WATCHING', 'CUSTOM_STATUS', 'COMPETING']
+    ActivityType: {
+        PLAYING: 'PLAYING',
+        STREAMING: 'STREAMING',
+        LISTENING: 'LISTENING',
+        WATCHING: 'WATCHING',
+        CUSTOM_STATUS: 'CUSTOM_STATUS',
+        COMPETING: 'COMPETING',
+    }
 }

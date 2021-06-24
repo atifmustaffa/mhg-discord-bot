@@ -1,6 +1,7 @@
 const scraper = require('../scraper')
 const tournamentDB = require('../schema-models/tournament-model')
 const activityDB =  require('../schema-models/activity-model')
+const helper = require('../helper')
 const { ActivityType } = require('../constants')
 
 module.exports = {
@@ -26,9 +27,15 @@ module.exports = {
                     (liveMatches.length && !bot.user.presence.activities.length) ||
                         (liveMatches.length && liveMatches[0].title !== bot.user.presence.activities[0].name)
                 ) {
-                    let type = 3, name = liveMatches[0].title
-                    bot.user.setActivity(name, { type: ActivityType[type] })
-                    console.info(bot.user.username, 'is', ActivityType[type], name)
+                    let type = ActivityType.WATCHING
+                    let name = liveMatches[0].title
+                    let url = liveMatches[0].streams.length ? liveMatches[0].streams[0].url : ''
+
+                    let activityOpts = { type, url }
+                    if (activityOpts.url === '') delete activityOpts.url
+
+                    bot.user.setActivity(name, activityOpts)
+                    console.info(bot.user.username, 'is', type, name)
                 }
                 else if (
                     !liveMatches.length &&
@@ -37,10 +44,15 @@ module.exports = {
                         bot.user.presence.activities[0].name.indexOf(' vs ') >= 0
                 ) {
                     // Check from db for any custom status, if any then reset into custom status
-                    activityDB.getActivity(bot.user.id).then((status) => {
-                        if (status) {
-                            bot.user.setActivity(status.name, { type: ActivityType[status.type] })
-                            console.info(bot.user.username, 'is', ActivityType[status.type], status.name)
+                    activityDB.getActivities().then((statuses) => {
+                        if (statuses.length) {
+                            let status = statuses[helper.randomNumber(0, statuses.length)]
+
+                            let activityOpts = { type: status.type, url: status.url }
+                            if (activityOpts.url === '') delete activityOpts.url
+
+                            bot.user.setActivity(status.name, activityOpts)
+                            console.info(bot.user.username, 'is', status.type, status.name)
                         }
                     })
                 }
