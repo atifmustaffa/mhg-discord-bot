@@ -1,4 +1,4 @@
-const config = require('../config.json')
+const config = require('../config')
 
 module.exports = {
     description: 'Show a list of commands available for MHG Bot',

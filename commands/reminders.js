@@ -1,6 +1,6 @@
 const  { utcToZonedTime, format } = require('date-fns-tz')
 const ReminderDB = require('../schema-models/reminder-model')
-const config = require('../config.json')
+const config = require('../config')
 
 module.exports = {
     description: 'Display a list of your ongoing reminders',

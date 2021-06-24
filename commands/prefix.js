@@ -1,4 +1,4 @@
-const config = require('../config.json')
+const config = require('../config')
 
 module.exports = {
     description: 'Return the bot prefix used for commands',
