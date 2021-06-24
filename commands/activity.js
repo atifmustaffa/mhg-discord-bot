@@ -33,6 +33,11 @@ module.exports = {
             case 'set':
 
             default:
+                // Re-add into args
+                if (action !== 'add' || action !== 'set') {
+                    args =  [type, ...args]
+                }
+
                 let type = args.shift()
 
                 // If type is not exists in constants, means custom status
