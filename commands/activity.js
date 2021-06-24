@@ -34,7 +34,7 @@ module.exports = {
 
             default:
                 // Re-add into args
-                if (action !== 'add' || action !== 'set') {
+                if (!(action === 'add' || action === 'set')) {
                     args =  [action, ...args]
                 }
 
