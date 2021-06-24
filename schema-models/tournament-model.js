@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
-    name: String
+    name: String,
+    created_time: {
+        type: Date,
+        default: Date.now
+    }
 })
 const model = mongoose.model('Tournament', schema)
 
