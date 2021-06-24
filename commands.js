@@ -2,6 +2,7 @@ const config = require('./config')
 const helper =  require('./helper')
 
 const commands = {
+    activity: require('./commands/activity'),
     custommeme: require('./commands/custommeme'),
     delete: require('./commands/delete'),
     dm: require('./commands/dm'),
@@ -14,7 +15,6 @@ const commands = {
     prefix: require('./commands/prefix'),
     reminders: require('./commands/reminders'),
     remindme: require('./commands/remindme'),
-    setactivity: require('./commands/setactivity'),
     // tictactoe: require('./commands/tictactoe'),
     tournament: require('./commands/tournament'),
 }
