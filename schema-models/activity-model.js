@@ -25,12 +25,12 @@ function getLatestActivity() {
 }
 
 function addActivity(newActivity) {
-    let activity = new model(newActivity)
-    return activity.save()
+    // Add only if not exists
+    return model.findOneAndUpdate({}, newActivity, { upsert: true, new: true, setDefaultsOnInsert: true, useFindAndModify: false })
 }
 
 function deleteActivity(name) {
-    return model.deleteOne({ name }, errorHandler)
+    return model.deleteOne({ name: { $regex: new RegExp(`^${name}$`), $options: 'i' } }, errorHandler)
 }
 
 function errorHandler(error) {

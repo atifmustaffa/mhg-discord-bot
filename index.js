@@ -30,7 +30,7 @@ app.get("/dpc/:type", function(request, response) {
 
         case "live-matches":
             scraper.getMatches().then(function(data) {
-                response.status(200).send(data.matches.length ? data.matches : { 'data': 'No live matches found' })
+                response.status(200).send(data)
             })
             break
 
