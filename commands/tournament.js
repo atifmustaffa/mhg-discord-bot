@@ -24,7 +24,7 @@ module.exports = {
             case 'view':
                 // View tournaments from db
                 tournamentDB.getTournaments().then(tours => {
-                    message.channel.send(`\`\`\`\n${tours.map(t => t.name).join('\n')}\`\`\``)
+                    message.channel.send(`\`\`\`\n${tours.map((t, index) => index + 1 + ' ' + t.name).join('\n')}\`\`\``)
                 })
                 break
 

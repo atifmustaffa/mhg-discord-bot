@@ -24,7 +24,7 @@ function addTournament(newTournament) {
 }
 
 function deleteTournament(name) {
-    return model.deleteOne({ name }, errorHandler)
+    return model.deleteOne({ name: { $regex: new RegExp(`^${name}$`), $options: 'i' } }, errorHandler)
 }
 
 function errorHandler(error) {
