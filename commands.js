@@ -23,7 +23,7 @@ module.exports = {
     commands: commands,
     handler: async(message) => {
         // Handle direct message (guild null means dm)
-        if (!message.author.bot && !message.guild && commands['dm']) {
+        if (!message.author.bot && !message.guild && commands['dm'].handler) {
             // Use existing dm command to forward msg to admin
             commands['dm'].handler(
                 message, [
@@ -43,6 +43,20 @@ module.exports = {
             if (commands[command].admin === true && message.author.id !== config.adminId) return
             // Perform bot command
             commands[command].handler(message, command === 'help' ? commands : args)
+        }
+        else {
+            // Check for command aliases
+            // Built this way so that aliases do not overrides main command (if command and alias is same)
+            for (var key of Object.keys(commands)) {
+                if (!commands[key].aliases || !commands[key].aliases.length) continue
+
+                let index = commands[key].aliases.indexOf(command)
+
+                if (index >= 0) {
+                    // Alias found, execute command handler
+                    commands[key].handler(message, key === 'help' ? commands : args)
+                }
+            }
         }
     }
 }
