@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 const commands = require('./commands')
 const reactionsHandler = require('./reactions')
 const activityDB =  require('./schema-models/activity-model')
-const { ActivityType } = require('./constants')
+const { randomNumber } = require('./helper')
 
 const bot = new Discord.Client()
 
@@ -13,10 +13,13 @@ bot.on('ready', () => {
 
     if (!bot.user.presence.activities.length) {
         // Check from db for any custom status
-        activityDB.getLatestActivity().then((status) => {
-            if (status) {
+        activityDB.getActivities().then((statuses) => {
+            if (statuses.length) {
+                let status = statuses[randomNumber(0, statuses.length)]
+
                 let activityOpts = { type: status.type, url: status.url }
                 if (activityOpts.url === '') delete activityOpts.url
+
                 bot.user.setActivity(status.name, activityOpts)
                 console.info(bot.user.username, 'is', status.type, status.name)
             }
