@@ -40,7 +40,7 @@ module.exports = {
                 else if (
                     !liveMatches.length &&
                         bot.user.presence.activities.length &&
-                        bot.user.presence.activities[0].type === 3 &&
+                        Object.keys(ActivityType)[bot.user.presence.activities[0].type] === ActivityType.STREAMING &&
                         bot.user.presence.activities[0].name.indexOf(' vs ') >= 0
                 ) {
                     // Check from db for any custom status, if any then reset into custom status
